@@ -1,13 +1,19 @@
-let gameObjects: GameObject[] = [];
 let level: number;
-let squareSize = p5.Vector;
+const squareSizeX = 144;
+const squareSizeY = 128;
 
 class LevelFactory {
-  constructor(level: number) {
-    this.getGameObjects(level);
+  constructor() {
+    // this.getGameObjects(level, gameObjects);
   }
 
-  private getGameObjects(level: number) {
+  createGameBoard(level: number): GameBoard {
+    const gameObjects: GameObject[] = [];
+    this.getGameObjects(level, gameObjects);
+    return new GameBoard(gameObjects);
+  }
+
+  private getGameObjects(level: number, gameObjects: GameObject[]) {
     if (level === 1) {
       const level1: number[][] = [
         [8, 0, 0, 0, 0, 0, 0, 0, 0, 9],
@@ -19,41 +25,39 @@ class LevelFactory {
         [0, 4, 4, 0, 0, 0, 4, 4, 0, 0],
         [0, 0, 0, 0, 0, 0, 0, 0, 5, 0],
       ];
-      for (let y = 0; y <= level1.length; y++) {
+      for (let y = 0; y < level1.length; y++) {
         for (let x = 0; x < level1[y].length; x++) {
           let value = level1[y][x];
+          const position = createVector(x * squareSizeX, y * squareSizeY);
+
           if (value === 1) {
             //gameObjects.push(new Player("yellow", x, y));
-          }
-          if (value === 2) {
+          } else if (value === 2) {
             //gameObjects.push(new Player("green", x, y));
-          }
-          if (value === 3) {
-            gameObjects.push(new Teleport(createVector(0, 0)));
-          }
-          if (value === 4) {
-            gameObjects.push(new Platform(createVector(0, 0)));
-          }
-          if (value === 5) {
-            gameObjects.push(new Trampoline(createVector(0, 0)));
-          }
-          if (value === 6) {
-            gameObjects.push(new Snowman(createVector(0, 0)));
-          }
-          if (value === 8) {
-            gameObjects.push(new Timer("yellow"));
-          }
-          if (value === 9) {
-            gameObjects.push(new Timer("green"));
+          } else if (value === 3) {
+            gameObjects.push(new Teleport(position));
+            console.log(`Added object at ${position.x}, ${position.y}`);
+          } else if (value === 4) {
+            gameObjects.push(new Platform(position));
+            console.log(`Added object at ${position.x}, ${position.y}`);
+          } else if (value === 5) {
+            gameObjects.push(new Trampoline(position));
+            console.log(`Added object at ${position.x}, ${position.y}`);
+          } else if (value === 6) {
+            gameObjects.push(new Snowman(position));
+            console.log(`Added object at ${position.x}, ${position.y}`);
+          } else if (value === 8) {
+            // gameObjects.push(new Timer("yellow"));
+          } else if (value === 9) {
+            // gameObjects.push(new Timer("green"));
           }
         }
       }
     }
+    return gameObjects;
   }
 
-  public draw() {
-    this.getGameObjects(1);
-  }
+  public draw() {}
 
   public update() {}
 }

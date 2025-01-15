@@ -1,21 +1,27 @@
-class Timer extends GameObject {
+const positionGreenTimerX: number = 800;
+const positionTimerY: number = 50;
+const positionYellowTimerX: number = 25;
+
+class Timer {
   color: string;
 
   constructor(color: string) {
-    const img = color;
-    super(50, 50, img, false, createVector(0, 0));
     this.color = color;
     if (color === "yellow") {
-      this.drawText("yellow");
+      let xPos = positionYellowTimerX;
+      let yPos = positionTimerY;
+      this.drawText("yellow", xPos, yPos);
     } else {
-      this.drawText("green");
+      let xPos = positionGreenTimerX;
+      let yPos = positionTimerY;
+      this.drawText("green", xPos, yPos);
     }
   }
 
-  private drawText(color: string) {
+  private drawText(color: string, xPos: number, yPos: number) {
     fill(color);
     textSize(20);
     textAlign(CENTER, CENTER);
-    text("60", 0, 0);
+    text("60", xPos, yPos);
   }
 }

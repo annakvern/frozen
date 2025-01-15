@@ -25,8 +25,11 @@ class StartScene implements Scene {
   }
   update(): void {
     if (key) {
-      let nextPage = new PlayerInstruction();
-      game.changeActiveScreen(nextPage);
+      // let nextPage = new GameBoard(gameObjects);
+      // game.changeActiveScreen(nextPage);
+      const factory = new LevelFactory();
+      const gameBoard = factory.createGameBoard(1);
+      game.changeActiveScreen(gameBoard);
     }
   }
 

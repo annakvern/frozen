@@ -1,6 +1,6 @@
 class Platform extends GameObject {
   constructor(position: p5.Vector) {
-    super(146, 30, "/assets/images/platform.svg", true, position);
+    super(146, 30, "platform", true, position);
   }
   public draw() {}
 

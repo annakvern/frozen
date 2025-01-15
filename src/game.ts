@@ -34,6 +34,8 @@ function setup() {
   textFont(kavoonFont);
 }
 
+let assets: { [key: string]: p5.Image } = {};
+
 function preload() {
   music = {
     mystery: loadSound("/assets/music/mystery.mp3"),
@@ -44,11 +46,17 @@ function preload() {
   kavoonFont = loadFont("assets/Font(s)/Kavoon-Regular.ttf");
   player1Img = loadImage("assets/images/greenPlayerRight.svg");
   player2Img = loadImage("assets/images/yellowPlayerLeft.svg");
+
+  assets["platform"] = loadImage("assets/images/platform.svg");
+  assets["snowman"] = loadImage("assets/images/snowman.svg");
+  assets["trampoline"] = loadImage("assets/images/trampoline.svg");
+  assets["teleport"] = loadImage("assets/images/teleport.svg");
 }
 
 function draw() {
   background(135, 206, 250); // Blå bakgrund
-  game.update();
   game.draw();
+  game.update();
+
   /*  StartScene.draw(); */
 }

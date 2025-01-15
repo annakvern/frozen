@@ -22,8 +22,9 @@ class StartScene {
     }
     update() {
         if (key) {
-            let nextPage = new PlayerInstruction();
-            game.changeActiveScreen(nextPage);
+            const factory = new LevelFactory();
+            const gameBoard = factory.createGameBoard(1);
+            game.changeActiveScreen(gameBoard);
         }
     }
     draw() {
@@ -94,6 +95,7 @@ function setup() {
     game = new Game(startScene);
     textFont(kavoonFont);
 }
+let assets = {};
 function preload() {
     music = {
         mystery: loadSound("/assets/music/mystery.mp3"),
@@ -104,11 +106,15 @@ function preload() {
     kavoonFont = loadFont("assets/Font(s)/Kavoon-Regular.ttf");
     player1Img = loadImage("assets/images/greenPlayerRight.svg");
     player2Img = loadImage("assets/images/yellowPlayerLeft.svg");
+    assets["platform"] = loadImage("assets/images/platform.svg");
+    assets["snowman"] = loadImage("assets/images/snowman.svg");
+    assets["trampoline"] = loadImage("assets/images/trampoline.svg");
+    assets["teleport"] = loadImage("assets/images/teleport.svg");
 }
 function draw() {
     background(135, 206, 250);
-    game.update();
     game.draw();
+    game.update();
 }
 class GameBoard {
     constructor(gameObjects) {
@@ -135,27 +141,37 @@ class GameBoard {
     checkTimer() { }
 }
 class GameObject {
-    constructor(width, height, img, isSolid, position) {
+    constructor(width, height, imgKey, isSolid, position) {
         this.width = width;
         this.height = height;
-        this.img = img;
+        this.img = assets[imgKey];
         this.isSolid = isSolid;
         this.position = position;
     }
     draw() {
-        const asset = loadImage(this.img);
-        image(asset, this.position.x, this.position.y, this.width, this.height);
+        if (this.img) {
+            image(this.img, this.position.x, this.position.y, this.width, this.height);
+        }
+        else {
+            fill("red");
+            rect(this.position.x, this.position.y, this.width, this.height);
+            console.error(`Missing image for object at ${this.position.x}, ${this.position.y}`);
+        }
     }
     update() { }
 }
-let gameObjects = [];
 let level;
-let squareSize = p5.Vector;
+const squareSizeX = 144;
+const squareSizeY = 128;
 class LevelFactory {
-    constructor(level) {
-        this.getGameObjects(level);
+    constructor() {
     }
-    getGameObjects(level) {
+    createGameBoard(level) {
+        const gameObjects = [];
+        this.getGameObjects(level, gameObjects);
+        return new GameBoard(gameObjects);
+    }
+    getGameObjects(level, gameObjects) {
         if (level === 1) {
             const level1 = [
                 [8, 0, 0, 0, 0, 0, 0, 0, 0, 9],
@@ -167,83 +183,90 @@ class LevelFactory {
                 [0, 4, 4, 0, 0, 0, 4, 4, 0, 0],
                 [0, 0, 0, 0, 0, 0, 0, 0, 5, 0],
             ];
-            for (let y = 0; y <= level1.length; y++) {
+            for (let y = 0; y < level1.length; y++) {
                 for (let x = 0; x < level1[y].length; x++) {
                     let value = level1[y][x];
+                    const position = createVector(x * squareSizeX, y * squareSizeY);
                     if (value === 1) {
                     }
-                    if (value === 2) {
+                    else if (value === 2) {
                     }
-                    if (value === 3) {
-                        gameObjects.push(new Teleport(createVector(0, 0)));
+                    else if (value === 3) {
+                        gameObjects.push(new Teleport(position));
+                        console.log(`Added object at ${position.x}, ${position.y}`);
                     }
-                    if (value === 4) {
-                        gameObjects.push(new Platform(createVector(0, 0)));
+                    else if (value === 4) {
+                        gameObjects.push(new Platform(position));
+                        console.log(`Added object at ${position.x}, ${position.y}`);
                     }
-                    if (value === 5) {
-                        gameObjects.push(new Trampoline(createVector(0, 0)));
+                    else if (value === 5) {
+                        gameObjects.push(new Trampoline(position));
+                        console.log(`Added object at ${position.x}, ${position.y}`);
                     }
-                    if (value === 6) {
-                        gameObjects.push(new Snowman(createVector(0, 0)));
+                    else if (value === 6) {
+                        gameObjects.push(new Snowman(position));
+                        console.log(`Added object at ${position.x}, ${position.y}`);
                     }
-                    if (value === 8) {
-                        gameObjects.push(new Timer("yellow"));
+                    else if (value === 8) {
                     }
-                    if (value === 9) {
-                        gameObjects.push(new Timer("green"));
+                    else if (value === 9) {
                     }
                 }
             }
         }
+        return gameObjects;
     }
-    draw() {
-        this.getGameObjects(1);
-    }
+    draw() { }
     update() { }
 }
 class Platform extends GameObject {
     constructor(position) {
-        super(146, 30, "/assets/images/platform.svg", true, position);
+        super(146, 30, "platform", true, position);
     }
     draw() { }
     update() { }
 }
 class Snowman extends GameObject {
     constructor(position) {
-        super(60, 100, "/assets/images/snowman.svg", false, position);
+        super(60, 100, "snowman", false, position);
     }
     draw() { }
     update() { }
 }
 class Teleport extends GameObject {
     constructor(position) {
-        super(100, 100, "/assets/images/teleport.svg", false, position);
+        super(100, 100, "teleport", false, position);
     }
     draw() { }
     update() { }
 }
-class Timer extends GameObject {
+const positionGreenTimerX = 800;
+const positionTimerY = 50;
+const positionYellowTimerX = 25;
+class Timer {
     constructor(color) {
-        const img = color;
-        super(50, 50, img, false, createVector(0, 0));
         this.color = color;
         if (color === "yellow") {
-            this.drawText("yellow");
+            let xPos = positionYellowTimerX;
+            let yPos = positionTimerY;
+            this.drawText("yellow", xPos, yPos);
         }
         else {
-            this.drawText("green");
+            let xPos = positionGreenTimerX;
+            let yPos = positionTimerY;
+            this.drawText("green", xPos, yPos);
         }
     }
-    drawText(color) {
+    drawText(color, xPos, yPos) {
         fill(color);
         textSize(20);
         textAlign(CENTER, CENTER);
-        text("60", 0, 0);
+        text("60", xPos, yPos);
     }
 }
 class Trampoline extends GameObject {
     constructor(position) {
-        super(83, 108, "/assets/images/trampoline.svg", true, position);
+        super(83, 108, "trampoline", true, position);
     }
     draw() { }
     update() { }
