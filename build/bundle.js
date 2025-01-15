@@ -3,14 +3,18 @@ let podiumYellowImg;
 let podiumGreenImg;
 class ResultScene {
     constructor() {
-        this.titlePosition = createVector(800, 600);
-        this.textPosition = createVector(400, 150);
-        this.cloudPosition = createVector(200, 100);
-        this.snowflakePositions = createVector(1000, 300);
-        this.player1Position = createVector(55, 550);
-        this.player2Position = createVector(400, 550);
-        this.podiumYellowPosition = createVector(width / 2, 900);
-        this.podiumGreenPosition = createVector(width / 2, 900);
+        this.titlePosition = createVector(width * 0.5, height * 0.4);
+        this.textPosition = createVector(width * 0.5, height * 0.55);
+        this.cloudPosition = createVector(width * 0.26, height * 0.13);
+        this.snowflakePositions =
+            [
+                { position: createVector(width * 0.73, height * 0.23), size: 200 },
+                { position: createVector(width * 0.65, height * 0.10), size: 150 },
+                { position: createVector(width * 0.83, height * 0.15), size: 150 },
+                { position: createVector(width * 0.77, height * 0.55), size: 175 },
+            ];
+        this.podiumYellowPosition = createVector(width * 0.43, height * 0.83);
+        this.podiumGreenPosition = createVector(width * 0.43, height * 0.81);
     }
     update() {
     }
@@ -20,35 +24,33 @@ class ResultScene {
         this.drawCloud();
         this.drawSnowflakes();
         this.drawPodium();
-        this.drawPlayer1();
-        this.drawPlayer2();
     }
     drawTitle() {
+        const titleSize = width * 0.07;
         fill("yellow");
         textAlign(CENTER, CENTER);
-        textSize(55);
+        textSize(titleSize);
         text("Yellow wins!", this.titlePosition.x, this.titlePosition.y);
         textFont(kavoonFont);
     }
     drawText() {
+        const txtSize = width * 0.015;
         fill("white");
-        textSize(10);
+        textSize(txtSize);
         text("Press any key to play again", this.textPosition.x, this.textPosition.y);
     }
-    drawSnowflakes() {
-        image(snowflakeImg, this.snowflakePositions.x, this.snowflakePositions.y);
-    }
     drawCloud() {
-        image(cloudImg, this.cloudPosition.x, this.cloudPosition.y, 120, 80);
+        image(cloudImg, this.cloudPosition.x, this.cloudPosition.y);
+    }
+    drawSnowflakes() {
+        for (let snowflake of this.snowflakePositions) {
+            image(snowflakeImg, snowflake.position.x, snowflake.position.y, snowflake.size, snowflake.size);
+        }
     }
     drawPodium() {
-        image(podiumYellowImg, this.podiumYellowPosition.x, this.podiumYellowPosition.y);
-    }
-    drawPlayer1() {
-        image(player1Img, this.player1Position.x, this.player1Position.y);
-    }
-    drawPlayer2() {
-        image(player2Img, this.player2Position.x, this.player2Position.y);
+        const podiumWidth = width * 0.15;
+        const podiumHeight = height * 0.17;
+        image(podiumYellowImg, this.podiumYellowPosition.x, this.podiumYellowPosition.y, podiumWidth, podiumHeight);
     }
 }
 let resultScene;

@@ -1,86 +1,89 @@
+//// ATT GÖRA; FÄRDIGSTÄLL UPDATE(), MED IF-SATSER BYTA SCREEN BEROENDE PÅ VINNARE, QUIT-KNAPPEN.
+
+
+//// DECLARE IMAGES TO BE USED IN THE SCENE.
 let podiumYellowImg: p5.Image;
 let podiumGreenImg: p5.Image;
 
-
-
+//// DECLARE POSITIONS AND SIZE FOR THE ELEMENTS ON THE SCREEN.
 class ResultScene implements Scene {
   private titlePosition: p5.Vector;
   private textPosition: p5.Vector;
   private cloudPosition: p5.Vector;
-  private snowflakePositions: p5.Vector;
-  private player1Position: p5.Vector;
-  private player2Position: p5.Vector;
+  private snowflakePositions: { position: p5.Vector; size: number }[];
   private podiumYellowPosition: p5.Vector;
   private podiumGreenPosition: p5.Vector;
 
+  //// SET POSITIONS FOR ALL ELEMENTS BASED ON SCREEN SIZE.
   constructor() {
-    this.titlePosition = createVector(800, 600); // Titelns position
-    this.textPosition = createVector(400, 150); // Textens position
-    this.cloudPosition = createVector(200, 100); // Molnets position
-    this.snowflakePositions = createVector(1000, 300);
-    this.player1Position = createVector(55, 550);
-    this.player2Position = createVector(400, 550);
-    this.podiumYellowPosition = createVector(width / 2, 900);
-    this.podiumGreenPosition = createVector(width / 2, 900);
+    this.titlePosition = createVector(width * 0.5, height * 0.4); 
+    this.textPosition = createVector(width * 0.5, height * 0.55 ); 
+    this.cloudPosition = createVector(width * 0.26, height * 0.13); 
+    this.snowflakePositions = 
+    [
+      { position: createVector(width * 0.73, height * 0.23), size: 200 },
+      { position: createVector(width * 0.65, height * 0.10), size: 150 },
+      { position: createVector(width * 0.83, height * 0.15), size: 150 },
+      { position: createVector(width * 0.77, height * 0.55), size: 175 },
+    ];
+    this.podiumYellowPosition = createVector(width * 0.43, height * 0.83);
+    this.podiumGreenPosition = createVector(width * 0.43, height * 0.81);
   }
 
   update(): void {
-    
+    //// IF (KEY) - GO TO PLAYERINSTRUCTIONS?
   }
 
+  //// DRAW ALL ELEMENTS ON THE SCREEN.
   draw() {
     this.drawTitle();
-    this.drawText();
-    this.drawCloud();
+    this.drawText(); 
+    this.drawCloud();      
     this.drawSnowflakes();
     this.drawPodium();
-    this.drawPlayer1();
-    this.drawPlayer2();
   }
 
+  //// FUNCTION TO DRAW THE TITLE ON THE SCREEN.
   private drawTitle() {
+    const titleSize = width * 0.07;
     fill("yellow");
     textAlign(CENTER, CENTER);
-    textSize(55);
+    textSize(titleSize);
     text("Yellow wins!", this.titlePosition.x, this.titlePosition.y);
     textFont(kavoonFont);
-
   }
 
+  //// FUNCTION TO DRAW THE TEXT ON THE SCREEN.
   private drawText() {
+    const txtSize = width * 0.015;
     fill("white");
-    textSize(10);
+    textSize(txtSize);
     text("Press any key to play again", this.textPosition.x, this.textPosition.y);
   }
 
-  private drawSnowflakes() {
-    image(snowflakeImg, this.snowflakePositions.x, this.snowflakePositions.y);
-  }
-
+  //// FUNCTION TO DRAW THE CLOUD ON THE SCREEN.
   private drawCloud() {
-    image(cloudImg, this.cloudPosition.x, this.cloudPosition.y, 120, 80);
+    image(cloudImg, this.cloudPosition.x, this.cloudPosition.y);
   }
 
+    // FUNCTION TO DRAW THE SNOWFLAKES ON THE SCREEN.
+    // LOOP THROUGH ALL SNOWFLAKES AND DRAW THEM AT THEIR RESPECTIVE POSITIONS.
+  private drawSnowflakes() {
+    for (let snowflake of this.snowflakePositions) {
+      image(snowflakeImg, snowflake.position.x, snowflake.position.y, snowflake.size, snowflake.size);
+    }
+  }
 
+  //// FUNCTION TO DRAW THE WINNER'S PODIUM ON THE SCREEN.
   private drawPodium() {  /// ("yellow").
-    image(podiumYellowImg, this.podiumYellowPosition.x, this.podiumYellowPosition.y);    
+    const podiumWidth = width * 0.15;
+    const podiumHeight = height * 0.17; 
+    image(podiumYellowImg, this.podiumYellowPosition.x, this.podiumYellowPosition.y, podiumWidth, podiumHeight);       
   }
-
-
-  private drawPlayer1() {
-    image (player1Img, this.player1Position.x, this.player1Position.y);
-  }
-
-
-  private drawPlayer2() {
-    image (player2Img, this.player2Position.x, this.player2Position.y);
-  }
-
-
 
 }
 
-
+//// CREATE A RESULTSCENE OBJECT.
 let resultScene: ResultScene;
 
 
