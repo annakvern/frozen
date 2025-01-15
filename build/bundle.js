@@ -1,27 +1,19 @@
 "use strict";
 class Game {
-    constructor() {
-        this.position = createVector(width * 0.5, height * 0.5);
-        this.isCircleVisible = false;
+    constructor(initialScreen) {
+        this.activeScreen = initialScreen;
     }
-    update() {
-        this.position.set(mouseX, mouseY);
-        this.isCircleVisible = mouseIsPressed;
-        if (mouseIsPressed) {
-            if (!music.mystery.isPlaying()) {
-                music.mystery.loop();
-            }
-        }
-        else {
-            music.mystery.pause();
-        }
+    changeActiveScreen(scene) {
+        this.activeScreen = scene;
     }
+    updateCurrentScreen() {
+        this.activeScreen.update();
+        this.activeScreen.draw();
+    }
+    update() { }
     draw() {
         background("black");
         this.drawText();
-        if (this.isCircleVisible) {
-            this.drawCircle();
-        }
     }
     drawText() {
         push();
@@ -32,13 +24,14 @@ class Game {
         text("Click & Drag", width * 0.5, height * 0.5);
         pop();
     }
-    drawCircle() {
-        push();
-        fill(0, 255, 0, 200);
-        stroke("white");
-        strokeWeight(width * 0.01);
-        circle(this.position.x, this.position.y, width * 0.2);
-        pop();
+}
+class gameObject {
+    constructor() {
+        this.width = width;
+        this.height = height;
+        this.img = this.img;
+        this.isSolid = true;
+        this.position = position;
     }
 }
 const level1 = [
@@ -81,12 +74,48 @@ for (let y = 0; y <= level1.length; y++) {
         }
     }
 }
+class playerInstruction {
+    constructor() {
+    }
+}
 let game;
 let music;
+let backgroundImg, teleport, teleportLarge, snowflake, cloud, trampoline;
+let platform, icyPlatform, iciclePlatform;
+let greenHalfSquish, greenSquish, yellowHalfSquish, yellowSquish;
+let yellowLeft, yellowRight, greenLeft, greenRight;
+let greenHalfBounce, greenBounce, yellowHalfBounce, yellowBounce;
+let soundOn, soundOff;
+let yellowKeys, greenKeys;
 function preload() {
     music = {
         mystery: loadSound("/assets/music/mystery.mp3"),
     };
+    backgroundImg = loadImage("/assets/images/bgLevel1.png");
+    cloud = loadImage("/assets/images/cloud.svg");
+    snowflake = loadImage("/assets/images/snowflake.svg");
+    platform = loadImage("/assets/images/platform.svg");
+    icyPlatform = loadImage("/assets/images/icyPlatform.svg");
+    iciclePlatform = loadImage("/assets/images/iciclePlatform.svg");
+    teleport = loadImage("assets/images/teleport.svg");
+    teleportLarge = loadImage("assets/images/teleportLarge.svg");
+    trampoline = loadImage("/assets/images/trampoline.svg");
+    soundOn = loadImage("/assets/images/soundOn.svg");
+    soundOff = loadImage("/assets/images/sounOff.svg");
+    greenKeys = loadImage("/assets/images/playerKeysGreen.svg");
+    yellowKeys = loadImage("/assets/images/playerKeysYellow.svg");
+    greenHalfSquish = loadImage("/assets/images/greenPlayerHalfSquish.svg");
+    greenSquish = loadImage("/assets/images/greenPlayerSquish.svg");
+    yellowHalfSquish = loadImage("/assets/images/yellowPlayerHalfSquish.svg");
+    yellowSquish = loadImage("/assets/images/yellowPlayerSquish.svg");
+    greenHalfBounce = loadImage("/assets/images/greenPlayerHalfBounce.svg");
+    greenBounce = loadImage("/assets/images/greenPlayerBounce.svg");
+    yellowHalfBounce = loadImage("/assets/images/yellowPlayerHalfBounce.svg");
+    yellowBounce = loadImage("/assets/images/yellowPlayerBounce.svg");
+    yellowRight = loadImage("/assets/images/yellowPlayerRight.svg");
+    yellowLeft = loadImage("/assets/images/yellowPlayerLeft.svg");
+    greenRight = loadImage("/assets/images/greenPlayerRight.svg");
+    greenLeft = loadImage("/assets/images/greenPlayerLeft.svg");
 }
 function setup() {
     createCanvas(windowWidth, windowHeight);
