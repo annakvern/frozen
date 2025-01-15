@@ -12,13 +12,17 @@ let player1Img;
 let player2Img;
 class StartScene {
     constructor() {
-        this.titlePosition = createVector(800, 600);
-        this.textPosition = createVector(400, 150);
-        this.cloudPosition = createVector(200, 100);
+        this.titlePosition = createVector(windowWidth * 0.5, windowHeight * 0.5);
+        this.textPosition = createVector(windowWidth * 0.5, windowHeight * 0.5 + 150);
+        this.cloudPosition = createVector(350, 120);
         this.snowflakePositions = [];
-        this.platformPosition = createVector(50, 600);
-        this.player1Position = createVector(55, 550);
-        this.player2Position = createVector(400, 550);
+        for (let i = 0; i < 50; i++) {
+            this.snowflakePositions.push(createVector(random(width), random(height)));
+        }
+        this.platformPosition = createVector(50, 700);
+        this.player1Position = createVector(200, 650);
+        this.player2Position = createVector(600, 650);
+        this.bounceTime = 0;
     }
     update() {
         if (key) {
@@ -27,36 +31,40 @@ class StartScene {
         }
     }
     draw() {
+        this.drawSnowflakes();
         this.drawTitle();
         this.drawText();
         this.drawCloud();
-        this.drawSnowflakes();
         this.drawPlatform();
         this.drawPlayer1();
         this.drawPlayer2();
     }
     drawTitle() {
         fill("white");
-        textSize(20);
+        textSize(140);
         textAlign(CENTER, CENTER);
         text("Tag or DIE!", this.titlePosition.x, this.titlePosition.y);
         textFont(kavoonFont);
     }
     drawText() {
+        const bounceOffset = sin(this.bounceTime) * 10;
         fill("white");
-        textSize(20);
+        textSize(40);
         textAlign(CENTER, CENTER);
-        text("Press any key to continue", this.textPosition.x, this.textPosition.y);
+        text("Press any key to continue", this.textPosition.x, this.textPosition.y + bounceOffset);
+        this.bounceTime += 0.07;
     }
     drawCloud() {
-        image(cloudImg, this.cloudPosition.x, this.cloudPosition.y, 120, 80);
+        image(cloudImg, this.cloudPosition.x, this.cloudPosition.y, 550, 250);
     }
     drawSnowflakes() {
-        for (let pos of this.snowflakePositions) {
-            image(snowflakeImg, pos.x, pos.y, 20, 20);
+        this.snowflakePositions = this.snowflakePositions.filter((pos) => {
+            image(snowflakeImg, pos.x, pos.y, 40, 40);
             pos.y += 1;
-            if (pos.y > height)
-                pos.y = 0;
+            return pos.y <= height;
+        });
+        while (this.snowflakePositions.length < 50) {
+            this.snowflakePositions.push(createVector(random(width), 0));
         }
     }
     drawPlatform() {
@@ -98,7 +106,7 @@ function preload() {
     music = {
         mystery: loadSound("/assets/music/mystery.mp3"),
     };
-    cloudImg = loadImage("assets/images/cloud.svg");
+    cloudImg = loadImage("assets/images/cloudNew.svg");
     snowflakeImg = loadImage("assets/images/snowflake.svg");
     platformImg = loadImage("assets/images/platformStart.svg");
     kavoonFont = loadFont("assets/Font(s)/Kavoon-Regular.ttf");
