@@ -1,4 +1,4 @@
-interface Screen {
+interface Scene {
   draw(): void;
   update(): void;
 }
