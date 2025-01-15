@@ -25,97 +25,91 @@ class Game {
         pop();
     }
 }
-class gameObject {
-    constructor() {
+class GameBoard {
+    constructor() { }
+    checkCollisions() { }
+    bouncePlayers() { }
+    squishToGround() { }
+    freezeToIcicle() { }
+    teleportPlayer() { }
+    applyNoFriction() { }
+    switchChaser() { }
+    checkWinner() { }
+    checkTimer() { }
+}
+class GameObject {
+    constructor(width, height, img, isSolid, position) {
         this.width = width;
         this.height = height;
-        this.img = this.img;
-        this.isSolid = true;
+        this.img = img;
+        this.isSolid = isSolid;
         this.position = position;
     }
+    draw() {
+        const asset = loadImage(this.img);
+        image(asset, this.position.x, this.position.y, this.width, this.height);
+    }
+    update() { }
 }
-const level1 = [
-    [8, 0, 0, 0, 0, 0, 0, 0, 0, 9],
-    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-    [3, 0, 0, 0, 0, 9, 6, 0, 3, 0],
-    [1, 0, 0, 4, 4, 4, 4, 0, 0, 0],
-    [4, 4, 0, 0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 4, 4, 0, 0, 0, 0],
-    [0, 4, 4, 0, 0, 0, 4, 4, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0, 0, 5, 0],
-];
-const gameObjects = [];
-for (let y = 0; y <= level1.length; y++) {
-    for (let x = 0; x < level1[y].length; y++) {
-        let value = level1[y][x];
-        if (value === 1) {
-            gameObjects.push(new Player("yellow", x, y));
-        }
-        if (value === 2) {
-            gameObjects.push(new Player("green", x, y));
-        }
-        if (value === 3) {
-            gameObjects.push(new Transporter());
-        }
-        if (value === 4) {
-            gameObjects.push(new Platform());
-        }
-        if (value === 5) {
-            gameObjects.push(new Trampoline());
-        }
-        if (value === 6) {
-            gameObjects.push(new Snowman());
-        }
-        if (value === 8) {
-            gameObjects.push(new Timer("yellow"));
-        }
-        if (value === 9) {
-            gameObjects.push(new Timer("green"));
+class LevelFactory {
+    constructor(size) {
+        this.gameObjects = [];
+    }
+    getGameObjects() {
+        const level1 = [
+            [8, 0, 0, 0, 0, 0, 0, 0, 0, 9],
+            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+            [3, 0, 0, 0, 0, 9, 6, 0, 3, 0],
+            [1, 0, 0, 4, 4, 4, 4, 0, 0, 0],
+            [4, 4, 0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 4, 4, 0, 0, 0, 0],
+            [0, 4, 4, 0, 0, 0, 4, 4, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0, 5, 0],
+        ];
+        for (let y = 0; y <= level1.length; y++) {
+            for (let x = 0; x < level1[y].length; y++) {
+                let value = level1[y][x];
+                if (value === 1) {
+                }
+                if (value === 2) {
+                }
+                if (value === 3) {
+                    gameObjects.push(new Teleport(createVector(0, 0)));
+                }
+                if (value === 4) {
+                    gameObjects.push(new Platform(createVector(0, 0)));
+                }
+                if (value === 5) {
+                    gameObjects.push(new Trampoline(createVector(0, 0)));
+                }
+                if (value === 6) {
+                    gameObjects.push(new Snowman(createVector(0, 0)));
+                }
+                if (value === 8) {
+                }
+                if (value === 9) {
+                }
+            }
         }
     }
-}
-class playerInstruction {
-    constructor() {
+    draw() {
+        this.getGameObjects();
     }
+    update() { }
+}
+class Platform extends GameObject {
+    constructor(position) {
+        super(146, 30, "/assets/images/platform.svg", true, position);
+    }
+    draw() { }
+    update() { }
 }
 let game;
 let music;
-let backgroundImg, teleport, teleportLarge, snowflake, cloud, trampoline;
-let platform, icyPlatform, iciclePlatform;
-let greenHalfSquish, greenSquish, yellowHalfSquish, yellowSquish;
-let yellowLeft, yellowRight, greenLeft, greenRight;
-let greenHalfBounce, greenBounce, yellowHalfBounce, yellowBounce;
-let soundOn, soundOff;
-let yellowKeys, greenKeys;
 function preload() {
     music = {
         mystery: loadSound("/assets/music/mystery.mp3"),
     };
-    backgroundImg = loadImage("/assets/images/bgLevel1.png");
-    cloud = loadImage("/assets/images/cloud.svg");
-    snowflake = loadImage("/assets/images/snowflake.svg");
-    platform = loadImage("/assets/images/platform.svg");
-    icyPlatform = loadImage("/assets/images/icyPlatform.svg");
-    iciclePlatform = loadImage("/assets/images/iciclePlatform.svg");
-    teleport = loadImage("assets/images/teleport.svg");
-    teleportLarge = loadImage("assets/images/teleportLarge.svg");
-    trampoline = loadImage("/assets/images/trampoline.svg");
-    soundOn = loadImage("/assets/images/soundOn.svg");
-    soundOff = loadImage("/assets/images/sounOff.svg");
-    greenKeys = loadImage("/assets/images/playerKeysGreen.svg");
-    yellowKeys = loadImage("/assets/images/playerKeysYellow.svg");
-    greenHalfSquish = loadImage("/assets/images/greenPlayerHalfSquish.svg");
-    greenSquish = loadImage("/assets/images/greenPlayerSquish.svg");
-    yellowHalfSquish = loadImage("/assets/images/yellowPlayerHalfSquish.svg");
-    yellowSquish = loadImage("/assets/images/yellowPlayerSquish.svg");
-    greenHalfBounce = loadImage("/assets/images/greenPlayerHalfBounce.svg");
-    greenBounce = loadImage("/assets/images/greenPlayerBounce.svg");
-    yellowHalfBounce = loadImage("/assets/images/yellowPlayerHalfBounce.svg");
-    yellowBounce = loadImage("/assets/images/yellowPlayerBounce.svg");
-    yellowRight = loadImage("/assets/images/yellowPlayerRight.svg");
-    yellowLeft = loadImage("/assets/images/yellowPlayerLeft.svg");
-    greenRight = loadImage("/assets/images/greenPlayerRight.svg");
-    greenLeft = loadImage("/assets/images/greenPlayerLeft.svg");
 }
 function setup() {
     createCanvas(windowWidth, windowHeight);
@@ -129,5 +123,26 @@ function draw() {
 }
 function windowResized() {
     resizeCanvas(windowWidth, windowHeight);
+}
+class Snowman extends GameObject {
+    constructor(position) {
+        super(60, 100, "/assets/images/snowman.svg", false, position);
+    }
+    draw() { }
+    update() { }
+}
+class Teleport extends GameObject {
+    constructor(position) {
+        super(100, 100, "/assets/images/teleport.svg", false, position);
+    }
+    draw() { }
+    update() { }
+}
+class Trampoline extends GameObject {
+    constructor(position) {
+        super(83, 108, "/assets/images/trampoline.svg", true, position);
+    }
+    draw() { }
+    update() { }
 }
 //# sourceMappingURL=bundle.js.map
