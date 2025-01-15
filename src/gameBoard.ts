@@ -1,7 +1,19 @@
-class GameBoard implements Screen {
-  gameObjects: GameObjects[];
+class GameBoard implements Scene {
+  gameObjects: GameObject[];
 
-  constructor() {}
+  constructor(gameObjects: GameObject[]) {
+    this.gameObjects = gameObjects;
+  }
+  draw(): void {
+    for (const obj of this.gameObjects) {
+      obj.draw();
+    }
+  }
+  update(): void {
+    for (const obj of this.gameObjects) {
+      obj.update();
+    }
+  }
 
   private checkCollisions() {}
 

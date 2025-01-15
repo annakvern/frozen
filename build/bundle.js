@@ -111,7 +111,19 @@ function draw() {
     game.draw();
 }
 class GameBoard {
-    constructor() { }
+    constructor(gameObjects) {
+        this.gameObjects = gameObjects;
+    }
+    draw() {
+        for (const obj of this.gameObjects) {
+            obj.draw();
+        }
+    }
+    update() {
+        for (const obj of this.gameObjects) {
+            obj.update();
+        }
+    }
     checkCollisions() { }
     bouncePlayers() { }
     squishToGround() { }
@@ -136,49 +148,56 @@ class GameObject {
     }
     update() { }
 }
+let gameObjects = [];
+let level;
+let squareSize = p5.Vector;
 class LevelFactory {
-    constructor(size) {
-        this.gameObjects = [];
+    constructor(level) {
+        this.getGameObjects(level);
     }
-    getGameObjects() {
-        const level1 = [
-            [8, 0, 0, 0, 0, 0, 0, 0, 0, 9],
-            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-            [3, 0, 0, 0, 0, 9, 6, 0, 3, 0],
-            [1, 0, 0, 4, 4, 4, 4, 0, 0, 0],
-            [4, 4, 0, 0, 0, 0, 0, 0, 0, 0],
-            [0, 0, 0, 0, 4, 4, 0, 0, 0, 0],
-            [0, 4, 4, 0, 0, 0, 4, 4, 0, 0],
-            [0, 0, 0, 0, 0, 0, 0, 0, 5, 0],
-        ];
-        for (let y = 0; y <= level1.length; y++) {
-            for (let x = 0; x < level1[y].length; y++) {
-                let value = level1[y][x];
-                if (value === 1) {
-                }
-                if (value === 2) {
-                }
-                if (value === 3) {
-                    gameObjects.push(new Teleport(createVector(0, 0)));
-                }
-                if (value === 4) {
-                    gameObjects.push(new Platform(createVector(0, 0)));
-                }
-                if (value === 5) {
-                    gameObjects.push(new Trampoline(createVector(0, 0)));
-                }
-                if (value === 6) {
-                    gameObjects.push(new Snowman(createVector(0, 0)));
-                }
-                if (value === 8) {
-                }
-                if (value === 9) {
+    getGameObjects(level) {
+        if (level === 1) {
+            const level1 = [
+                [8, 0, 0, 0, 0, 0, 0, 0, 0, 9],
+                [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+                [3, 0, 0, 0, 0, 9, 6, 0, 3, 0],
+                [1, 0, 0, 4, 4, 4, 4, 0, 0, 0],
+                [4, 4, 0, 0, 0, 0, 0, 0, 0, 0],
+                [0, 0, 0, 0, 4, 4, 0, 0, 0, 0],
+                [0, 4, 4, 0, 0, 0, 4, 4, 0, 0],
+                [0, 0, 0, 0, 0, 0, 0, 0, 5, 0],
+            ];
+            for (let y = 0; y <= level1.length; y++) {
+                for (let x = 0; x < level1[y].length; x++) {
+                    let value = level1[y][x];
+                    if (value === 1) {
+                    }
+                    if (value === 2) {
+                    }
+                    if (value === 3) {
+                        gameObjects.push(new Teleport(createVector(0, 0)));
+                    }
+                    if (value === 4) {
+                        gameObjects.push(new Platform(createVector(0, 0)));
+                    }
+                    if (value === 5) {
+                        gameObjects.push(new Trampoline(createVector(0, 0)));
+                    }
+                    if (value === 6) {
+                        gameObjects.push(new Snowman(createVector(0, 0)));
+                    }
+                    if (value === 8) {
+                        gameObjects.push(new Timer("yellow"));
+                    }
+                    if (value === 9) {
+                        gameObjects.push(new Timer("green"));
+                    }
                 }
             }
         }
     }
     draw() {
-        this.getGameObjects();
+        this.getGameObjects(1);
     }
     update() { }
 }
@@ -202,6 +221,25 @@ class Teleport extends GameObject {
     }
     draw() { }
     update() { }
+}
+class Timer extends GameObject {
+    constructor(color) {
+        const img = color;
+        super(50, 50, img, false, createVector(0, 0));
+        this.color = color;
+        if (color === "yellow") {
+            this.drawText("yellow");
+        }
+        else {
+            this.drawText("green");
+        }
+    }
+    drawText(color) {
+        fill(color);
+        textSize(20);
+        textAlign(CENTER, CENTER);
+        text("60", 0, 0);
+    }
 }
 class Trampoline extends GameObject {
     constructor(position) {
