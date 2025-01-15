@@ -1,10 +1,57 @@
 "use strict";
-class PlayerInstruction {
-    draw() {
-        background("red");
+let podiumYellowImg;
+let podiumGreenImg;
+class ResultScene {
+    constructor() {
+        this.titlePosition = createVector(800, 600);
+        this.textPosition = createVector(400, 150);
+        this.cloudPosition = createVector(200, 100);
+        this.snowflakePositions = createVector(1000, 300);
+        this.player1Position = createVector(55, 550);
+        this.player2Position = createVector(400, 550);
+        this.podiumYellowPosition = createVector(width / 2, 900);
+        this.podiumGreenPosition = createVector(width / 2, 900);
     }
-    update() { }
+    update() {
+    }
+    draw() {
+        this.drawTitle();
+        this.drawText();
+        this.drawCloud();
+        this.drawSnowflakes();
+        this.drawPodium();
+        this.drawPlayer1();
+        this.drawPlayer2();
+    }
+    drawTitle() {
+        fill("yellow");
+        textAlign(CENTER, CENTER);
+        textSize(55);
+        text("Yellow wins!", this.titlePosition.x, this.titlePosition.y);
+        textFont(kavoonFont);
+    }
+    drawText() {
+        fill("white");
+        textSize(10);
+        text("Press any key to play again", this.textPosition.x, this.textPosition.y);
+    }
+    drawSnowflakes() {
+        image(snowflakeImg, this.snowflakePositions.x, this.snowflakePositions.y);
+    }
+    drawCloud() {
+        image(cloudImg, this.cloudPosition.x, this.cloudPosition.y, 120, 80);
+    }
+    drawPodium() {
+        image(podiumYellowImg, this.podiumYellowPosition.x, this.podiumYellowPosition.y);
+    }
+    drawPlayer1() {
+        image(player1Img, this.player1Position.x, this.player1Position.y);
+    }
+    drawPlayer2() {
+        image(player2Img, this.player2Position.x, this.player2Position.y);
+    }
 }
+let resultScene;
 let cloudImg;
 let snowflakeImg;
 let platformImg;
@@ -22,7 +69,7 @@ class StartScene {
     }
     update() {
         if (key) {
-            let nextPage = new PlayerInstruction();
+            let nextPage = new ResultScene();
             game.changeActiveScreen(nextPage);
         }
     }
@@ -104,6 +151,8 @@ function preload() {
     kavoonFont = loadFont("assets/Font(s)/Kavoon-Regular.ttf");
     player1Img = loadImage("assets/images/greenPlayerRight.svg");
     player2Img = loadImage("assets/images/yellowPlayerLeft.svg");
+    podiumYellowImg = loadImage("assets/images/podiumYellowWinner.svg");
+    podiumGreenImg = loadImage("assets/images/podiumGreenWinner.svg");
 }
 function draw() {
     background(135, 206, 250);
@@ -187,6 +236,12 @@ class Platform extends GameObject {
         super(146, 30, "/assets/images/platform.svg", true, position);
     }
     draw() { }
+    update() { }
+}
+class PlayerInstruction {
+    draw() {
+        background("red");
+    }
     update() { }
 }
 class Snowman extends GameObject {

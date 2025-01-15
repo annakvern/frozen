@@ -44,6 +44,8 @@ function preload() {
   kavoonFont = loadFont("assets/Font(s)/Kavoon-Regular.ttf");
   player1Img = loadImage("assets/images/greenPlayerRight.svg");
   player2Img = loadImage("assets/images/yellowPlayerLeft.svg");
+  podiumYellowImg = loadImage("assets/images/podiumYellowWinner.svg");
+  podiumGreenImg = loadImage("assets/images/podiumGreenWinner.svg");
 }
 
 function draw() {
