@@ -6,3 +6,5 @@ class Platform extends GameObject {
 
   public update() {}
 }
+
+// x, y, width, height

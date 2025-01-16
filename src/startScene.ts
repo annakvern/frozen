@@ -10,6 +10,7 @@ class StartScene implements Scene {
   private textPosition: p5.Vector;
   private cloudPosition: p5.Vector;
   private snowflakePositions: p5.Vector[];
+  private snowflakeVelocity: p5.Vector[];
   private platformPosition: p5.Vector;
   private player1Position: p5.Vector;
   private player2Position: p5.Vector;
@@ -27,15 +28,39 @@ class StartScene implements Scene {
       // Lägg till 50 snöflingor
       this.snowflakePositions.push(createVector(random(width), random(height)));
     } // Lista för snöflingornas positioner
+
+    this.snowflakeVelocity = [];
+    for (let i = 0; i < 50; i++) {
+      this.snowflakeVelocity.push(createVector(1, random(2)));
+    }
+
     this.platformPosition = createVector(50, 700); // Plattformens position
     this.player1Position = createVector(200, 650);
     this.player2Position = createVector(600, 650);
     this.bounceTime = 0;
   }
+
   update(): void {
-    if (key) {
+    if (keyIsPressed) {
       let nextPage = new PlayerInstruction();
       game.changeActiveScreen(nextPage);
+    }
+
+    this.bounceTime += 0.07;
+    this.moveSnowflakes();
+  }
+
+  private moveSnowflakes() {
+    for (const index in this.snowflakePositions) {
+      const pos = this.snowflakePositions[index];
+      const vel = this.snowflakeVelocity[index];
+      pos.y += vel.y; // Fallande rörelse
+      pos.x += vel.x; // Fallande rörelse
+
+      if (pos.y > height) {
+        pos.y = -40;
+        pos.x = random(width);
+      }
     }
   }
 
@@ -57,14 +82,17 @@ class StartScene implements Scene {
   }
 
   private drawTitle() {
+    push();
     fill("white");
     textSize(140);
     textAlign(CENTER, CENTER);
-    text("Tag or DIE!", this.titlePosition.x, this.titlePosition.y);
     textFont(kavoonFont);
+    text("Tag or DIE!", this.titlePosition.x, this.titlePosition.y);
+    pop();
   }
 
   private drawText() {
+    push();
     const bounceOffset = sin(this.bounceTime) * 10;
     fill("white"); // Vit färg
     textSize(40);
@@ -74,7 +102,7 @@ class StartScene implements Scene {
       this.textPosition.x,
       this.textPosition.y + bounceOffset
     );
-    this.bounceTime += 0.07;
+    pop();
   }
 
   private drawCloud() {
@@ -82,14 +110,8 @@ class StartScene implements Scene {
   }
 
   private drawSnowflakes() {
-    this.snowflakePositions = this.snowflakePositions.filter((pos) => {
+    for (const pos of this.snowflakePositions) {
       image(snowflakeImg, pos.x, pos.y, 40, 40); // Rita snöflingor
-      pos.y += 1; // Fallande rörelse
-      return pos.y <= height; // Behåll endast de som är ovanför skärmens botten
-    });
-    while (this.snowflakePositions.length < 50) {
-      // Max 50 snöflingor
-      this.snowflakePositions.push(createVector(random(width), 0)); // Skapa ny snöflinga högst upp
     }
   }
 

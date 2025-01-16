@@ -1,9 +1,20 @@
-class GameBoard implements Screen {
-  gameObjects: GameObjects[];
+class GameBoard implements Scene {
+  private gameObjects: GameObjects[];
 
   constructor() {}
 
-  private checkCollisions() {}
+  public draw() {}
+
+  public update() {}
+
+  private checkCollisions() {
+    for (const gameObject of this.gameObjects) {
+      if (gameObject instanceof Snowman) {
+        // inte kolla kollision
+        continue;
+      }
+    }
+  }
 
   private bouncePlayers() {}
 
