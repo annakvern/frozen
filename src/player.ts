@@ -22,9 +22,9 @@ class Player extends GameObject {
     this.timer = timer;
   }
 
-  private setPosition() {}
+  private setPosition(): void {}
 
-  private applyGravity() {}
+  private applyGravity(): void {}
 
   public bounce() {}
 
