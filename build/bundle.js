@@ -189,9 +189,11 @@ class Platform extends GameObject {
     draw() { }
     update() { }
 }
-class Player {
-    constructor(speed, isOnIce, isChasing, timeSinceTeleport, timer) {
+class Player extends GameObject {
+    constructor(speed, position, isOnIce = false, isChasing = false, timeSinceTeleport = 0, timer = 0) {
+        super(40, 40, "assets/images/greenPlayerLeft.svg", false, position);
         this.speed = speed;
+        this.position = position;
         this.isOnIce = isOnIce;
         this.isChasing = isChasing;
         this.timeSinceTeleport = timeSinceTeleport;
@@ -203,6 +205,8 @@ class Player {
     jump() { }
     toggleIsChasing() { }
     playerControls() { }
+    draw() { }
+    update() { }
 }
 class Snowman extends GameObject {
     constructor(position) {
