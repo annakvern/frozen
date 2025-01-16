@@ -26,18 +26,22 @@ class ResultScene {
         this.drawPodium();
     }
     drawTitle() {
+        push();
         const titleSize = width * 0.07;
         fill("yellow");
         textAlign(CENTER, CENTER);
         textSize(titleSize);
-        text("Yellow wins!", this.titlePosition.x, this.titlePosition.y);
         textFont(kavoonFont);
+        text("Yellow wins!", this.titlePosition.x, this.titlePosition.y);
+        pop();
     }
     drawText() {
         const txtSize = width * 0.015;
+        push();
         fill("white");
         textSize(txtSize);
         text("Press any key to play again", this.textPosition.x, this.textPosition.y);
+        pop();
     }
     drawCloud() {
         image(cloudImg, this.cloudPosition.x, this.cloudPosition.y);

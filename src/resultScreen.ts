@@ -1,4 +1,4 @@
-//// ATT GÖRA; FÄRDIGSTÄLL UPDATE(), MED IF-SATSER BYTA SCREEN BEROENDE PÅ VINNARE, QUIT-KNAPPEN.
+//// ATT GÖRA; FÄRDIGSTÄLL UPDATE(), MED IF-SATSER BYTA SCREEN BEROENDE PÅ VINNARE, QUIT-KNAPPEN, SKUGGA PÅ TEXT, UNDERTEXT STUDSAR.
 
 
 //// DECLARE IMAGES TO BE USED IN THE SCENE.
@@ -30,8 +30,9 @@ class ResultScene implements Scene {
     this.podiumGreenPosition = createVector(width * 0.43, height * 0.81);
   }
 
-  update(): void {
-    //// IF (KEY) - GO TO PLAYERINSTRUCTIONS?
+  update() {
+    
+    
   }
 
   //// DRAW ALL ELEMENTS ON THE SCREEN.
@@ -45,20 +46,24 @@ class ResultScene implements Scene {
 
   //// FUNCTION TO DRAW THE TITLE ON THE SCREEN.
   private drawTitle() {
+    push();
     const titleSize = width * 0.07;
     fill("yellow");
     textAlign(CENTER, CENTER);
     textSize(titleSize);
-    text("Yellow wins!", this.titlePosition.x, this.titlePosition.y);
     textFont(kavoonFont);
+    text("Yellow wins!", this.titlePosition.x, this.titlePosition.y);
+    pop();
   }
 
   //// FUNCTION TO DRAW THE TEXT ON THE SCREEN.
   private drawText() {
     const txtSize = width * 0.015;
+    push();
     fill("white");
     textSize(txtSize);
     text("Press any key to play again", this.textPosition.x, this.textPosition.y);
+    pop();
   }
 
   //// FUNCTION TO DRAW THE CLOUD ON THE SCREEN.
