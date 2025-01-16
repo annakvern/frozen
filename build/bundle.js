@@ -132,8 +132,6 @@ class Platform extends GameObject {
     constructor(position) {
         super(146, 30, "/assets/images/platform.svg", true, position);
     }
-    draw() { }
-    update() { }
 }
 class PlayerInstruction {
     draw() {
