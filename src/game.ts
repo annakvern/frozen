@@ -44,10 +44,15 @@ function preload() {
   kavoonFont = loadFont("assets/Font(s)/Kavoon-Regular.ttf");
   player1Img = loadImage("assets/images/greenPlayerRight.svg");
   player2Img = loadImage("assets/images/yellowPlayerLeft.svg");
+  playerKeysYellow = loadImage("assets/images/playerKeysYellow.svg");
+  playerKeysGreen = loadImage("assets/images/playerKeysGreen.svg");
+  playerInstruction1img = loadImage("assets/images/yellowPlayerLeft.svg");
+  playerInstruction2img = loadImage("assets/images/greenPlayerRight.svg");
+  soundOnimg = loadImage("assets/images/soundOn.svg");
 }
 
 function draw() {
-  background(135, 206, 250); // Blå bakgrund
+  background(164, 210, 247); // Blå bakgrund
   game.update();
   game.draw();
   /*  StartScene.draw(); */
