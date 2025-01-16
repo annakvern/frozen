@@ -25,7 +25,7 @@ class StartScene implements Scene {
   }
   update(): void {
     if (key) {
-      let nextPage = new ResultScene();
+      let nextPage = new ResultScene("Yellow");
       game.changeActiveScreen(nextPage);
     }
   }

@@ -2,7 +2,8 @@
 let podiumYellowImg;
 let podiumGreenImg;
 class ResultScene {
-    constructor() {
+    constructor(winner) {
+        this.winner = winner;
         this.titlePosition = createVector(width * 0.5, height * 0.4);
         this.textPosition = createVector(width * 0.5, height * 0.55);
         this.cloudPosition = createVector(width * 0.26, height * 0.13);
@@ -13,10 +14,21 @@ class ResultScene {
                 { position: createVector(width * 0.83, height * 0.15), size: 150 },
                 { position: createVector(width * 0.77, height * 0.55), size: 175 },
             ];
-        this.podiumYellowPosition = createVector(width * 0.43, height * 0.83);
-        this.podiumGreenPosition = createVector(width * 0.43, height * 0.81);
+        this.podiumPosition = createVector(width * 0.43, height * 0.83);
+        this.quitButtonPosition = createVector(width * 0.03, height * 0.95);
+        this.textBounceY = this.textPosition.y;
+        this.textBounceSpeed = 0.25;
+        this.textBounceRange = height * 0.003;
     }
     update() {
+        if (mouseIsPressed && this.checkQuitButtonClick()) {
+            this.quitGame();
+        }
+        this.textBounceY += this.textBounceSpeed;
+        if (this.textBounceY > this.textPosition.y + this.textBounceRange ||
+            this.textBounceY < this.textPosition.y - this.textBounceRange) {
+            this.textBounceSpeed *= -1;
+        }
     }
     draw() {
         this.drawTitle();
@@ -24,23 +36,34 @@ class ResultScene {
         this.drawCloud();
         this.drawSnowflakes();
         this.drawPodium();
+        this.drawQuitButton();
     }
     drawTitle() {
         push();
         const titleSize = width * 0.07;
-        fill("yellow");
+        const titleColor = this.winner === "Yellow" ? "rgb(255, 213, 118)" : "rgb(58, 168, 167)";
+        const titleText = this.winner === "Yellow" ? "Yellow wins!" : "Green wins!";
+        drawingContext.shadowOffsetX = 2;
+        drawingContext.shadowOffsetY = 2;
+        drawingContext.shadowBlur = 5;
+        drawingContext.shadowColor = "rgba(0, 0, 0, 0.5)";
+        fill(titleColor);
         textAlign(CENTER, CENTER);
         textSize(titleSize);
         textFont(kavoonFont);
-        text("Yellow wins!", this.titlePosition.x, this.titlePosition.y);
+        text(titleText, this.titlePosition.x, this.titlePosition.y);
         pop();
     }
     drawText() {
-        const txtSize = width * 0.015;
         push();
+        const txtSize = width * 0.015;
+        drawingContext.shadowOffsetX = 2;
+        drawingContext.shadowOffsetY = 2;
+        drawingContext.shadowBlur = 5;
+        drawingContext.shadowColor = "rgba(0, 0, 0, 0.5)";
         fill("white");
         textSize(txtSize);
-        text("Press any key to play again", this.textPosition.x, this.textPosition.y);
+        text("Press any key to play again", this.textPosition.x, this.textBounceY);
         pop();
     }
     drawCloud() {
@@ -54,7 +77,31 @@ class ResultScene {
     drawPodium() {
         const podiumWidth = width * 0.15;
         const podiumHeight = height * 0.17;
-        image(podiumYellowImg, this.podiumYellowPosition.x, this.podiumYellowPosition.y, podiumWidth, podiumHeight);
+        if (this.winner === "Yellow") {
+            image(podiumYellowImg, this.podiumPosition.x, this.podiumPosition.y, podiumWidth, podiumHeight);
+        }
+        else if (this.winner === "Green") {
+            image(podiumGreenImg, this.podiumPosition.x, this.podiumPosition.y, podiumWidth, podiumHeight);
+        }
+    }
+    drawQuitButton() {
+        push();
+        fill(66, 165, 246);
+        textAlign(CENTER, CENTER);
+        textSize(50);
+        text("Quit", this.quitButtonPosition.x, this.quitButtonPosition.y);
+        pop();
+    }
+    checkQuitButtonClick() {
+        const buttonWidth = width * 0.05;
+        const buttonHeight = height * 0.035;
+        return (mouseX > this.quitButtonPosition.x - buttonWidth / 2 &&
+            mouseX < this.quitButtonPosition.x + buttonWidth / 2 &&
+            mouseY > this.quitButtonPosition.y - buttonHeight / 2 &&
+            mouseY < this.quitButtonPosition.y + buttonHeight / 2);
+    }
+    quitGame() {
+        game.changeActiveScreen(new PlayerInstruction);
     }
 }
 let resultScene;
@@ -75,7 +122,7 @@ class StartScene {
     }
     update() {
         if (key) {
-            let nextPage = new ResultScene();
+            let nextPage = new ResultScene("Yellow");
             game.changeActiveScreen(nextPage);
         }
     }
