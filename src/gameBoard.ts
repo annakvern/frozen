@@ -3,6 +3,17 @@ class GameBoard implements Screen {
 
   constructor() {}
 
+  public draw(): void {
+    background("tomato");
+  }
+  
+  public update(): void {
+    if (keyIsPressed) {
+      let nextPage = new GameBoard();
+      game.changeActiveScreen(nextPage);
+    }
+  }
+
   private checkCollisions() {}
 
   private bouncePlayers() {}

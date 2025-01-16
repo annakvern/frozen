@@ -10,13 +10,13 @@ class PlayerInstruction {
         this.textPosition = createVector(width / 2, 200);
         this.player1Position = createVector(980, 300);
         this.player2Position = createVector(410, 300);
-        this.playerKeysYellowPosition = createVector(980, 460);
+        this.playerKeysYellowPosition = createVector(970, 460);
         this.playerKeysGreenPosition = createVector(400, 460);
-        this.playSoundPosition = createVector(1440, 600);
+        this.playSoundPosition = createVector(windowWidth * 0.93, windowHeight * 0.86);
     }
     update() {
-        if (key) {
-            let nextPage = new PlayerInstruction();
+        if (key === " ") {
+            let nextPage = new GameBoard();
             game.changeActiveScreen(nextPage);
         }
     }
@@ -30,22 +30,27 @@ class PlayerInstruction {
         this.playSound();
     }
     drawTitle() {
+        push();
         fill("white");
         textSize(100);
         textAlign(CENTER, CENTER);
         text("READY?", this.titlePosition.x, this.titlePosition.y);
         textFont(kavoonFont);
+        pop();
     }
     drawText() {
+        push();
         fill("white");
+        let bounceText = sin(frameCount * 0.1) * 3;
         textSize(20);
         textAlign(CENTER, CENTER);
-        text("Press any key to get started", this.textPosition.x, this.textPosition.y);
+        text("Press space to get started", this.textPosition.x, this.textPosition.y + bounceText);
         text("You have 2 mins - Tag or DIE!", this.textPosition.x - 0, 630);
         textSize(40);
         text("Player 1", this.textPosition.x - 300, 250);
         text("Player 2", this.textPosition.x + 280, 250);
         textFont(kavoonFont);
+        pop();
     }
     drawPlayer1() {
         image(playerInstruction1img, this.player1Position.x, this.player1Position.y, 130, 130);
@@ -175,6 +180,15 @@ function draw() {
 }
 class GameBoard {
     constructor() { }
+    draw() {
+        background("tomato");
+    }
+    update() {
+        if (keyIsPressed) {
+            let nextPage = new GameBoard();
+            game.changeActiveScreen(nextPage);
+        }
+    }
     checkCollisions() { }
     bouncePlayers() { }
     squishToGround() { }
