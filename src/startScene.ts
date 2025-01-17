@@ -1,4 +1,4 @@
-/// <reference path="playerInstruction.ts" />
+/// <reference path="resultScreen.ts" />
 let cloudImg: p5.Image;
 let snowflakeImg: p5.Image;
 let platformImg: p5.Image;
@@ -25,7 +25,7 @@ class StartScene implements Scene {
   }
   update(): void {
     if (key) {
-      let nextPage = new PlayerInstruction();
+      let nextPage = new ResultScene("Yellow");
       game.changeActiveScreen(nextPage);
     }
   }

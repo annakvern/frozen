@@ -46,6 +46,7 @@ function preload() {
   kavoonFont = loadFont("assets/Font(s)/Kavoon-Regular.ttf");
   player1Img = loadImage("assets/images/greenPlayerRight.svg");
   player2Img = loadImage("assets/images/yellowPlayerLeft.svg");
+<<<<<<< HEAD
   backgroundImgL1 = loadImage("assets/images/bgLevel1.png");
   platform = loadImage("assets/images/platform.svg");
   snowman = loadImage("assets/images/snowman.svg");
@@ -58,6 +59,10 @@ function preload() {
   playerInstruction1img = loadImage("assets/images/yellowPlayerLeft.svg");
   playerInstruction2img = loadImage("assets/images/greenPlayerRight.svg");
   soundOnimg = loadImage("assets/images/soundOn.svg");
+=======
+  podiumYellowImg = loadImage("assets/images/podiumYellowWinner.svg");
+  podiumGreenImg = loadImage("assets/images/podiumGreenWinner.svg");
+>>>>>>> origin/2-create-resultscreen
 }
 
 function draw() {
