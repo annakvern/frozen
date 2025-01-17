@@ -15,17 +15,8 @@ class GameBoard implements Scene {
     for (const obj of this.gameObjects) {
       obj.update();
     }
-  }
-
-  public draw(): void {
-    // background("tomato");
-  }
-
-  public update(): void {
-    if (key) {
-      let nextPage = new ResultScreen();
-      game.changeActiveScreen(nextPage);
-    }
+    let nextPage = new ResultScreen();
+    game.changeActiveScreen(nextPage);
   }
 
   private checkCollisions() {}

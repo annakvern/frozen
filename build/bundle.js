@@ -200,14 +200,8 @@ class GameBoard {
         for (const obj of this.gameObjects) {
             obj.update();
         }
-    }
-    draw() {
-    }
-    update() {
-        if (key) {
-            let nextPage = new ResultScreen();
-            game.changeActiveScreen(nextPage);
-        }
+        let nextPage = new ResultScreen();
+        game.changeActiveScreen(nextPage);
     }
     checkCollisions() { }
     bouncePlayers() { }
