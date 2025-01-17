@@ -17,12 +17,12 @@ class StartScene implements Scene {
   private bounceTime: number;
 
   constructor() {
-    this.titlePosition = createVector(windowWidth * 0.5, windowHeight * 0.5); // Titelns position
+    this.titlePosition = createVector(width * 0.5, height * 0.5); // Titelns position
     this.textPosition = createVector(
       windowWidth * 0.5,
       windowHeight * 0.5 + 150
     ); // Textens position
-    this.cloudPosition = createVector(350, 120); // Molnets position
+    this.cloudPosition = createVector(width * 0.1, height * 0.1); // Molnets position
     this.snowflakePositions = [];
     for (let i = 0; i < 50; i++) {
       // Lägg till 50 snöflingor
@@ -79,6 +79,7 @@ class StartScene implements Scene {
     this.drawPlayer1();
 
     this.drawPlayer2();
+
   }
 
   private drawTitle() {
