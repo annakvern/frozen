@@ -175,11 +175,16 @@ function preload() {
     teleport = loadImage("assets/images/teleport.svg");
     playerYellow = loadImage("assets/images/yellowPlayerLeft.svg");
     playerGreen = loadImage("assets/images/greenPlayerRight.svg");
+    playerKeysYellow = loadImage("assets/images/playerKeysYellow.svg");
+    playerKeysGreen = loadImage("assets/images/playerKeysGreen.svg");
+    playerInstruction1img = loadImage("assets/images/yellowPlayerLeft.svg");
+    playerInstruction2img = loadImage("assets/images/greenPlayerRight.svg");
+    soundOnimg = loadImage("assets/images/soundOn.svg");
 }
 function draw() {
     background(backgroundImgL1);
-    game.draw();
     game.update();
+    game.draw();
 }
 let backgroundImgL1;
 class GameBoard {
