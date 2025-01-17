@@ -200,7 +200,7 @@ class GameBoard {
         for (const obj of this.gameObjects) {
             obj.update();
         }
-        let nextPage = new ResultScreen();
+        let nextPage = new ResultScene();
         game.changeActiveScreen(nextPage);
     }
     checkCollisions() { }
