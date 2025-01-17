@@ -7,15 +7,13 @@ class Player extends GameObject {
 
   constructor(
     speed: p5.Vector,
-    position: p5.Vector,
     isOnIce: boolean = false,
     isChasing: boolean = false,
     timeSinceTeleport: number = 0,
     timer: number = 0
   ) {
-    super(40, 40, "assets/images/greenPlayerLeft.svg", false, position);
+    super(40, 40, "assets/images/greenPlayerLeft.svg", false, createVector(windowWidth * 0.5, windowHeight * 0.5), 0, 0);
     this.speed = speed;
-    this.position = position;
     this.isOnIce = isOnIce;
     this.isChasing = isChasing;
     this.timeSinceTeleport = timeSinceTeleport;
@@ -36,5 +34,15 @@ class Player extends GameObject {
 
   public draw() {}
 
-  public update() {}
+  public update() {
+    super.update();
+
+    if(keyIsDown(LEFT_ARROW)){
+      this.velocity.x = -5;
+    }else if(keyIsDown(RIGHT_ARROW)){
+      this.velocity.x = 5;
+    } else {
+      this.velocity.x = 0;
+    }
+  }
 }
