@@ -15,7 +15,7 @@ class GameBoard implements Scene {
     for (const obj of this.gameObjects) {
       obj.update();
     }
-    let nextPage = new ResultScene();
+    let nextPage = new ResultScene("Yellow");
     game.changeActiveScreen(nextPage);
   }
 

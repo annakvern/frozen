@@ -1,7 +1,3 @@
-//// ATT GÖRA; FÄRDIGSTÄLL UPDATE()
-
-
-//// DECLARE IMAGES TO BE USED IN THE SCENE.
 let podiumYellowImg: p5.Image;
 let podiumGreenImg: p5.Image;
 
@@ -39,16 +35,15 @@ class ResultScene implements Scene {
   }
 
   update() {
+    if (keyIsPressed) {
+      game.changeActiveScreen(new PlayerInstruction);
+    }
+
     if (mouseIsPressed && this.checkQuitButtonClick()) {
       this.quitGame(); // CHANGE SCENE ON CLICK.
     }
 
-    this.textBounceY += this.textBounceSpeed;
-    if (this.textBounceY > this.textPosition.y + this.textBounceRange ||
-      this.textBounceY < this.textPosition.y - this.textBounceRange
-    ) {
-      this.textBounceSpeed *= -1;
-    }
+    this.textBounce();
     
   }
 
@@ -100,6 +95,15 @@ class ResultScene implements Scene {
     pop();
   }
 
+  private textBounce() {
+  this.textBounceY += this.textBounceSpeed;
+    if (this.textBounceY > this.textPosition.y + this.textBounceRange ||
+      this.textBounceY < this.textPosition.y - this.textBounceRange
+    ) {
+      this.textBounceSpeed *= -1;
+    }
+  }
+
   //// FUNCTION TO DRAW THE CLOUD ON THE SCREEN.
   private drawCloud() {
     image(cloudImg, this.cloudPosition.x, this.cloudPosition.y);
@@ -145,7 +149,7 @@ class ResultScene implements Scene {
     pop();
   }
 
-  private checkQuitButtonClick(): boolean {
+  private checkQuitButtonClick() {
     const buttonWidth = width * 0.05; 
     const buttonHeight = height * 0.035;
     return (
@@ -157,7 +161,7 @@ class ResultScene implements Scene {
   }
 
   private quitGame() {
-    game.changeActiveScreen(new PlayerInstruction); 
+    game.changeActiveScreen(new StartScene); 
   }
 
 }

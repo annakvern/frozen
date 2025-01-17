@@ -21,14 +21,13 @@ class ResultScene {
         this.textBounceRange = height * 0.003;
     }
     update() {
+        if (keyIsPressed) {
+            game.changeActiveScreen(new PlayerInstruction);
+        }
         if (mouseIsPressed && this.checkQuitButtonClick()) {
             this.quitGame();
         }
-        this.textBounceY += this.textBounceSpeed;
-        if (this.textBounceY > this.textPosition.y + this.textBounceRange ||
-            this.textBounceY < this.textPosition.y - this.textBounceRange) {
-            this.textBounceSpeed *= -1;
-        }
+        this.textBounce();
     }
     draw() {
         this.drawTitle();
@@ -66,6 +65,13 @@ class ResultScene {
         text("Press any key to play again", this.textPosition.x, this.textBounceY);
         pop();
     }
+    textBounce() {
+        this.textBounceY += this.textBounceSpeed;
+        if (this.textBounceY > this.textPosition.y + this.textBounceRange ||
+            this.textBounceY < this.textPosition.y - this.textBounceRange) {
+            this.textBounceSpeed *= -1;
+        }
+    }
     drawCloud() {
         image(cloudImg, this.cloudPosition.x, this.cloudPosition.y);
     }
@@ -101,7 +107,7 @@ class ResultScene {
             mouseY < this.quitButtonPosition.y + buttonHeight / 2);
     }
     quitGame() {
-        game.changeActiveScreen(new PlayerInstruction);
+        game.changeActiveScreen(new StartScene);
     }
 }
 let resultScene;
@@ -216,6 +222,8 @@ function preload() {
     playerInstruction1img = loadImage("assets/images/yellowPlayerLeft.svg");
     playerInstruction2img = loadImage("assets/images/greenPlayerRight.svg");
     soundOnimg = loadImage("assets/images/soundOn.svg");
+    podiumYellowImg = loadImage("assets/images/podiumYellowWinner.svg");
+    podiumGreenImg = loadImage("assets/images/podiumGreenWinner.svg");
 }
 function draw() {
     background(backgroundImgL1);
@@ -236,7 +244,7 @@ class GameBoard {
         for (const obj of this.gameObjects) {
             obj.update();
         }
-        let nextPage = new ResultScene();
+        let nextPage = new ResultScene("Yellow");
         game.changeActiveScreen(nextPage);
     }
     checkCollisions() { }
