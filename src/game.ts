@@ -46,6 +46,7 @@ function preload() {
   kavoonFont = loadFont("assets/Font(s)/Kavoon-Regular.ttf");
   player1Img = loadImage("assets/images/greenPlayerRight.svg");
   player2Img = loadImage("assets/images/yellowPlayerLeft.svg");
+<<<<<<< HEAD
   backgroundImgL1 = loadImage("assets/images/bgLevel1.png");
   platform = loadImage("assets/images/platform.svg");
   snowman = loadImage("assets/images/snowman.svg");
@@ -58,6 +59,18 @@ function preload() {
 function draw() {
   background(backgroundImgL1); // Blå bakgrund
 
+=======
+  playerKeysYellow = loadImage("assets/images/playerKeysYellow.svg");
+  playerKeysGreen = loadImage("assets/images/playerKeysGreen.svg");
+  playerInstruction1img = loadImage("assets/images/yellowPlayerLeft.svg");
+  playerInstruction2img = loadImage("assets/images/greenPlayerRight.svg");
+  soundOnimg = loadImage("assets/images/soundOn.svg");
+}
+
+function draw() {
+  background(164, 210, 247); // Blå bakgrund
+  game.update();
+>>>>>>> origin/35-create-playerinstructionscreen
   game.draw();
   game.update();
 
