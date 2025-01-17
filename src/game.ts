@@ -25,7 +25,7 @@ class Game {
 }
 
 function setup() {
-  createCanvas(windowWidth, windowHeight);
+  createCanvas(1440, 1024);
   frameRate(60);
 
   startScene = new StartScene();
@@ -34,7 +34,7 @@ function setup() {
   textFont(kavoonFont);
 }
 
-let assets: { [key: string]: p5.Image } = {};
+// let assets: { [key: string]: p5.Image } = {};
 
 function preload() {
   music = {
@@ -46,15 +46,18 @@ function preload() {
   kavoonFont = loadFont("assets/Font(s)/Kavoon-Regular.ttf");
   player1Img = loadImage("assets/images/greenPlayerRight.svg");
   player2Img = loadImage("assets/images/yellowPlayerLeft.svg");
-
-  assets["platform"] = loadImage("assets/images/platform.svg");
-  assets["snowman"] = loadImage("assets/images/snowman.svg");
-  assets["trampoline"] = loadImage("assets/images/trampoline.svg");
-  assets["teleport"] = loadImage("assets/images/teleport.svg");
+  backgroundImgL1 = loadImage("assets/images/bgLevel1.png");
+  platform = loadImage("assets/images/platform.svg");
+  snowman = loadImage("assets/images/snowman.svg");
+  trampoline = loadImage("assets/images/trampoline.svg");
+  teleport = loadImage("assets/images/teleport.svg");
+  playerYellow = loadImage("assets/images/yellowPlayerLeft.svg");
+  playerGreen = loadImage("assets/images/greenPlayerRight.svg");
 }
 
 function draw() {
-  background(135, 206, 250); // Blå bakgrund
+  background(backgroundImgL1); // Blå bakgrund
+
   game.draw();
   game.update();
 

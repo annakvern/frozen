@@ -1,25 +1,29 @@
-<<<<<<< HEAD
-=======
+/// <reference path="gameObject.ts" />
+let playerYellow: p5.Image;
+let playerGreen: p5.Image;
+
 class Player extends GameObject {
+  color: string;
   speed: p5.Vector;
   isOnIce: boolean;
   isChasing: boolean;
-  timeSinceTeleport: number;
-  timer: number; //Står att den ska vara timer i diagrammet?
+  // timeSinceTeleport: number;
+  // timer: number; //Står att den ska vara timer i diagrammet?
 
-  constructor(
-    speed: p5.Vector,
-    isOnIce: boolean = false,
-    isChasing: boolean = false,
-    timeSinceTeleport: number = 0,
-    timer: number = 0
-  ) {
-    super(40, 40, "assets/images/greenPlayerLeft.svg", false, createVector(windowWidth * 0.5, windowHeight * 0.5), 0, 0);
-    this.speed = speed;
-    this.isOnIce = isOnIce;
+  constructor(color: string, position: p5.Vector, isChasing: boolean) {
+    if (color === "yellow") {
+      super(position, 70, 70, playerYellow, false);
+    } else {
+      super(position, 70, 70, playerGreen, false);
+    }
+
+    this.color = color;
+    this.speed = createVector(0, 0);
+    this.isOnIce = false;
     this.isChasing = isChasing;
-    this.timeSinceTeleport = timeSinceTeleport;
-    this.timer = timer;
+
+    // this.timeSinceTeleport = ;
+    // this.timer = timer;
   }
 
   private setPosition(): void {}
@@ -34,18 +38,19 @@ class Player extends GameObject {
 
   public playerControls() {}
 
-  public draw() {}
-
-  public update() {
-    super.update();
-
-    if(keyIsDown(LEFT_ARROW)){
-      this.velocity.x = -5;
-    }else if(keyIsDown(RIGHT_ARROW)){
-      this.velocity.x = 5;
-    } else {
-      this.velocity.x = 0;
-    }
+  public draw() {
+    image(this.img, this.position.x, this.position.y, 70, 70);
   }
+
+  public update() {}
+  // super.update();
+
+  //   if(keyIsDown(LEFT_ARROW)){
+  //     this.velocity.x = -5;
+  //   }else if(keyIsDown(RIGHT_ARROW)){
+  //     this.velocity.x = 5;
+  //   } else {
+  //     this.velocity.x = 0;
+  //   }
+  // }
 }
->>>>>>> origin/29-create-player-class

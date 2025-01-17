@@ -1,5 +1,7 @@
+let backgroundImgL1: p5.Image;
+
 class GameBoard implements Scene {
-  gameObjects: GameObject[];
+  public gameObjects: GameObject[];
 
   constructor(gameObjects: GameObject[]) {
     this.gameObjects = gameObjects;
