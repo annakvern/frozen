@@ -18,12 +18,12 @@ class GameBoard implements Scene {
   }
 
   public draw(): void {
-    background("tomato");
+    // background("tomato");
   }
-  
+
   public update(): void {
-    if (keyIsPressed) {
-      let nextPage = new GameBoard();
+    if (key) {
+      let nextPage = new ResultScreen();
       game.changeActiveScreen(nextPage);
     }
   }

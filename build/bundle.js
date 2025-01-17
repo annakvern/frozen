@@ -15,9 +15,10 @@ class PlayerInstruction {
         this.playSoundPosition = createVector(windowWidth * 0.93, windowHeight * 0.86);
     }
     update() {
-        if (key === " ") {
-            let nextPage = new GameBoard();
-            game.changeActiveScreen(nextPage);
+        if (key) {
+            const factory = new LevelFactory();
+            const gameBoard = factory.createGameBoard(1);
+            game.changeActiveScreen(gameBoard);
         }
     }
     draw() {
@@ -85,9 +86,8 @@ class StartScene {
     }
     update() {
         if (key) {
-            const factory = new LevelFactory();
-            const gameBoard = factory.createGameBoard(1);
-            game.changeActiveScreen(gameBoard);
+            let nextPage = new PlayerInstruction();
+            game.changeActiveScreen(nextPage);
         }
     }
     draw() {
@@ -202,11 +202,10 @@ class GameBoard {
         }
     }
     draw() {
-        background("tomato");
     }
     update() {
-        if (keyIsPressed) {
-            let nextPage = new GameBoard();
+        if (key) {
+            let nextPage = new ResultScreen();
             game.changeActiveScreen(nextPage);
         }
     }
