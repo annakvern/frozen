@@ -1,76 +1,4 @@
 "use strict";
-class PlayerInstruction {
-    draw() {
-        background("red");
-    }
-    update() { }
-}
-let cloudImg;
-let snowflakeImg;
-let platformImg;
-let player1Img;
-let player2Img;
-class StartScene {
-    constructor() {
-        this.titlePosition = createVector(800, 600);
-        this.textPosition = createVector(400, 150);
-        this.cloudPosition = createVector(200, 100);
-        this.snowflakePositions = [];
-        this.platformPosition = createVector(50, 600);
-        this.player1Position = createVector(55, 550);
-        this.player2Position = createVector(400, 550);
-    }
-    update() {
-        if (key) {
-            let nextPage = new PlayerInstruction();
-            game.changeActiveScreen(nextPage);
-        }
-    }
-    draw() {
-        this.drawTitle();
-        this.drawText();
-        this.drawCloud();
-        this.drawSnowflakes();
-        this.drawPlatform();
-        this.drawPlayer1();
-        this.drawPlayer2();
-    }
-    drawTitle() {
-        fill("white");
-        textSize(20);
-        textAlign(CENTER, CENTER);
-        text("Tag or DIE!", this.titlePosition.x, this.titlePosition.y);
-        textFont(kavoonFont);
-    }
-    drawText() {
-        fill("white");
-        textSize(20);
-        textAlign(CENTER, CENTER);
-        text("Press any key to continue", this.textPosition.x, this.textPosition.y);
-    }
-    drawCloud() {
-        image(cloudImg, this.cloudPosition.x, this.cloudPosition.y, 120, 80);
-    }
-    drawSnowflakes() {
-        for (let pos of this.snowflakePositions) {
-            image(snowflakeImg, pos.x, pos.y, 20, 20);
-            pos.y += 1;
-            if (pos.y > height)
-                pos.y = 0;
-        }
-    }
-    drawPlatform() {
-        image(platformImg, this.platformPosition.x, this.platformPosition.y, 800, 50);
-    }
-    drawPlayer1() {
-        image(player1Img, this.player1Position.x, this.player1Position.y);
-    }
-    drawPlayer2() {
-        image(player2Img, this.player2Position.x, this.player2Position.y);
-    }
-}
-let startScene;
-let kavoonFont;
 let game;
 let music;
 class Game {
@@ -98,7 +26,7 @@ function preload() {
     music = {
         mystery: loadSound("/assets/music/mystery.mp3"),
     };
-    cloudImg = loadImage("assets/images/cloud.svg");
+    cloudImg = loadImage("assets/images/cloudNew.svg");
     snowflakeImg = loadImage("assets/images/snowflake.svg");
     platformImg = loadImage("assets/images/platformStart.svg");
     kavoonFont = loadFont("assets/Font(s)/Kavoon-Regular.ttf");
@@ -112,7 +40,15 @@ function draw() {
 }
 class GameBoard {
     constructor() { }
-    checkCollisions() { }
+    draw() { }
+    update() { }
+    checkCollisions() {
+        for (const gameObject of this.gameObjects) {
+            if (gameObject instanceof Snowman) {
+                continue;
+            }
+        }
+    }
     bouncePlayers() { }
     squishToGround() { }
     freezeToIcicle() { }
@@ -137,11 +73,8 @@ class GameObject {
     update() { }
 }
 class LevelFactory {
-    constructor(size) {
-        this.gameObjects = [];
-    }
-    getGameObjects() {
-        const level1 = [
+    constructor() {
+        this.level1 = [
             [8, 0, 0, 0, 0, 0, 0, 0, 0, 9],
             [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
             [3, 0, 0, 0, 0, 9, 6, 0, 3, 0],
@@ -151,9 +84,22 @@ class LevelFactory {
             [0, 4, 4, 0, 0, 0, 4, 4, 0, 0],
             [0, 0, 0, 0, 0, 0, 0, 0, 5, 0],
         ];
-        for (let y = 0; y <= level1.length; y++) {
-            for (let x = 0; x < level1[y].length; y++) {
-                let value = level1[y][x];
+        this.level2 = [
+            [8, 0, 0, 0, 0, 0, 0, 0, 0, 9],
+            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+            [3, 0, 0, 0, 0, 9, 6, 0, 3, 0],
+            [1, 0, 0, 4, 4, 4, 4, 0, 0, 0],
+            [4, 4, 0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 4, 4, 0, 0, 0, 0],
+            [0, 4, 4, 0, 0, 0, 4, 4, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0, 5, 0],
+        ];
+    }
+    getGameObjects(level) {
+        const gameObjects = [];
+        for (let y = 0; y <= this.level1.length; y++) {
+            for (let x = 0; x < this.level1[y].length; y++) {
+                let value = this.level1[y][x];
                 if (value === 1) {
                 }
                 if (value === 2) {
@@ -186,7 +132,11 @@ class Platform extends GameObject {
     constructor(position) {
         super(146, 30, "/assets/images/platform.svg", true, position);
     }
-    draw() { }
+}
+class PlayerInstruction {
+    draw() {
+        background("red");
+    }
     update() { }
 }
 class Snowman extends GameObject {
@@ -196,6 +146,96 @@ class Snowman extends GameObject {
     draw() { }
     update() { }
 }
+let cloudImg;
+let snowflakeImg;
+let platformImg;
+let player1Img;
+let player2Img;
+class StartScene {
+    constructor() {
+        this.titlePosition = createVector(windowWidth * 0.5, windowHeight * 0.5);
+        this.textPosition = createVector(windowWidth * 0.5, windowHeight * 0.5 + 150);
+        this.cloudPosition = createVector(350, 120);
+        this.snowflakePositions = [];
+        for (let i = 0; i < 50; i++) {
+            this.snowflakePositions.push(createVector(random(width), random(height)));
+        }
+        this.snowflakeVelocity = [];
+        for (let i = 0; i < 50; i++) {
+            this.snowflakeVelocity.push(createVector(1, random(2)));
+        }
+        this.platformPosition = createVector(50, 700);
+        this.player1Position = createVector(200, 650);
+        this.player2Position = createVector(600, 650);
+        this.bounceTime = 0;
+    }
+    update() {
+        if (keyIsPressed) {
+            let nextPage = new PlayerInstruction();
+            game.changeActiveScreen(nextPage);
+        }
+        this.bounceTime += 0.07;
+        this.moveSnowflakes();
+    }
+    moveSnowflakes() {
+        for (const index in this.snowflakePositions) {
+            const pos = this.snowflakePositions[index];
+            const vel = this.snowflakeVelocity[index];
+            pos.y += vel.y;
+            pos.x += vel.x;
+            if (pos.y > height) {
+                pos.y = -40;
+                pos.x = random(width);
+            }
+        }
+    }
+    draw() {
+        this.drawSnowflakes();
+        this.drawTitle();
+        this.drawText();
+        this.drawCloud();
+        this.drawPlatform();
+        this.drawPlayer1();
+        this.drawPlayer2();
+    }
+    drawTitle() {
+        push();
+        fill("white");
+        textSize(140);
+        textAlign(CENTER, CENTER);
+        textFont(kavoonFont);
+        text("Tag or DIE!", this.titlePosition.x, this.titlePosition.y);
+        pop();
+    }
+    drawText() {
+        push();
+        const bounceOffset = sin(this.bounceTime) * 10;
+        fill("white");
+        textSize(40);
+        textAlign(CENTER, CENTER);
+        text("Press any key to continue", this.textPosition.x, this.textPosition.y + bounceOffset);
+        pop();
+    }
+    drawCloud() {
+        image(cloudImg, this.cloudPosition.x, this.cloudPosition.y, 550, 250);
+    }
+    drawSnowflakes() {
+        for (const pos of this.snowflakePositions) {
+            image(snowflakeImg, pos.x, pos.y, 40, 40);
+        }
+    }
+    drawPlatform() {
+        image(platformImg, this.platformPosition.x, this.platformPosition.y, 800, 50);
+    }
+    drawPlayer1() {
+        image(player1Img, this.player1Position.x, this.player1Position.y);
+    }
+    drawPlayer2() {
+        image(player2Img, this.player2Position.x, this.player2Position.y);
+    }
+}
+let startScene;
+let kavoonFont;
 class Teleport extends GameObject {
     constructor(position) {
         super(100, 100, "/assets/images/teleport.svg", false, position);
