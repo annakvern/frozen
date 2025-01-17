@@ -10,24 +10,32 @@
 // const frameY: number = 102.4;
 
 class LevelFactory {
-  size: p5.Vector;
-  gameObjects = [];
-  constructor(size: p5.Vector) {}
+  private level1: number[][] = [
+    [8, 0, 0, 0, 0, 0, 0, 0, 0, 9],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [3, 0, 0, 0, 0, 9, 6, 0, 3, 0],
+    [1, 0, 0, 4, 4, 4, 4, 0, 0, 0],
+    [4, 4, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 4, 4, 0, 0, 0, 0],
+    [0, 4, 4, 0, 0, 0, 4, 4, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 5, 0],
+  ];
+  private level2: number[][] = [
+    [8, 0, 0, 0, 0, 0, 0, 0, 0, 9],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [3, 0, 0, 0, 0, 9, 6, 0, 3, 0],
+    [1, 0, 0, 4, 4, 4, 4, 0, 0, 0],
+    [4, 4, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 4, 4, 0, 0, 0, 0],
+    [0, 4, 4, 0, 0, 0, 4, 4, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 5, 0],
+  ];
 
-  private getGameObjects() {
-    const level1: number[][] = [
-      [8, 0, 0, 0, 0, 0, 0, 0, 0, 9],
-      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-      [3, 0, 0, 0, 0, 9, 6, 0, 3, 0],
-      [1, 0, 0, 4, 4, 4, 4, 0, 0, 0],
-      [4, 4, 0, 0, 0, 0, 0, 0, 0, 0],
-      [0, 0, 0, 0, 4, 4, 0, 0, 0, 0],
-      [0, 4, 4, 0, 0, 0, 4, 4, 0, 0],
-      [0, 0, 0, 0, 0, 0, 0, 0, 5, 0],
-    ];
-    for (let y = 0; y <= level1.length; y++) {
-      for (let x = 0; x < level1[y].length; y++) {
-        let value = level1[y][x];
+  private getGameObjects(level: number) {
+    const gameObjects: GameObject[] = [];
+    for (let y = 0; y <= this.level1.length; y++) {
+      for (let x = 0; x < this.level1[y].length; y++) {
+        let value = this.level1[y][x];
         if (value === 1) {
           //gameObjects.push(new Player("yellow", x, y));
         }
