@@ -24,8 +24,8 @@ class StartScene implements Scene {
     this.player2Position = createVector(400, 550);
   }
   update(): void {
-    if (key) {
-      let nextPage = new ResultScene("Yellow");
+    if (keyIsPressed) {
+      let nextPage = new PlayerInstruction();
       game.changeActiveScreen(nextPage);
     }
   }

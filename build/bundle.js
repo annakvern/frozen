@@ -121,8 +121,8 @@ class StartScene {
         this.player2Position = createVector(400, 550);
     }
     update() {
-        if (key) {
-            let nextPage = new ResultScene("Yellow");
+        if (keyIsPressed) {
+            let nextPage = new PlayerInstruction();
             game.changeActiveScreen(nextPage);
         }
     }
@@ -216,6 +216,8 @@ function preload() {
     playerInstruction1img = loadImage("assets/images/yellowPlayerLeft.svg");
     playerInstruction2img = loadImage("assets/images/greenPlayerRight.svg");
     soundOnimg = loadImage("assets/images/soundOn.svg");
+    podiumYellowImg = loadImage("assets/images/podiumYellowWinner.svg");
+    podiumGreenImg = loadImage("assets/images/podiumGreenWinner.svg");
 }
 function draw() {
     background(backgroundImgL1);
@@ -236,8 +238,10 @@ class GameBoard {
         for (const obj of this.gameObjects) {
             obj.update();
         }
-        let nextPage = new ResultScene();
-        game.changeActiveScreen(nextPage);
+        if (keyIsPressed) {
+            let nextPage = new ResultScene("Yellow");
+            game.changeActiveScreen(nextPage);
+        }
     }
     checkCollisions() { }
     bouncePlayers() { }
@@ -384,7 +388,7 @@ class PlayerInstruction {
         this.playSoundPosition = createVector(windowWidth * 0.93, windowHeight * 0.86);
     }
     update() {
-        if (key) {
+        if (keyIsPressed) {
             const factory = new LevelFactory();
             const gameBoard = factory.createGameBoard(1);
             game.changeActiveScreen(gameBoard);

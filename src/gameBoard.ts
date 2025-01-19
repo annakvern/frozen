@@ -15,8 +15,10 @@ class GameBoard implements Scene {
     for (const obj of this.gameObjects) {
       obj.update();
     }
-    let nextPage = new ResultScene();
-    game.changeActiveScreen(nextPage);
+    if (keyIsPressed) {
+      let nextPage = new ResultScene("Yellow");
+      game.changeActiveScreen(nextPage);
+    }
   }
 
   private checkCollisions() {}

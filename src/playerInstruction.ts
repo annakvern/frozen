@@ -27,7 +27,7 @@ class PlayerInstruction implements Scene {
   }
 
   public update(): void {
-    if (key) {
+    if (keyIsPressed) {
       const factory = new LevelFactory();
       const gameBoard = factory.createGameBoard(1);
       game.changeActiveScreen(gameBoard);
