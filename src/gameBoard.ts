@@ -1,20 +1,27 @@
+let backgroundImgL1: p5.Image;
+
 class GameBoard implements Scene {
-  private gameObjects: GameObjects[];
+  public gameObjects: GameObject[];
 
-  constructor() {}
-
-  public draw() {}
-
-  public update() {}
-
-  private checkCollisions() {
-    for (const gameObject of this.gameObjects) {
-      if (gameObject instanceof Snowman) {
-        // inte kolla kollision
-        continue;
-      }
+  constructor(gameObjects: GameObject[]) {
+    this.gameObjects = gameObjects;
+  }
+  draw(): void {
+    for (const obj of this.gameObjects) {
+      obj.draw();
     }
   }
+  update(): void {
+    for (const obj of this.gameObjects) {
+      obj.update();
+    }
+    if (keyIsPressed) {
+      let nextPage = new ResultScene("Yellow");
+      game.changeActiveScreen(nextPage);
+    }
+  }
+
+  private checkCollisions() {}
 
   private bouncePlayers() {}
 
