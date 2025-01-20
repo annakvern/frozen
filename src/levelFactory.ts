@@ -23,7 +23,7 @@ class LevelFactory {
         [3, 0, 0, 0, 0, 9, 6, 0, 3, 0],
         [1, 0, 0, 4, 4, 4, 4, 0, 0, 0],
         [4, 4, 0, 0, 0, 0, 0, 0, 0, 0],
-        [0, 0, 0, 0, 4, 4, 0, 0, 0, 0],
+        [0, 0, 0, 0, 4, 4, 0, 2, 0, 0],
         [0, 4, 4, 0, 0, 0, 4, 4, 0, 0],
         [0, 0, 0, 0, 0, 0, 0, 0, 5, 0],
       ];
@@ -33,10 +33,10 @@ class LevelFactory {
           const position = createVector(x * squareSizeX, y * squareSizeY);
 
           if (value === 1) {
-            gameObjects.push(new Player("yellow", position, true));
+            gameObjects.push(new Player("yellow", position, true, 0, 0));
             console.log(`Added object at ${position.x}, ${position.y}`);
           } else if (value === 2) {
-            gameObjects.push(new Player("green", position, false));
+            gameObjects.push(new Player("green", position, false, 0, 0));
             console.log(`Added object at ${position.x}, ${position.y}`);
           } else if (value === 3) {
             gameObjects.push(new Teleport(position));

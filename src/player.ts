@@ -10,7 +10,13 @@ class Player extends GameObject {
   // timeSinceTeleport: number;
   // timer: number; //Står att den ska vara timer i diagrammet?
 
-  constructor(color: string, position: p5.Vector, isChasing: boolean) {
+  constructor(
+    color: string,
+    position: p5.Vector,
+    isChasing: boolean,
+    speedX: number,
+    SpeedY: number
+  ) {
     if (color === "yellow") {
       super(position, 70, 70, playerYellow, false);
     } else {
@@ -18,7 +24,7 @@ class Player extends GameObject {
     }
 
     this.color = color;
-    this.speed = createVector(0, 0);
+    this.speed = createVector(speedX, SpeedY);
     this.isOnIce = false;
     this.isChasing = isChasing;
 
@@ -36,21 +42,35 @@ class Player extends GameObject {
 
   public toggleIsChasing() {}
 
-  public playerControls() {}
+  public playerControls() {
+    if (this.color === "yellow") {
+      if (keyIsDown(LEFT_ARROW)) {
+        this.speed.x = -10;
+      } else if (keyIsDown(RIGHT_ARROW)) {
+        this.speed.x = 10;
+      } else {
+        this.speed.x = 0;
+      }
+    } else if (this.color === "green") {
+      if (keyIsDown(65)) {
+        // A-tangenten (vänster)
+        this.speed.x = -10;
+      } else if (keyIsDown(68)) {
+        // D-tangenten (höger)
+        this.speed.x = 10;
+      } else {
+        this.speed.x = 0; //Spelaren stannar för tillfället helt när anvndaren släpper tangenten
+      }
+    }
+  }
 
   public draw() {
     image(this.img, this.position.x, this.position.y, 70, 70);
   }
 
-  public update() {}
-  // super.update();
-
-  //   if(keyIsDown(LEFT_ARROW)){
-  //     this.velocity.x = -5;
-  //   }else if(keyIsDown(RIGHT_ARROW)){
-  //     this.velocity.x = 5;
-  //   } else {
-  //     this.velocity.x = 0;
-  //   }
-  // }
+  public update() {
+    this.playerControls();
+    this.position.x += this.speed.x;
+    this.position.y += this.speed.y;
+  }
 }
