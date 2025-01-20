@@ -3,14 +3,16 @@ const squareSizeX = 144;
 const squareSizeY = 128;
 
 class LevelFactory {
-  constructor() {
+  private game: Game;
+  constructor(game: Game) {
+    this.game = game;
     // this.getGameObjects(level, gameObjects);
   }
 
-  createGameBoard(level: number): GameBoard {
+  createGameBoard(game: Game, level: number): GameBoard {
     const gameObjects: GameObject[] = [];
     this.getGameObjects(level, gameObjects);
-    return new GameBoard(gameObjects);
+    return new GameBoard(gameObjects, this.game);
   }
 
   private getGameObjects(level: number, gameObjects: GameObject[]) {

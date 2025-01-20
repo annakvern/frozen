@@ -2,8 +2,8 @@
 let podiumYellowImg;
 let podiumGreenImg;
 class ResultScene {
-    constructor(winner) {
-        this.changedScene = false;
+    constructor(game, winner) {
+        this.game = game;
         this.winner = winner;
         this.titlePosition = createVector(width * 0.5, height * 0.4);
         this.textPosition = createVector(width * 0.5, height * 0.55);
@@ -28,6 +28,11 @@ class ResultScene {
         if (this.textBounceY > this.textPosition.y + this.textBounceRange ||
             this.textBounceY < this.textPosition.y - this.textBounceRange) {
             this.textBounceSpeed *= -1;
+        }
+        if (keyIsDown(32) && !changedScene) {
+            changedScene = true;
+            let nextPage = new StartScene(this.game);
+            this.game.changeActiveScreen(nextPage);
         }
     }
     draw() {
@@ -102,7 +107,7 @@ class ResultScene {
             mouseY < this.quitButtonPosition.y + buttonHeight / 2);
     }
     quitGame() {
-        game.changeActiveScreen(new PlayerInstruction());
+        game.changeActiveScreen(new PlayerInstruction(this.game));
     }
 }
 let resultScene;
@@ -112,8 +117,8 @@ let platformImg;
 let player1Img;
 let player2Img;
 class StartScene {
-    constructor() {
-        this.changedScene = false;
+    constructor(game) {
+        this.game = game;
         this.titlePosition = createVector(800, 600);
         this.textPosition = createVector(400, 150);
         this.cloudPosition = createVector(200, 100);
@@ -123,13 +128,10 @@ class StartScene {
         this.player2Position = createVector(400, 550);
     }
     update() {
-        if (keyIsDown(32) && !this.changedScene) {
-            this.changedScene = true;
-            let nextPage = new PlayerInstruction();
-            game.changeActiveScreen(nextPage);
-        }
-        if (!keyIsPressed) {
-            this.changedScene = false;
+        if (keyIsDown(32) && !changedScene) {
+            changedScene = true;
+            let nextPage = new PlayerInstruction(this.game);
+            this.game.changeActiveScreen(nextPage);
         }
     }
     draw() {
@@ -196,11 +198,12 @@ class Game {
 }
 let backgroundImgL1;
 class GameBoard {
-    constructor(gameObjects) {
-        this.changedScene = false;
+    constructor(gameObjects, game) {
+        this.game = game;
         this.gameObjects = gameObjects;
     }
     draw() {
+        background(backgroundImgL1);
         for (const obj of this.gameObjects) {
             obj.draw();
         }
@@ -209,13 +212,10 @@ class GameBoard {
         for (const obj of this.gameObjects) {
             obj.update();
         }
-        if (keyIsDown(32) && !this.changedScene) {
-            this.changedScene = true;
-            let nextPage = new ResultScene("Yellow");
-            game.changeActiveScreen(nextPage);
-        }
-        if (!keyIsPressed) {
-            this.changedScene = false;
+        if (keyIsDown(32) && !changedScene) {
+            changedScene = true;
+            let nextPage = new ResultScene(this.game, "Yellow");
+            this.game.changeActiveScreen(nextPage);
         }
     }
     checkCollisions() { }
@@ -252,12 +252,13 @@ let level;
 const squareSizeX = 144;
 const squareSizeY = 128;
 class LevelFactory {
-    constructor() {
+    constructor(game) {
+        this.game = game;
     }
-    createGameBoard(level) {
+    createGameBoard(game, level) {
         const gameObjects = [];
         this.getGameObjects(level, gameObjects);
-        return new GameBoard(gameObjects);
+        return new GameBoard(gameObjects, this.game);
     }
     getGameObjects(level, gameObjects) {
         if (level === 1) {
@@ -312,11 +313,14 @@ class LevelFactory {
     update() { }
 }
 let game;
+let changedScene = false;
 function setup() {
     createCanvas(1440, 1024);
     frameRate(60);
-    startScene = new StartScene();
+    let startScene = new StartScene(null);
     game = new Game(startScene);
+    startScene = new StartScene(game);
+    game.changeActiveScreen(startScene);
     textFont(kavoonFont);
 }
 function preload() {
@@ -347,6 +351,9 @@ function preload() {
 function draw() {
     game.update();
     game.draw();
+}
+function keyReleased() {
+    changedScene = false;
 }
 let platform;
 class Platform extends GameObject {
@@ -390,8 +397,8 @@ let playerKeysYellow;
 let playerKeysGreen;
 let soundOnimg;
 class PlayerInstruction {
-    constructor() {
-        this.changedScene = false;
+    constructor(game) {
+        this.game = game;
         this.titlePosition = createVector(width / 2, 100);
         this.textPosition = createVector(width / 2, 200);
         this.player1Position = createVector(980, 300);
@@ -401,14 +408,11 @@ class PlayerInstruction {
         this.playSoundPosition = createVector(windowWidth * 0.93, windowHeight * 0.86);
     }
     update() {
-        if (keyIsDown(32) && !this.changedScene) {
-            this.changedScene = true;
-            const factory = new LevelFactory();
-            const gameBoard = factory.createGameBoard(1);
-            game.changeActiveScreen(gameBoard);
-        }
-        if (!keyIsPressed) {
-            this.changedScene = false;
+        if (keyIsDown(32) && !changedScene) {
+            changedScene = true;
+            const factory = new LevelFactory(this.game);
+            const gameBoard = factory.createGameBoard(this.game, 1);
+            this.game.changeActiveScreen(gameBoard);
         }
     }
     draw() {

@@ -6,6 +6,7 @@ let podiumGreenImg: p5.Image;
 
 //// DECLARE POSITIONS AND SIZE FOR THE ELEMENTS ON THE SCREEN.
 class ResultScene implements Scene {
+  private game: Game;
   private titlePosition: p5.Vector;
   private textPosition: p5.Vector;
   private cloudPosition: p5.Vector;
@@ -16,11 +17,10 @@ class ResultScene implements Scene {
   private textBounceY: number;
   private textBounceSpeed: number;
   private textBounceRange: number;
-  changedScene: boolean;
 
   //// SET POSITIONS FOR ALL ELEMENTS BASED ON SCREEN SIZE.
-  constructor(winner: string) {
-    this.changedScene = false;
+  constructor(game: Game, winner: string) {
+    this.game = game;
     this.winner = winner;
     this.titlePosition = createVector(width * 0.5, height * 0.4);
     this.textPosition = createVector(width * 0.5, height * 0.55);
@@ -49,6 +49,12 @@ class ResultScene implements Scene {
       this.textBounceY < this.textPosition.y - this.textBounceRange
     ) {
       this.textBounceSpeed *= -1;
+    }
+
+    if (keyIsDown(32) && !changedScene) {
+      changedScene = true; // that we changed the screen
+      let nextPage = new StartScene(this.game);
+      this.game.changeActiveScreen(nextPage);
     }
   }
 
@@ -167,7 +173,7 @@ class ResultScene implements Scene {
   }
 
   private quitGame() {
-    game.changeActiveScreen(new PlayerInstruction());
+    game.changeActiveScreen(new PlayerInstruction(this.game));
   }
 }
 

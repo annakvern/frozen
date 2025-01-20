@@ -6,6 +6,7 @@ let player1Img: p5.Image;
 let player2Img: p5.Image;
 
 class StartScene implements Scene {
+  private game: Game; // storing the reference to the game
   private titlePosition: p5.Vector;
   private textPosition: p5.Vector;
   private cloudPosition: p5.Vector;
@@ -13,9 +14,9 @@ class StartScene implements Scene {
   private platformPosition: p5.Vector;
   private player1Position: p5.Vector;
   private player2Position: p5.Vector;
-  private changedScene: boolean = false;
 
-  constructor() {
+  constructor(game: Game) {
+    this.game = game; // assigning game reference
     this.titlePosition = createVector(800, 600); // Titelns position
     this.textPosition = createVector(400, 150); // Textens position
     this.cloudPosition = createVector(200, 100); // Molnets position
@@ -25,15 +26,11 @@ class StartScene implements Scene {
     this.player2Position = createVector(400, 550);
   }
   update(): void {
-    if (keyIsDown(32) && !this.changedScene) {
+    if (keyIsDown(32) && !changedScene) {
       // if the space key is down and changedScene is still false
-      this.changedScene = true; // set changedScene state to true
-      let nextPage = new PlayerInstruction();
-      game.changeActiveScreen(nextPage);
-    }
-
-    if (!keyIsPressed) {
-      this.changedScene = false; // reset state when the space key is released
+      changedScene = true; // set changedScene state to true
+      let nextPage = new PlayerInstruction(this.game);
+      this.game.changeActiveScreen(nextPage);
     }
   }
 
