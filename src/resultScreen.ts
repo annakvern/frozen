@@ -49,7 +49,6 @@ class ResultScene implements Scene {
       this.game.changeActiveScreen(nextPage);
     }
     this.textBounce();
-    
   }
 
   //// DRAW ALL ELEMENTS ON THE SCREEN.
@@ -62,7 +61,6 @@ class ResultScene implements Scene {
     this.drawPodium();
     this.drawQuitButton();
   }
-  
 
   //// FUNCTION TO DRAW THE TITLE ON THE SCREEN.
   private drawTitle() {
@@ -99,13 +97,14 @@ class ResultScene implements Scene {
 
     fill("white");
     textSize(txtSize);
-    text("Press any key to play again", this.textPosition.x, this.textBounceY);
+    text("Press space to play again", this.textPosition.x, this.textBounceY);
     pop();
   }
 
   private textBounce() {
-  this.textBounceY += this.textBounceSpeed;
-    if (this.textBounceY > this.textPosition.y + this.textBounceRange ||
+    this.textBounceY += this.textBounceSpeed;
+    if (
+      this.textBounceY > this.textPosition.y + this.textBounceRange ||
       this.textBounceY < this.textPosition.y - this.textBounceRange
     ) {
       this.textBounceSpeed *= -1;
@@ -180,7 +179,6 @@ class ResultScene implements Scene {
     game.changeActiveScreen(new StartScene(this.game));
   }
 }
-
 
 //// CREATE A RESULTSCENE OBJECT.
 let resultScene: ResultScene;
