@@ -142,7 +142,7 @@ class StartScene {
         fill("white");
         textSize(40);
         textAlign(CENTER, CENTER);
-        text("Press any key to continue", this.textPosition.x, this.textPosition.y + bounceOffset);
+        text("Press space to continue", this.textPosition.x, this.textPosition.y + bounceOffset);
         pop();
     }
     drawCloud() {
@@ -186,14 +186,24 @@ class GameBoard {
     constructor(gameObjects, game) {
         this.game = game;
         this.gameObjects = gameObjects;
+        this.yellowTimer = new Timer("yellow", positionYellowTimerX, positionTimerY, 60);
+        this.greenTimer = new Timer("green", positionGreenTimerX, positionTimerY, 60);
+        this.lastUpdateTime = millis();
     }
     draw() {
         background(backgroundImgL1);
+        this.yellowTimer.draw();
+        this.greenTimer.draw();
         for (const obj of this.gameObjects) {
             obj.draw();
         }
     }
     update() {
+        const currentTime = millis();
+        const deltaTime = (currentTime - this.lastUpdateTime) / 1000;
+        this.lastUpdateTime = currentTime;
+        this.yellowTimer.update(deltaTime);
+        this.greenTimer.update(deltaTime);
         for (const obj of this.gameObjects) {
             obj.update();
         }
@@ -284,10 +294,6 @@ class LevelFactory {
                     else if (value === 6) {
                         gameObjects.push(new Snowman(position));
                         console.log(`Added object at ${position.x}, ${position.y}`);
-                    }
-                    else if (value === 8) {
-                    }
-                    else if (value === 9) {
                     }
                 }
             }
@@ -469,7 +475,7 @@ class ResultScene {
         drawingContext.shadowColor = "rgba(0, 0, 0, 0.5)";
         fill("white");
         textSize(txtSize);
-        text("Press any key to play again", this.textPosition.x, this.textBounceY);
+        text("Press space to play again", this.textPosition.x, this.textBounceY);
         pop();
     }
     textBounce() {
@@ -538,28 +544,39 @@ class Teleport extends GameObject {
     }
     update() { }
 }
-const positionGreenTimerX = 800;
+const positionGreenTimerX = 1390;
 const positionTimerY = 50;
-const positionYellowTimerX = 25;
+const positionYellowTimerX = 50;
+let timeLimit = 60;
 class Timer {
-    constructor(color) {
+    constructor(color, xPos, yPos, timeLimit) {
         this.color = color;
-        if (color === "yellow") {
-            let xPos = positionYellowTimerX;
-            let yPos = positionTimerY;
-            this.drawText("yellow", xPos, yPos);
-        }
-        else {
-            let xPos = positionGreenTimerX;
-            let yPos = positionTimerY;
-            this.drawText("green", xPos, yPos);
+        this.xPos = xPos;
+        this.yPos = yPos;
+        this.timeRemaining = timeLimit;
+    }
+    update(deltaTime) {
+        this.timeRemaining -= deltaTime;
+        if (this.timeRemaining < 0) {
+            this.timeRemaining = 0;
         }
     }
-    drawText(color, xPos, yPos) {
-        fill(color);
-        textSize(20);
+    draw() {
+        if (this.color === "yellow") {
+            fill(255, 213, 118);
+        }
+        else if (this.color === "green") {
+            fill(58, 168, 167);
+        }
+        textSize(50);
         textAlign(CENTER, CENTER);
-        text("60", xPos, yPos);
+        if (this.timeRemaining > 0) {
+            text(int(this.timeRemaining).toString(), this.xPos, this.yPos);
+        }
+        else {
+            fill("red");
+            text("GAME\nOVER", width / 2 - 50, height / 2);
+        }
     }
 }
 let trampoline;
