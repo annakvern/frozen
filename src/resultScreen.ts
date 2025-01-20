@@ -1,8 +1,12 @@
+//// ATT GÖRA; FÄRDIGSTÄLL UPDATE()
+
+//// DECLARE IMAGES TO BE USED IN THE SCENE.
 let podiumYellowImg: p5.Image;
 let podiumGreenImg: p5.Image;
 
 //// DECLARE POSITIONS AND SIZE FOR THE ELEMENTS ON THE SCREEN.
 class ResultScene implements Scene {
+  private game: Game;
   private titlePosition: p5.Vector;
   private textPosition: p5.Vector;
   private cloudPosition: p5.Vector;
@@ -15,19 +19,19 @@ class ResultScene implements Scene {
   private textBounceRange: number;
 
   //// SET POSITIONS FOR ALL ELEMENTS BASED ON SCREEN SIZE.
-  constructor(winner: string) {
-    this.winner = winner; 
-    this.titlePosition = createVector(width * 0.5, height * 0.4); 
-    this.textPosition = createVector(width * 0.5, height * 0.55 ); 
-    this.cloudPosition = createVector(width * 0.26, height * 0.13); 
-    this.snowflakePositions = 
-    [
+  constructor(game: Game, winner: string) {
+    this.game = game;
+    this.winner = winner;
+    this.titlePosition = createVector(width * 0.5, height * 0.4);
+    this.textPosition = createVector(width * 0.5, height * 0.55);
+    this.cloudPosition = createVector(width * 0.26, height * 0.13);
+    this.snowflakePositions = [
       { position: createVector(width * 0.73, height * 0.23), size: 200 },
-      { position: createVector(width * 0.65, height * 0.10), size: 150 },
+      { position: createVector(width * 0.65, height * 0.1), size: 150 },
       { position: createVector(width * 0.83, height * 0.15), size: 150 },
       { position: createVector(width * 0.77, height * 0.55), size: 175 },
     ];
-    this.podiumPosition = createVector(width * 0.43, height * 0.83);
+    this.podiumPosition = createVector(width * 0.35, height * 0.8);
     this.quitButtonPosition = createVector(width * 0.03, height * 0.95);
     this.textBounceY = this.textPosition.y;
     this.textBounceSpeed = 0.25;
@@ -35,23 +39,33 @@ class ResultScene implements Scene {
   }
 
   update() {
-    if (keyIsPressed) {
-      game.changeActiveScreen(new PlayerInstruction);
-    }
-
     if (mouseIsPressed && this.checkQuitButtonClick()) {
       this.quitGame(); // CHANGE SCENE ON CLICK.
     }
 
+    this.textBounceY += this.textBounceSpeed;
+    if (
+      this.textBounceY > this.textPosition.y + this.textBounceRange ||
+      this.textBounceY < this.textPosition.y - this.textBounceRange
+    ) {
+      this.textBounceSpeed *= -1;
+    }
+
+    if (keyIsDown(32) && !changedScene) {
+      changedScene = true; // that we changed the screen
+      let nextPage = new StartScene(this.game);
+      this.game.changeActiveScreen(nextPage);
+    }
     this.textBounce();
     
   }
 
   //// DRAW ALL ELEMENTS ON THE SCREEN.
   draw() {
+    background(164, 211, 247);
     this.drawTitle();
-    this.drawText(); 
-    this.drawCloud();      
+    this.drawText();
+    this.drawCloud();
     this.drawSnowflakes();
     this.drawPodium();
     this.drawQuitButton();
@@ -61,14 +75,15 @@ class ResultScene implements Scene {
   private drawTitle() {
     push();
     const titleSize = width * 0.07;
-    const titleColor = this.winner === "Yellow" ? "rgb(255, 213, 118)" : "rgb(58, 168, 167)";
+    const titleColor =
+      this.winner === "Yellow" ? "rgb(255, 213, 118)" : "rgb(58, 168, 167)";
     const titleText = this.winner === "Yellow" ? "Yellow wins!" : "Green wins!";
-    
+
     // SHADOW SETTINGS.
-    drawingContext.shadowOffsetX = 2; 
-    drawingContext.shadowOffsetY = 2; 
-    drawingContext.shadowBlur = 5;   
-    drawingContext.shadowColor = "rgba(0, 0, 0, 0.5)"; 
+    drawingContext.shadowOffsetX = 2;
+    drawingContext.shadowOffsetY = 2;
+    drawingContext.shadowBlur = 5;
+    drawingContext.shadowColor = "rgba(0, 0, 0, 0.5)";
 
     fill(titleColor);
     textAlign(CENTER, CENTER);
@@ -83,12 +98,12 @@ class ResultScene implements Scene {
     push();
     const txtSize = width * 0.015;
 
-     // SHADOW SETTINGS.
-     drawingContext.shadowOffsetX = 2; 
-     drawingContext.shadowOffsetY = 2; 
-     drawingContext.shadowBlur = 5;   
-     drawingContext.shadowColor = "rgba(0, 0, 0, 0.5)"; 
-   
+    // SHADOW SETTINGS.
+    drawingContext.shadowOffsetX = 2;
+    drawingContext.shadowOffsetY = 2;
+    drawingContext.shadowBlur = 5;
+    drawingContext.shadowColor = "rgba(0, 0, 0, 0.5)";
+
     fill("white");
     textSize(txtSize);
     text("Press any key to play again", this.textPosition.x, this.textBounceY);
@@ -109,34 +124,42 @@ class ResultScene implements Scene {
     image(cloudImg, this.cloudPosition.x, this.cloudPosition.y);
   }
 
-    // FUNCTION TO DRAW THE SNOWFLAKES ON THE SCREEN.
-    // LOOP THROUGH ALL SNOWFLAKES AND DRAW THEM AT THEIR RESPECTIVE POSITIONS.
+  // FUNCTION TO DRAW THE SNOWFLAKES ON THE SCREEN.
+  // LOOP THROUGH ALL SNOWFLAKES AND DRAW THEM AT THEIR RESPECTIVE POSITIONS.
   private drawSnowflakes() {
     for (let snowflake of this.snowflakePositions) {
-      image(snowflakeImg, snowflake.position.x, snowflake.position.y, snowflake.size, snowflake.size);
+      image(
+        snowflakeImg,
+        snowflake.position.x,
+        snowflake.position.y,
+        snowflake.size,
+        snowflake.size
+      );
     }
   }
 
   //// FUNCTION TO DRAW THE WINNER'S PODIUM ON THE SCREEN.
-  private drawPodium() {  /// ("yellow").
-    const podiumWidth = width * 0.15;
-    const podiumHeight = height * 0.17; 
+  private drawPodium() {
+    /// ("yellow").
+    const podiumWidth = width * 0.23;
+    const podiumHeight = height * 0.2;
 
     if (this.winner === "Yellow") {
-    image(
-      podiumYellowImg, 
-      this.podiumPosition.x, 
-      this.podiumPosition.y, 
-      podiumWidth, 
-      podiumHeight
-    );       
-   } else if (this.winner === "Green") {
-      image(podiumGreenImg,
-      this.podiumPosition.x,
-      this.podiumPosition.y,
-      podiumWidth,
-      podiumHeight
-    );
+      image(
+        podiumYellowImg,
+        this.podiumPosition.x,
+        this.podiumPosition.y,
+        podiumWidth,
+        podiumHeight
+      );
+    } else if (this.winner === "Green") {
+      image(
+        podiumGreenImg,
+        this.podiumPosition.x,
+        this.podiumPosition.y,
+        podiumWidth,
+        podiumHeight
+      );
     }
   }
 
@@ -151,6 +174,8 @@ class ResultScene implements Scene {
 
   private checkQuitButtonClick() {
     const buttonWidth = width * 0.05; 
+  private checkQuitButtonClick(): boolean {
+    const buttonWidth = width * 0.05;
     const buttonHeight = height * 0.035;
     return (
       mouseX > this.quitButtonPosition.x - buttonWidth / 2 &&
@@ -161,12 +186,9 @@ class ResultScene implements Scene {
   }
 
   private quitGame() {
-    game.changeActiveScreen(new StartScene); 
+    game.changeActiveScreen(new StartScene(this.game));
   }
-
 }
 
 //// CREATE A RESULTSCENE OBJECT.
 let resultScene: ResultScene;
-
-

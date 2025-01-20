@@ -5,6 +5,7 @@ let playerKeysGreen: p5.Image;
 let soundOnimg: p5.Image;
 
 class PlayerInstruction implements Scene {
+  private game: Game;
   private titlePosition: p5.Vector;
   private textPosition: p5.Vector;
   private player1Position: p5.Vector;
@@ -13,7 +14,8 @@ class PlayerInstruction implements Scene {
   private playerKeysGreenPosition: p5.Vector;
   private playSoundPosition: p5.Vector;
 
-  constructor() {
+  constructor(game: Game) {
+    this.game = game;
     this.titlePosition = createVector(width / 2, 100);
     this.textPosition = createVector(width / 2, 200);
     this.player1Position = createVector(980, 300);
@@ -27,14 +29,16 @@ class PlayerInstruction implements Scene {
   }
 
   public update(): void {
-    if (key) {
-      const factory = new LevelFactory();
-      const gameBoard = factory.createGameBoard(1);
-      game.changeActiveScreen(gameBoard);
+    if (keyIsDown(32) && !changedScene) {
+      changedScene = true;
+      const factory = new LevelFactory(this.game);
+      const gameBoard = factory.createGameBoard(this.game, 1);
+      this.game.changeActiveScreen(gameBoard);
     }
   }
 
   public draw(): void {
+    background(164, 210, 247);
     this.drawTitle();
     this.drawText();
     this.drawPlayer1();
