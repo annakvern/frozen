@@ -401,6 +401,7 @@ class ResultScene {
         if (mouseIsPressed && this.checkQuitButtonClick()) {
             this.quitGame();
         }
+
         if (keyIsDown(32) && !changedScene) {
             changedScene = true;
             let nextPage = new StartScene(this.game);
@@ -445,6 +446,7 @@ class ResultScene {
         text("Press any key to play again", this.textPosition.x, this.textBounceY);
         pop();
     }
+
     textBounce() {
         this.textBounceY += this.textBounceSpeed;
         if (this.textBounceY > this.textPosition.y + this.textBounceRange ||
@@ -478,6 +480,7 @@ class ResultScene {
         text("Quit", this.quitButtonPosition.x, this.quitButtonPosition.y);
         pop();
     }
+
     checkQuitButtonClick() {
         const buttonWidth = width * 0.05;
         const buttonHeight = height * 0.035;
@@ -487,7 +490,9 @@ class ResultScene {
             mouseY < this.quitButtonPosition.y + buttonHeight / 2);
     }
     quitGame() {
+
         game.changeActiveScreen(new StartScene(this.game));
+
     }
 }
 let resultScene;

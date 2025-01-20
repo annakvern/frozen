@@ -16,7 +16,7 @@ class StartScene implements Scene {
   private player1Position: p5.Vector;
   private player2Position: p5.Vector;
   private bounceTime: number;
- 
+
   constructor(game: Game) {
     this.game = game;
     this.titlePosition = createVector(windowWidth * 0.5, windowHeight * 0.5); // Titelns position
@@ -30,18 +30,18 @@ class StartScene implements Scene {
       // Lägg till 50 snöflingor
       this.snowflakePositions.push(createVector(random(width), random(height)));
     } // Lista för snöflingornas positioner
- 
+
     this.snowflakeVelocity = [];
     for (let i = 0; i < 50; i++) {
       this.snowflakeVelocity.push(createVector(1, random(2)));
     }
- 
+
     this.platformPosition = createVector(50, 700); // Plattformens position
     this.player1Position = createVector(200, 650);
     this.player2Position = createVector(600, 650);
     this.bounceTime = 0;
   }
- 
+
   update(): void {
     if (keyIsDown(32) && !changedScene) {
       // if the space key is down and changedScene is still false
@@ -49,18 +49,20 @@ class StartScene implements Scene {
       let nextPage = new PlayerInstruction(this.game);
       this.game.changeActiveScreen(nextPage);
     }
+
  
     this.bounceTime += 0.07;
     this.moveSnowflakes();
   }
  
+
   private moveSnowflakes() {
     for (const index in this.snowflakePositions) {
       const pos = this.snowflakePositions[index];
       const vel = this.snowflakeVelocity[index];
       pos.y += vel.y; // Fallande rörelse
       pos.x += vel.x; // Fallande rörelse
- 
+
       if (pos.y > height) {
         pos.y = -40;
         pos.x = random(width);
@@ -72,13 +74,13 @@ class StartScene implements Scene {
     background(164, 210, 248);
     // Kallar på draw funktionerna
     this.drawSnowflakes();
- 
+
     this.drawTitle();
  
     this.drawText();
  
     this.drawCloud();
- 
+
     this.drawPlatform();
  
     this.drawPlayer1();
