@@ -43,14 +43,6 @@ class ResultScene implements Scene {
       this.quitGame(); // CHANGE SCENE ON CLICK.
     }
 
-    this.textBounceY += this.textBounceSpeed;
-    if (
-      this.textBounceY > this.textPosition.y + this.textBounceRange ||
-      this.textBounceY < this.textPosition.y - this.textBounceRange
-    ) {
-      this.textBounceSpeed *= -1;
-    }
-
     if (keyIsDown(32) && !changedScene) {
       changedScene = true; // that we changed the screen
       let nextPage = new StartScene(this.game);
@@ -70,6 +62,7 @@ class ResultScene implements Scene {
     this.drawPodium();
     this.drawQuitButton();
   }
+  
 
   //// FUNCTION TO DRAW THE TITLE ON THE SCREEN.
   private drawTitle() {
@@ -173,8 +166,6 @@ class ResultScene implements Scene {
   }
 
   private checkQuitButtonClick() {
-    const buttonWidth = width * 0.05; 
-  private checkQuitButtonClick(): boolean {
     const buttonWidth = width * 0.05;
     const buttonHeight = height * 0.035;
     return (
@@ -189,6 +180,7 @@ class ResultScene implements Scene {
     game.changeActiveScreen(new StartScene(this.game));
   }
 }
+
 
 //// CREATE A RESULTSCENE OBJECT.
 let resultScene: ResultScene;

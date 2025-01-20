@@ -24,16 +24,12 @@ class ResultScene {
         if (mouseIsPressed && this.checkQuitButtonClick()) {
             this.quitGame();
         }
-        this.textBounceY += this.textBounceSpeed;
-        if (this.textBounceY > this.textPosition.y + this.textBounceRange ||
-            this.textBounceY < this.textPosition.y - this.textBounceRange) {
-            this.textBounceSpeed *= -1;
-        }
         if (keyIsDown(32) && !changedScene) {
             changedScene = true;
             let nextPage = new StartScene(this.game);
             this.game.changeActiveScreen(nextPage);
         }
+        this.textBounce();
     }
     draw() {
         background(164, 211, 247);
@@ -124,8 +120,7 @@ let platformImg;
 let player1Img;
 let player2Img;
 class StartScene {
-    constructor(game) {
-        this.game = game;
+    constructor() {
         this.titlePosition = createVector(800, 600);
         this.textPosition = createVector(400, 150);
         this.cloudPosition = createVector(200, 100);
@@ -135,14 +130,12 @@ class StartScene {
         this.player2Position = createVector(400, 550);
     }
     update() {
-        if (keyIsDown(32) && !changedScene) {
-            changedScene = true;
-            let nextPage = new PlayerInstruction(this.game);
-            this.game.changeActiveScreen(nextPage);
+        if (key) {
+            let nextPage = new ResultScene("Yellow");
+            game.changeActiveScreen(nextPage);
         }
     }
     draw() {
-        background(164, 210, 248);
         this.drawTitle();
         this.drawText();
         this.drawCloud();
