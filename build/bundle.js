@@ -312,7 +312,7 @@ function preload() {
     music = {
         mystery: loadSound("/assets/music/mystery.mp3"),
     };
-    cloudImg = loadImage("assets/images/cloud.svg");
+    cloudImg = loadImage("assets/images/cloudNew.svg");
     snowflakeImg = loadImage("assets/images/snowflake.svg");
     platformImg = loadImage("assets/images/platformStart.svg");
     kavoonFont = loadFont("assets/Font(s)/Kavoon-Regular.ttf");
