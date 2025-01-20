@@ -401,16 +401,13 @@ class ResultScene {
         if (mouseIsPressed && this.checkQuitButtonClick()) {
             this.quitGame();
         }
-        this.textBounceY += this.textBounceSpeed;
-        if (this.textBounceY > this.textPosition.y + this.textBounceRange ||
-            this.textBounceY < this.textPosition.y - this.textBounceRange) {
-            this.textBounceSpeed *= -1;
-        }
+
         if (keyIsDown(32) && !changedScene) {
             changedScene = true;
             let nextPage = new StartScene(this.game);
             this.game.changeActiveScreen(nextPage);
         }
+        this.textBounce();
     }
     draw() {
         background(164, 211, 247);
@@ -449,6 +446,14 @@ class ResultScene {
         text("Press any key to play again", this.textPosition.x, this.textBounceY);
         pop();
     }
+
+    textBounce() {
+        this.textBounceY += this.textBounceSpeed;
+        if (this.textBounceY > this.textPosition.y + this.textBounceRange ||
+            this.textBounceY < this.textPosition.y - this.textBounceRange) {
+            this.textBounceSpeed *= -1;
+        }
+    }
     drawCloud() {
         image(cloudImg, this.cloudPosition.x, this.cloudPosition.y);
     }
@@ -475,6 +480,7 @@ class ResultScene {
         text("Quit", this.quitButtonPosition.x, this.quitButtonPosition.y);
         pop();
     }
+
     checkQuitButtonClick() {
         const buttonWidth = width * 0.05;
         const buttonHeight = height * 0.035;
@@ -484,7 +490,9 @@ class ResultScene {
             mouseY < this.quitButtonPosition.y + buttonHeight / 2);
     }
     quitGame() {
-        game.changeActiveScreen(new PlayerInstruction(this.game));
+
+        game.changeActiveScreen(new StartScene(this.game));
+
     }
 }
 let resultScene;

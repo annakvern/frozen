@@ -43,19 +43,13 @@ class ResultScene implements Scene {
       this.quitGame(); // CHANGE SCENE ON CLICK.
     }
 
-    this.textBounceY += this.textBounceSpeed;
-    if (
-      this.textBounceY > this.textPosition.y + this.textBounceRange ||
-      this.textBounceY < this.textPosition.y - this.textBounceRange
-    ) {
-      this.textBounceSpeed *= -1;
-    }
-
     if (keyIsDown(32) && !changedScene) {
       changedScene = true; // that we changed the screen
       let nextPage = new StartScene(this.game);
       this.game.changeActiveScreen(nextPage);
     }
+    this.textBounce();
+    
   }
 
   //// DRAW ALL ELEMENTS ON THE SCREEN.
@@ -68,6 +62,7 @@ class ResultScene implements Scene {
     this.drawPodium();
     this.drawQuitButton();
   }
+  
 
   //// FUNCTION TO DRAW THE TITLE ON THE SCREEN.
   private drawTitle() {
@@ -106,6 +101,15 @@ class ResultScene implements Scene {
     textSize(txtSize);
     text("Press any key to play again", this.textPosition.x, this.textBounceY);
     pop();
+  }
+
+  private textBounce() {
+  this.textBounceY += this.textBounceSpeed;
+    if (this.textBounceY > this.textPosition.y + this.textBounceRange ||
+      this.textBounceY < this.textPosition.y - this.textBounceRange
+    ) {
+      this.textBounceSpeed *= -1;
+    }
   }
 
   //// FUNCTION TO DRAW THE CLOUD ON THE SCREEN.
@@ -161,7 +165,7 @@ class ResultScene implements Scene {
     pop();
   }
 
-  private checkQuitButtonClick(): boolean {
+  private checkQuitButtonClick() {
     const buttonWidth = width * 0.05;
     const buttonHeight = height * 0.035;
     return (
@@ -173,9 +177,10 @@ class ResultScene implements Scene {
   }
 
   private quitGame() {
-    game.changeActiveScreen(new PlayerInstruction(this.game));
+    game.changeActiveScreen(new StartScene(this.game));
   }
 }
+
 
 //// CREATE A RESULTSCENE OBJECT.
 let resultScene: ResultScene;

@@ -4,7 +4,7 @@ let snowflakeImg: p5.Image;
 let platformImg: p5.Image;
 let player1Img: p5.Image;
 let player2Img: p5.Image;
-
+ 
 class StartScene implements Scene {
   private game: Game;
   private titlePosition: p5.Vector;
@@ -50,9 +50,11 @@ class StartScene implements Scene {
       this.game.changeActiveScreen(nextPage);
     }
 
+ 
     this.bounceTime += 0.07;
     this.moveSnowflakes();
   }
+ 
 
   private moveSnowflakes() {
     for (const index in this.snowflakePositions) {
@@ -67,25 +69,25 @@ class StartScene implements Scene {
       }
     }
   }
-
+ 
   draw() {
     background(164, 210, 248);
     // Kallar på draw funktionerna
     this.drawSnowflakes();
 
     this.drawTitle();
-
+ 
     this.drawText();
-
+ 
     this.drawCloud();
 
     this.drawPlatform();
-
+ 
     this.drawPlayer1();
-
+ 
     this.drawPlayer2();
   }
-
+ 
   private drawTitle() {
     push();
     fill("white");
@@ -95,7 +97,7 @@ class StartScene implements Scene {
     text("Tag or DIE!", this.titlePosition.x, this.titlePosition.y);
     pop();
   }
-
+ 
   private drawText() {
     push();
     const bounceOffset = sin(this.bounceTime) * 10;
@@ -109,17 +111,17 @@ class StartScene implements Scene {
     );
     pop();
   }
-
+ 
   private drawCloud() {
     image(cloudImg, this.cloudPosition.x, this.cloudPosition.y, 550, 250);
   }
-
+ 
   private drawSnowflakes() {
     for (const pos of this.snowflakePositions) {
       image(snowflakeImg, pos.x, pos.y, 40, 40); // Rita snöflingor
     }
   }
-
+ 
   private drawPlatform() {
     image(
       platformImg,
@@ -129,16 +131,17 @@ class StartScene implements Scene {
       50
     ); // Rita plattform
   }
-
+ 
   private drawPlayer1() {
     image(player1Img, this.player1Position.x, this.player1Position.y);
   }
-
+ 
   private drawPlayer2() {
     image(player2Img, this.player2Position.x, this.player2Position.y);
   }
 }
-
+ 
 let startScene: StartScene;
-
+ 
 let kavoonFont: p5.Font;
+ 
