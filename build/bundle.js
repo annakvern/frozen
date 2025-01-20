@@ -299,14 +299,33 @@ class LevelFactory {
 }
 let game;
 let changedScene = false;
+const canvasWidth = 1440;
+const canvasHeight = 1024;
+let canvas;
 function setup() {
-    createCanvas(1440, 1024);
+    canvas = createCanvas(canvasWidth, canvasHeight);
+    centerCanvas();
     frameRate(60);
     let startScene = new StartScene(null);
     game = new Game(startScene);
     startScene = new StartScene(game);
     game.changeActiveScreen(startScene);
     textFont(kavoonFont);
+}
+function centerCanvas() {
+    const x = (windowWidth - canvasWidth) / 2;
+    const y = (windowHeight - canvasHeight) / 2;
+    canvas.position(x, y);
+}
+function windowResized() {
+    centerCanvas();
+}
+function draw() {
+    game.update();
+    game.draw();
+}
+function keyReleased() {
+    changedScene = false;
 }
 function preload() {
     music = {
@@ -332,13 +351,6 @@ function preload() {
     soundOnimg = loadImage("assets/images/soundOn.svg");
     podiumYellowImg = loadImage("assets/images/podiumYellowWinner.svg");
     podiumGreenImg = loadImage("assets/images/podiumGreenWinner.svg");
-}
-function draw() {
-    game.update();
-    game.draw();
-}
-function keyReleased() {
-    changedScene = false;
 }
 let platform;
 class Platform extends GameObject {
@@ -383,7 +395,7 @@ class ResultScene {
         this.game = game;
         this.winner = winner;
         this.titlePosition = createVector(width * 0.5, height * 0.4);
-        this.textPosition = createVector(width * 0.5, height * 0.55);
+        this.textPosition = createVector(width * 0.4, height * 0.55);
         this.cloudPosition = createVector(width * 0.26, height * 0.13);
         this.snowflakePositions = [
             { position: createVector(width * 0.73, height * 0.23), size: 200 },
@@ -391,8 +403,8 @@ class ResultScene {
             { position: createVector(width * 0.83, height * 0.15), size: 150 },
             { position: createVector(width * 0.77, height * 0.55), size: 175 },
         ];
-        this.podiumPosition = createVector(width * 0.35, height * 0.8);
-        this.quitButtonPosition = createVector(width * 0.03, height * 0.95);
+        this.podiumPosition = createVector(width * 0.39, height * 0.8);
+        this.quitButtonPosition = createVector(width * 0.04, height * 0.95);
         this.textBounceY = this.textPosition.y;
         this.textBounceSpeed = 0.25;
         this.textBounceRange = height * 0.003;
@@ -401,7 +413,6 @@ class ResultScene {
         if (mouseIsPressed && this.checkQuitButtonClick()) {
             this.quitGame();
         }
-
         if (keyIsDown(32) && !changedScene) {
             changedScene = true;
             let nextPage = new StartScene(this.game);
@@ -443,10 +454,9 @@ class ResultScene {
         drawingContext.shadowColor = "rgba(0, 0, 0, 0.5)";
         fill("white");
         textSize(txtSize);
-        text("Press any key to play again", this.textPosition.x, this.textBounceY);
+        text("Press SPACE to play again", this.textPosition.x, this.textBounceY);
         pop();
     }
-
     textBounce() {
         this.textBounceY += this.textBounceSpeed;
         if (this.textBounceY > this.textPosition.y + this.textBounceRange ||
@@ -480,7 +490,6 @@ class ResultScene {
         text("Quit", this.quitButtonPosition.x, this.quitButtonPosition.y);
         pop();
     }
-
     checkQuitButtonClick() {
         const buttonWidth = width * 0.05;
         const buttonHeight = height * 0.035;
@@ -490,9 +499,7 @@ class ResultScene {
             mouseY < this.quitButtonPosition.y + buttonHeight / 2);
     }
     quitGame() {
-
         game.changeActiveScreen(new StartScene(this.game));
-
     }
 }
 let resultScene;
