@@ -3,6 +3,9 @@ let playerInstruction2img: p5.Image;
 let playerKeysYellow: p5.Image;
 let playerKeysGreen: p5.Image;
 let soundOnimg: p5.Image;
+let soundOffimg: p5.Image;
+let sound: p5.Image;
+let playerInstruction: PlayerInstruction;
 
 class PlayerInstruction implements Scene {
   private game: Game;
@@ -13,9 +16,13 @@ class PlayerInstruction implements Scene {
   private playerKeysYellowPosition: p5.Vector;
   private playerKeysGreenPosition: p5.Vector;
   private playSoundPosition: p5.Vector;
+  private isSoundOn: boolean;
+  private isSoundOff: boolean;
 
   constructor(game: Game) {
     this.game = game;
+    this.isSoundOn = true;
+    this.isSoundOff = true;
     this.titlePosition = createVector(width / 2, 100);
     this.textPosition = createVector(width / 2, 200);
     this.player1Position = createVector(980, 300);
@@ -29,6 +36,9 @@ class PlayerInstruction implements Scene {
   }
 
   public update(): void {
+    if (mouseIsPressed && this.playSound()) {
+      this.playSound();
+    }
     if (keyIsDown(32) && !changedScene) {
       changedScene = true;
       const factory = new LevelFactory(this.game);
@@ -106,6 +116,7 @@ class PlayerInstruction implements Scene {
       100
     );
   }
+
   private drawPlayerKeysGreen() {
     image(
       playerKeysGreen,
@@ -115,13 +126,47 @@ class PlayerInstruction implements Scene {
       100
     );
   }
+
   private playSound() {
-    image(
-      soundOnimg,
-      this.playSoundPosition.x,
-      this.playSoundPosition.y,
-      40,
-      40
-    );
+    if (this.isSoundOn) {
+      image(
+        soundOnimg,
+        this.playSoundPosition.x,
+        this.playSoundPosition.y,
+        40,
+        40
+      );
+    } else if (this.isSoundOff) {
+      image(
+        soundOffimg,
+        this.playSoundPosition.x,
+        this.playSoundPosition.y,
+        40,
+        40
+      );
+    }
+  }
+
+  public handleMousePressed() {
+    const mouseOverSoundIcon =
+     mouseX > this.playSoundPosition.x &&
+     mouseX < this.playSoundPosition.x + 40 &&
+     mouseY > this.playSoundPosition.y &&
+     mouseY < this.playSoundPosition.y + 40;
+
+     console.log('Mouse pressed on icon:', mouseOverSoundIcon);
+     
+    if (this.isSoundOn && mouseIsPressed) {
+      this.isSoundOn = true;
+    } else if (this.isSoundOn && mouseIsPressed) {
+      this.isSoundOff = true;
+    } 
+  }
+  
+}
+
+function mousePressed() {
+  if (playerInstruction) {
+      playerInstruction.handleMousePressed();
   }
 }

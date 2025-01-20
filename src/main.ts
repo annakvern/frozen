@@ -2,13 +2,15 @@ let game: Game; // the game starts here
 let changedScene: boolean = false;
 
 function setup() {
-  createCanvas(1440, 1024);
+  // createCanvas(1440, 1024);
+  createCanvas(windowWidth, windowHeight);
   frameRate(60);
 
   let startScene = new StartScene(null as unknown as Game);
   game = new Game(startScene);
   startScene = new StartScene(game);
   game.changeActiveScreen(startScene);
+  playerInstruction = new PlayerInstruction(game);
 
   textFont(kavoonFont);
 }
@@ -35,6 +37,7 @@ function preload() {
   playerInstruction1img = loadImage("assets/images/yellowPlayerLeft.svg");
   playerInstruction2img = loadImage("assets/images/greenPlayerRight.svg");
   soundOnimg = loadImage("assets/images/soundOn.svg");
+  soundOffimg = loadImage("assets/images/soundOff.svg");
   podiumYellowImg = loadImage("assets/images/podiumYellowWinner.svg");
   podiumGreenImg = loadImage("assets/images/podiumGreenWinner.svg");
 }

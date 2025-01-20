@@ -4,9 +4,14 @@ let playerInstruction2img;
 let playerKeysYellow;
 let playerKeysGreen;
 let soundOnimg;
+let soundOffimg;
+let sound;
+let playerInstruction;
 class PlayerInstruction {
     constructor(game) {
         this.game = game;
+        this.isSoundOn = true;
+        this.isSoundOff = true;
         this.titlePosition = createVector(width / 2, 100);
         this.textPosition = createVector(width / 2, 200);
         this.player1Position = createVector(980, 300);
@@ -16,6 +21,9 @@ class PlayerInstruction {
         this.playSoundPosition = createVector(windowWidth * 0.93, windowHeight * 0.86);
     }
     update() {
+        if (mouseIsPressed && this.playSound()) {
+            this.playSound();
+        }
         if (keyIsDown(32) && !changedScene) {
             changedScene = true;
             const factory = new LevelFactory(this.game);
@@ -69,7 +77,30 @@ class PlayerInstruction {
         image(playerKeysGreen, this.playerKeysGreenPosition.x, this.playerKeysGreenPosition.y, 150, 100);
     }
     playSound() {
-        image(soundOnimg, this.playSoundPosition.x, this.playSoundPosition.y, 40, 40);
+        if (this.isSoundOn) {
+            image(soundOnimg, this.playSoundPosition.x, this.playSoundPosition.y, 40, 40);
+        }
+        else if (this.isSoundOff) {
+            image(soundOffimg, this.playSoundPosition.x, this.playSoundPosition.y, 40, 40);
+        }
+    }
+    handleMousePressed() {
+        const mouseOverSoundIcon = mouseX > this.playSoundPosition.x &&
+            mouseX < this.playSoundPosition.x + 40 &&
+            mouseY > this.playSoundPosition.y &&
+            mouseY < this.playSoundPosition.y + 40;
+        console.log('Mouse pressed on icon:', mouseOverSoundIcon);
+        if (this.isSoundOn && mouseIsPressed) {
+            this.isSoundOn = true;
+        }
+        else if (this.isSoundOn && mouseIsPressed) {
+            this.isSoundOff = true;
+        }
+    }
+}
+function mousePressed() {
+    if (playerInstruction) {
+        playerInstruction.handleMousePressed();
     }
 }
 let cloudImg;
@@ -300,12 +331,13 @@ class LevelFactory {
 let game;
 let changedScene = false;
 function setup() {
-    createCanvas(1440, 1024);
+    createCanvas(windowWidth, windowHeight);
     frameRate(60);
     let startScene = new StartScene(null);
     game = new Game(startScene);
     startScene = new StartScene(game);
     game.changeActiveScreen(startScene);
+    playerInstruction = new PlayerInstruction(game);
     textFont(kavoonFont);
 }
 function preload() {
@@ -330,6 +362,7 @@ function preload() {
     playerInstruction1img = loadImage("assets/images/yellowPlayerLeft.svg");
     playerInstruction2img = loadImage("assets/images/greenPlayerRight.svg");
     soundOnimg = loadImage("assets/images/soundOn.svg");
+    soundOffimg = loadImage("assets/images/soundOff.svg");
     podiumYellowImg = loadImage("assets/images/podiumYellowWinner.svg");
     podiumGreenImg = loadImage("assets/images/podiumGreenWinner.svg");
 }
@@ -401,7 +434,6 @@ class ResultScene {
         if (mouseIsPressed && this.checkQuitButtonClick()) {
             this.quitGame();
         }
-
         if (keyIsDown(32) && !changedScene) {
             changedScene = true;
             let nextPage = new StartScene(this.game);
@@ -446,7 +478,6 @@ class ResultScene {
         text("Press any key to play again", this.textPosition.x, this.textBounceY);
         pop();
     }
-
     textBounce() {
         this.textBounceY += this.textBounceSpeed;
         if (this.textBounceY > this.textPosition.y + this.textBounceRange ||
@@ -480,7 +511,6 @@ class ResultScene {
         text("Quit", this.quitButtonPosition.x, this.quitButtonPosition.y);
         pop();
     }
-
     checkQuitButtonClick() {
         const buttonWidth = width * 0.05;
         const buttonHeight = height * 0.035;
@@ -490,9 +520,7 @@ class ResultScene {
             mouseY < this.quitButtonPosition.y + buttonHeight / 2);
     }
     quitGame() {
-
         game.changeActiveScreen(new StartScene(this.game));
-
     }
 }
 let resultScene;
