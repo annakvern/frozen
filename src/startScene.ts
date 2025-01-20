@@ -13,6 +13,7 @@ class StartScene implements Scene {
   private platformPosition: p5.Vector;
   private player1Position: p5.Vector;
   private player2Position: p5.Vector;
+  private changedScene: boolean = false;
 
   constructor() {
     this.titlePosition = createVector(800, 600); // Titelns position
@@ -24,13 +25,20 @@ class StartScene implements Scene {
     this.player2Position = createVector(400, 550);
   }
   update(): void {
-    if (keyIsPressed) {
+    if (keyIsDown(32) && !this.changedScene) {
+      // if the space key is down and changedScene is still false
+      this.changedScene = true; // set changedScene state to true
       let nextPage = new PlayerInstruction();
       game.changeActiveScreen(nextPage);
+    }
+
+    if (!keyIsPressed) {
+      this.changedScene = false; // reset state when the space key is released
     }
   }
 
   draw() {
+    background(164, 210, 248);
     // Kallar på draw funktionerna
     this.drawTitle();
 

@@ -12,8 +12,10 @@ class PlayerInstruction implements Scene {
   private playerKeysYellowPosition: p5.Vector;
   private playerKeysGreenPosition: p5.Vector;
   private playSoundPosition: p5.Vector;
+  private changedScene: boolean = false;
 
   constructor() {
+    // this.changedScene = false;
     this.titlePosition = createVector(width / 2, 100);
     this.textPosition = createVector(width / 2, 200);
     this.player1Position = createVector(980, 300);
@@ -27,14 +29,19 @@ class PlayerInstruction implements Scene {
   }
 
   public update(): void {
-    if (keyIsPressed) {
+    if (keyIsDown(32) && !this.changedScene) {
+      this.changedScene = true;
       const factory = new LevelFactory();
       const gameBoard = factory.createGameBoard(1);
       game.changeActiveScreen(gameBoard);
     }
+    if (!keyIsPressed) {
+      this.changedScene = false; // reset state when the space key is released
+    }
   }
 
   public draw(): void {
+    background(164, 210, 247);
     this.drawTitle();
     this.drawText();
     this.drawPlayer1();

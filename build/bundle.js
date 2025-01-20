@@ -3,18 +3,18 @@ let podiumYellowImg;
 let podiumGreenImg;
 class ResultScene {
     constructor(winner) {
+        this.changedScene = false;
         this.winner = winner;
         this.titlePosition = createVector(width * 0.5, height * 0.4);
         this.textPosition = createVector(width * 0.5, height * 0.55);
         this.cloudPosition = createVector(width * 0.26, height * 0.13);
-        this.snowflakePositions =
-            [
-                { position: createVector(width * 0.73, height * 0.23), size: 200 },
-                { position: createVector(width * 0.65, height * 0.10), size: 150 },
-                { position: createVector(width * 0.83, height * 0.15), size: 150 },
-                { position: createVector(width * 0.77, height * 0.55), size: 175 },
-            ];
-        this.podiumPosition = createVector(width * 0.43, height * 0.83);
+        this.snowflakePositions = [
+            { position: createVector(width * 0.73, height * 0.23), size: 200 },
+            { position: createVector(width * 0.65, height * 0.1), size: 150 },
+            { position: createVector(width * 0.83, height * 0.15), size: 150 },
+            { position: createVector(width * 0.77, height * 0.55), size: 175 },
+        ];
+        this.podiumPosition = createVector(width * 0.35, height * 0.8);
         this.quitButtonPosition = createVector(width * 0.03, height * 0.95);
         this.textBounceY = this.textPosition.y;
         this.textBounceSpeed = 0.25;
@@ -31,6 +31,7 @@ class ResultScene {
         }
     }
     draw() {
+        background(164, 211, 247);
         this.drawTitle();
         this.drawText();
         this.drawCloud();
@@ -75,8 +76,8 @@ class ResultScene {
         }
     }
     drawPodium() {
-        const podiumWidth = width * 0.15;
-        const podiumHeight = height * 0.17;
+        const podiumWidth = width * 0.23;
+        const podiumHeight = height * 0.2;
         if (this.winner === "Yellow") {
             image(podiumYellowImg, this.podiumPosition.x, this.podiumPosition.y, podiumWidth, podiumHeight);
         }
@@ -101,7 +102,7 @@ class ResultScene {
             mouseY < this.quitButtonPosition.y + buttonHeight / 2);
     }
     quitGame() {
-        game.changeActiveScreen(new PlayerInstruction);
+        game.changeActiveScreen(new PlayerInstruction());
     }
 }
 let resultScene;
@@ -112,6 +113,7 @@ let player1Img;
 let player2Img;
 class StartScene {
     constructor() {
+        this.changedScene = false;
         this.titlePosition = createVector(800, 600);
         this.textPosition = createVector(400, 150);
         this.cloudPosition = createVector(200, 100);
@@ -121,12 +123,17 @@ class StartScene {
         this.player2Position = createVector(400, 550);
     }
     update() {
-        if (keyIsPressed) {
+        if (keyIsDown(32) && !this.changedScene) {
+            this.changedScene = true;
             let nextPage = new PlayerInstruction();
             game.changeActiveScreen(nextPage);
         }
+        if (!keyIsPressed) {
+            this.changedScene = false;
+        }
     }
     draw() {
+        background(164, 210, 248);
         this.drawTitle();
         this.drawText();
         this.drawCloud();
@@ -171,7 +178,6 @@ class StartScene {
 }
 let startScene;
 let kavoonFont;
-let game;
 let music;
 class Game {
     constructor(initialScreen) {
@@ -184,49 +190,14 @@ class Game {
         this.activeScene.update();
     }
     draw() {
+        background(0);
         this.activeScene.draw();
     }
-}
-function setup() {
-    createCanvas(1440, 1024);
-    frameRate(60);
-    startScene = new StartScene();
-    game = new Game(startScene);
-    textFont(kavoonFont);
-}
-function preload() {
-    music = {
-        mystery: loadSound("/assets/music/mystery.mp3"),
-    };
-    cloudImg = loadImage("assets/images/cloud.svg");
-    snowflakeImg = loadImage("assets/images/snowflake.svg");
-    platformImg = loadImage("assets/images/platformStart.svg");
-    kavoonFont = loadFont("assets/Font(s)/Kavoon-Regular.ttf");
-    player1Img = loadImage("assets/images/greenPlayerRight.svg");
-    player2Img = loadImage("assets/images/yellowPlayerLeft.svg");
-    backgroundImgL1 = loadImage("assets/images/bgLevel1.png");
-    platform = loadImage("assets/images/platform.svg");
-    snowman = loadImage("assets/images/snowman.svg");
-    trampoline = loadImage("assets/images/trampoline.svg");
-    teleport = loadImage("assets/images/teleport.svg");
-    playerYellow = loadImage("assets/images/yellowPlayerLeft.svg");
-    playerGreen = loadImage("assets/images/greenPlayerRight.svg");
-    playerKeysYellow = loadImage("assets/images/playerKeysYellow.svg");
-    playerKeysGreen = loadImage("assets/images/playerKeysGreen.svg");
-    playerInstruction1img = loadImage("assets/images/yellowPlayerLeft.svg");
-    playerInstruction2img = loadImage("assets/images/greenPlayerRight.svg");
-    soundOnimg = loadImage("assets/images/soundOn.svg");
-    podiumYellowImg = loadImage("assets/images/podiumYellowWinner.svg");
-    podiumGreenImg = loadImage("assets/images/podiumGreenWinner.svg");
-}
-function draw() {
-    background(backgroundImgL1);
-    game.update();
-    game.draw();
 }
 let backgroundImgL1;
 class GameBoard {
     constructor(gameObjects) {
+        this.changedScene = false;
         this.gameObjects = gameObjects;
     }
     draw() {
@@ -238,9 +209,13 @@ class GameBoard {
         for (const obj of this.gameObjects) {
             obj.update();
         }
-        if (keyIsPressed) {
+        if (keyIsDown(32) && !this.changedScene) {
+            this.changedScene = true;
             let nextPage = new ResultScene("Yellow");
             game.changeActiveScreen(nextPage);
+        }
+        if (!keyIsPressed) {
+            this.changedScene = false;
         }
     }
     checkCollisions() { }
@@ -336,6 +311,43 @@ class LevelFactory {
     draw() { }
     update() { }
 }
+let game;
+function setup() {
+    createCanvas(1440, 1024);
+    frameRate(60);
+    startScene = new StartScene();
+    game = new Game(startScene);
+    textFont(kavoonFont);
+}
+function preload() {
+    music = {
+        mystery: loadSound("/assets/music/mystery.mp3"),
+    };
+    cloudImg = loadImage("assets/images/cloud.svg");
+    snowflakeImg = loadImage("assets/images/snowflake.svg");
+    platformImg = loadImage("assets/images/platformStart.svg");
+    kavoonFont = loadFont("assets/Font(s)/Kavoon-Regular.ttf");
+    player1Img = loadImage("assets/images/greenPlayerRight.svg");
+    player2Img = loadImage("assets/images/yellowPlayerLeft.svg");
+    backgroundImgL1 = loadImage("assets/images/bgLevel1.png");
+    platform = loadImage("assets/images/platform.svg");
+    snowman = loadImage("assets/images/snowman.svg");
+    trampoline = loadImage("assets/images/trampoline.svg");
+    teleport = loadImage("assets/images/teleport.svg");
+    playerYellow = loadImage("assets/images/yellowPlayerLeft.svg");
+    playerGreen = loadImage("assets/images/greenPlayerRight.svg");
+    playerKeysYellow = loadImage("assets/images/playerKeysYellow.svg");
+    playerKeysGreen = loadImage("assets/images/playerKeysGreen.svg");
+    playerInstruction1img = loadImage("assets/images/yellowPlayerLeft.svg");
+    playerInstruction2img = loadImage("assets/images/greenPlayerRight.svg");
+    soundOnimg = loadImage("assets/images/soundOn.svg");
+    podiumYellowImg = loadImage("assets/images/podiumYellowWinner.svg");
+    podiumGreenImg = loadImage("assets/images/podiumGreenWinner.svg");
+}
+function draw() {
+    game.update();
+    game.draw();
+}
 let platform;
 class Platform extends GameObject {
     constructor(position) {
@@ -379,6 +391,7 @@ let playerKeysGreen;
 let soundOnimg;
 class PlayerInstruction {
     constructor() {
+        this.changedScene = false;
         this.titlePosition = createVector(width / 2, 100);
         this.textPosition = createVector(width / 2, 200);
         this.player1Position = createVector(980, 300);
@@ -388,13 +401,18 @@ class PlayerInstruction {
         this.playSoundPosition = createVector(windowWidth * 0.93, windowHeight * 0.86);
     }
     update() {
-        if (keyIsPressed) {
+        if (keyIsDown(32) && !this.changedScene) {
+            this.changedScene = true;
             const factory = new LevelFactory();
             const gameBoard = factory.createGameBoard(1);
             game.changeActiveScreen(gameBoard);
         }
+        if (!keyIsPressed) {
+            this.changedScene = false;
+        }
     }
     draw() {
+        background(164, 210, 247);
         this.drawTitle();
         this.drawText();
         this.drawPlayer1();
