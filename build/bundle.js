@@ -253,7 +253,7 @@ class LevelFactory {
                 [3, 0, 0, 0, 0, 9, 6, 0, 3, 0],
                 [1, 0, 0, 4, 4, 4, 4, 0, 0, 0],
                 [4, 4, 0, 0, 0, 0, 0, 0, 0, 0],
-                [0, 0, 0, 0, 4, 4, 0, 0, 0, 0],
+                [0, 0, 0, 0, 4, 4, 0, 2, 0, 0],
                 [0, 4, 4, 0, 0, 0, 4, 4, 0, 0],
                 [0, 0, 0, 0, 0, 0, 0, 0, 5, 0],
             ];
@@ -262,11 +262,11 @@ class LevelFactory {
                     let value = level1[y][x];
                     const position = createVector(x * squareSizeX, y * squareSizeY);
                     if (value === 1) {
-                        gameObjects.push(new Player("yellow", position, true));
+                        gameObjects.push(new Player("yellow", position, true, 0, 0));
                         console.log(`Added object at ${position.x}, ${position.y}`);
                     }
                     else if (value === 2) {
-                        gameObjects.push(new Player("green", position, false));
+                        gameObjects.push(new Player("green", position, false, 0, 0));
                         console.log(`Added object at ${position.x}, ${position.y}`);
                     }
                     else if (value === 3) {
@@ -353,7 +353,7 @@ class Platform extends GameObject {
 let playerYellow;
 let playerGreen;
 class Player extends GameObject {
-    constructor(color, position, isChasing) {
+    constructor(color, position, isChasing, speedX, SpeedY) {
         if (color === "yellow") {
             super(position, 70, 70, playerYellow, false);
         }
@@ -361,7 +361,7 @@ class Player extends GameObject {
             super(position, 70, 70, playerGreen, false);
         }
         this.color = color;
-        this.speed = createVector(0, 0);
+        this.speed = createVector(speedX, SpeedY);
         this.isOnIce = false;
         this.isChasing = isChasing;
     }
@@ -370,11 +370,38 @@ class Player extends GameObject {
     bounce() { }
     jump() { }
     toggleIsChasing() { }
-    playerControls() { }
+    playerControls() {
+        if (this.color === "yellow") {
+            if (keyIsDown(LEFT_ARROW)) {
+                this.speed.x = -10;
+            }
+            else if (keyIsDown(RIGHT_ARROW)) {
+                this.speed.x = 10;
+            }
+            else {
+                this.speed.x = 0;
+            }
+        }
+        else if (this.color === "green") {
+            if (keyIsDown(65)) {
+                this.speed.x = -10;
+            }
+            else if (keyIsDown(68)) {
+                this.speed.x = 10;
+            }
+            else {
+                this.speed.x = 0;
+            }
+        }
+    }
     draw() {
         image(this.img, this.position.x, this.position.y, 70, 70);
     }
-    update() { }
+    update() {
+        this.playerControls();
+        this.position.x += this.speed.x;
+        this.position.y += this.speed.y;
+    }
 }
 let podiumYellowImg;
 let podiumGreenImg;
@@ -401,7 +428,6 @@ class ResultScene {
         if (mouseIsPressed && this.checkQuitButtonClick()) {
             this.quitGame();
         }
-
         if (keyIsDown(32) && !changedScene) {
             changedScene = true;
             let nextPage = new StartScene(this.game);
@@ -446,7 +472,6 @@ class ResultScene {
         text("Press any key to play again", this.textPosition.x, this.textBounceY);
         pop();
     }
-
     textBounce() {
         this.textBounceY += this.textBounceSpeed;
         if (this.textBounceY > this.textPosition.y + this.textBounceRange ||
@@ -480,7 +505,6 @@ class ResultScene {
         text("Quit", this.quitButtonPosition.x, this.quitButtonPosition.y);
         pop();
     }
-
     checkQuitButtonClick() {
         const buttonWidth = width * 0.05;
         const buttonHeight = height * 0.035;
@@ -490,9 +514,7 @@ class ResultScene {
             mouseY < this.quitButtonPosition.y + buttonHeight / 2);
     }
     quitGame() {
-
         game.changeActiveScreen(new StartScene(this.game));
-
     }
 }
 let resultScene;
