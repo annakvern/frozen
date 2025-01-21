@@ -427,20 +427,20 @@ class ResultScene {
     constructor(game, winner) {
         this.game = game;
         this.winner = winner;
-        this.titlePosition = createVector(width * 0.5, height * 0.4);
-        this.textPosition = createVector(width * 0.4, height * 0.55);
-        this.cloudPosition = createVector(width * 0.26, height * 0.13);
+        this.titlePosition = createVector(720, 400);
+        this.textPosition = createVector(720, 512);
+        this.cloudPosition = createVector(270, 100);
         this.snowflakePositions = [
-            { position: createVector(width * 0.73, height * 0.23), size: 200 },
-            { position: createVector(width * 0.65, height * 0.1), size: 150 },
-            { position: createVector(width * 0.83, height * 0.15), size: 150 },
-            { position: createVector(width * 0.77, height * 0.55), size: 175 },
+            { position: createVector(1050, 280), size: 200 },
+            { position: createVector(1000, 120), size: 120 },
+            { position: createVector(1200, 150), size: 150 },
+            { position: createVector(1150, 500), size: 175 },
         ];
-        this.podiumPosition = createVector(width * 0.39, height * 0.8);
-        this.quitButtonPosition = createVector(width * 0.04, height * 0.95);
+        this.podiumPosition = createVector(561, 819);
+        this.quitButtonPosition = createVector(60, 980);
         this.textBounceY = this.textPosition.y;
         this.textBounceSpeed = 0.25;
-        this.textBounceRange = height * 0.003;
+        this.textBounceRange = 4;
     }
     update() {
         if (mouseIsPressed && this.checkQuitButtonClick()) {
@@ -464,7 +464,6 @@ class ResultScene {
     }
     drawTitle() {
         push();
-        const titleSize = width * 0.07;
         const titleColor = this.winner === "Yellow" ? "rgb(255, 213, 118)" : "rgb(58, 168, 167)";
         const titleText = this.winner === "Yellow" ? "Yellow wins!" : "Green wins!";
         drawingContext.shadowOffsetX = 2;
@@ -472,21 +471,19 @@ class ResultScene {
         drawingContext.shadowBlur = 5;
         drawingContext.shadowColor = "rgba(0, 0, 0, 0.5)";
         fill(titleColor);
-        textAlign(CENTER, CENTER);
-        textSize(titleSize);
+        textSize(100);
         textFont(kavoonFont);
         text(titleText, this.titlePosition.x, this.titlePosition.y);
         pop();
     }
     drawText() {
         push();
-        const txtSize = width * 0.015;
         drawingContext.shadowOffsetX = 2;
         drawingContext.shadowOffsetY = 2;
         drawingContext.shadowBlur = 5;
         drawingContext.shadowColor = "rgba(0, 0, 0, 0.5)";
         fill("white");
-        textSize(txtSize);
+        textSize(30);
         text("Press SPACE to play again", this.textPosition.x, this.textBounceY);
         pop();
     }
@@ -506,13 +503,11 @@ class ResultScene {
         }
     }
     drawPodium() {
-        const podiumWidth = width * 0.23;
-        const podiumHeight = height * 0.2;
         if (this.winner === "Yellow") {
-            image(podiumYellowImg, this.podiumPosition.x, this.podiumPosition.y, podiumWidth, podiumHeight);
+            image(podiumYellowImg, this.podiumPosition.x, this.podiumPosition.y, 300, 210);
         }
         else if (this.winner === "Green") {
-            image(podiumGreenImg, this.podiumPosition.x, this.podiumPosition.y, podiumWidth, podiumHeight);
+            image(podiumGreenImg, this.podiumPosition.x, this.podiumPosition.y, 300, 210);
         }
     }
     drawQuitButton() {
@@ -524,8 +519,8 @@ class ResultScene {
         pop();
     }
     checkQuitButtonClick() {
-        const buttonWidth = width * 0.05;
-        const buttonHeight = height * 0.035;
+        const buttonWidth = 120;
+        const buttonHeight = 70;
         return (mouseX > this.quitButtonPosition.x - buttonWidth / 2 &&
             mouseX < this.quitButtonPosition.x + buttonWidth / 2 &&
             mouseY > this.quitButtonPosition.y - buttonHeight / 2 &&
