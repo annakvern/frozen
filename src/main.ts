@@ -2,8 +2,7 @@ let game: Game; // the game starts here
 let changedScene: boolean = false;
 
 function setup() {
-  // createCanvas(1440, 1024);
-  createCanvas(windowWidth, windowHeight);
+  createCanvas(1440, 1024);
   frameRate(60);
 
   let startScene = new StartScene(null as unknown as Game);
@@ -11,8 +10,13 @@ function setup() {
   startScene = new StartScene(game);
   game.changeActiveScreen(startScene);
   playerInstruction = new PlayerInstruction(game);
+  playerInstruction.playSound(playerInstruction.isSoundOn);
 
   textFont(kavoonFont);
+ 
+}
+function mouseClicked() {
+  playerInstruction.mouseClicked(); // Call the class method
 }
 
 function preload() {

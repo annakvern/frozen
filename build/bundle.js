@@ -11,7 +11,6 @@ class PlayerInstruction {
     constructor(game) {
         this.game = game;
         this.isSoundOn = true;
-        this.isSoundOff = true;
         this.titlePosition = createVector(width / 2, 100);
         this.textPosition = createVector(width / 2, 200);
         this.player1Position = createVector(980, 300);
@@ -21,9 +20,6 @@ class PlayerInstruction {
         this.playSoundPosition = createVector(windowWidth * 0.93, windowHeight * 0.86);
     }
     update() {
-        if (mouseIsPressed && this.playSound()) {
-            this.playSound();
-        }
         if (keyIsDown(32) && !changedScene) {
             changedScene = true;
             const factory = new LevelFactory(this.game);
@@ -32,6 +28,7 @@ class PlayerInstruction {
         }
     }
     draw() {
+        console.log(`Draw called - isSoundOn: ${this.isSoundOn}`);
         background(164, 210, 247);
         this.drawTitle();
         this.drawText();
@@ -39,7 +36,7 @@ class PlayerInstruction {
         this.drawPlayer2();
         this.drawPlayerKeysYellow();
         this.drawPlayerKeysGreen();
-        this.playSound();
+        image(this.isSoundOn ? soundOnimg : soundOffimg, this.playSoundPosition.x, this.playSoundPosition.y, 40, 40);
     }
     drawTitle() {
         push();
@@ -76,31 +73,26 @@ class PlayerInstruction {
     drawPlayerKeysGreen() {
         image(playerKeysGreen, this.playerKeysGreenPosition.x, this.playerKeysGreenPosition.y, 150, 100);
     }
-    playSound() {
-        if (this.isSoundOn) {
+    playSound(isSoundOn) {
+        if (isSoundOn) {
+            console.log("isSoundOn is true");
             image(soundOnimg, this.playSoundPosition.x, this.playSoundPosition.y, 40, 40);
         }
-        else if (this.isSoundOff) {
+        else {
+            console.log("isSoundOn is false");
             image(soundOffimg, this.playSoundPosition.x, this.playSoundPosition.y, 40, 40);
         }
     }
-    handleMousePressed() {
-        const mouseOverSoundIcon = mouseX > this.playSoundPosition.x &&
+    mouseClicked() {
+        if (mouseX > this.playSoundPosition.x &&
             mouseX < this.playSoundPosition.x + 40 &&
             mouseY > this.playSoundPosition.y &&
-            mouseY < this.playSoundPosition.y + 40;
-        console.log('Mouse pressed on icon:', mouseOverSoundIcon);
-        if (this.isSoundOn && mouseIsPressed) {
-            this.isSoundOn = true;
+            mouseY < this.playSoundPosition.y + 40) {
+            this.isSoundOn = !this.isSoundOn;
+            console.log(`Sound state toggled: ${this.isSoundOn}`);
+            music.mystery.setVolume(this.isSoundOn ? 0.8 : 0);
+            this.playSound(this.isSoundOn);
         }
-        else if (this.isSoundOn && mouseIsPressed) {
-            this.isSoundOff = true;
-        }
-    }
-}
-function mousePressed() {
-    if (playerInstruction) {
-        playerInstruction.handleMousePressed();
     }
 }
 let cloudImg;
@@ -331,14 +323,18 @@ class LevelFactory {
 let game;
 let changedScene = false;
 function setup() {
-    createCanvas(windowWidth, windowHeight);
+    createCanvas(1440, 1024);
     frameRate(60);
     let startScene = new StartScene(null);
     game = new Game(startScene);
     startScene = new StartScene(game);
     game.changeActiveScreen(startScene);
     playerInstruction = new PlayerInstruction(game);
+    playerInstruction.playSound(playerInstruction.isSoundOn);
     textFont(kavoonFont);
+}
+function mouseClicked() {
+    playerInstruction.mouseClicked();
 }
 function preload() {
     music = {
