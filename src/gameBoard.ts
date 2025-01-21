@@ -24,30 +24,37 @@ class GameBoard implements Scene {
       this.game.changeActiveScreen(nextPage);
     }
 
-    this.checkCollisions()
+    this.checkCollisions();
   }
 
+  private checkCollisions() {
+    for (const o1 of this.gameObjects) {
+      if (!(o1 instanceof Player)) continue;
 
-  private checkCollisions(){
-    for (const gameObject of this.gameObjects) {
-      if (gameObject !instanceof Player) continue;
+      for (const o2 of this.gameObjects) {
+        if (o1 === o2) continue;
+        if (o2 instanceof Snowman) continue;
 
-      gameObject.
+        if (this.objectsOverlap(o1, o2)) {
+          if (o2 instanceof Player) {
+            // bounce
+          }
+          if (o2 instanceof Platform) {
+            // move out of it
+          }
+        }
+      }
     }
-     //Urgent!!!!!!! Måste diskuteras med David
-    if(greenPlayer.position.x >= platform.position.x - platform.width / 2 &&
-      greenPLayer.position.x < = platform.positon.x + platform.width / 2 &&
-      greenPLayer.position.y + platform.height >= platform.position.y - platform.height / 2 &&
-      greenPlayer.position.y + platform.height <= platform.position.y + platform.height / 2 &&
-      jump === false;
-    ){
-      greenPlayer.position.y = greenPlayer.position.y; // stop falling
-      speed = 0;
-      jumpCounter = 0; // prohibits to jump more than once in the air
-    }
   }
+
+  private objectsOverlap(o1: GameObject, o2: GameObject) {
+    return (
+      o1.position.x < o2.position.x + o2.width &&
+      o1.position.x + o1.width > o2.position.x &&
+      o1.position.y < o2.position.y + o2.height &&
+      o1.position.y + o1.height > o2.position.y
+    );
   }
-  
 
   private bouncePlayers() {}
 
@@ -65,3 +72,10 @@ class GameBoard implements Scene {
 
   private checkTimer() {}
 }
+
+// Al < Br
+// Ar > Bl
+
+//För att ta reda på positionX (Höger) position.x + width av objektet (plattform)
+
+// Samma sak för Y-axeln. Position.y + height (då får vi andra hörnet av objektet)
