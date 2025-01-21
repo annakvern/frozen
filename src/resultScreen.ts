@@ -21,10 +21,10 @@ class ResultScene implements Scene {
     this.game = game;
     this.winner = winner;
     this.titlePosition = createVector(720, 400);
-    this.textPosition = createVector(720, 512);
+    this.textPosition = createVector(720, 550);
     this.cloudPosition = createVector(270, 100);
     this.snowflakePositions = [
-      { position: createVector(1050, 280), size: 200 },
+      { position: createVector(1100, 280), size: 200 },
       { position: createVector(1000, 120), size: 120 },
       { position: createVector(1200, 150), size: 150 },
       { position: createVector(1150, 500), size: 175 },
@@ -74,7 +74,7 @@ class ResultScene implements Scene {
     drawingContext.shadowColor = "rgba(0, 0, 0, 0.5)";
 
     fill(titleColor);
-    textSize(100);
+    textSize(120);
     textFont(kavoonFont);
     text(titleText, this.titlePosition.x, this.titlePosition.y);
     pop();
@@ -91,7 +91,7 @@ class ResultScene implements Scene {
     drawingContext.shadowColor = "rgba(0, 0, 0, 0.5)";
 
     fill("white");
-    textSize(30);
+    textSize(35);
     text("Press SPACE to play again", this.textPosition.x, this.textBounceY);
     pop();
   }
@@ -108,7 +108,15 @@ class ResultScene implements Scene {
 
   //// FUNCTION TO DRAW THE CLOUD ON THE SCREEN.
   private drawCloud() {
+    push();
+    // SHADOW SETTINGS.
+    drawingContext.shadowOffsetX = 2;
+    drawingContext.shadowOffsetY = 2;
+    drawingContext.shadowBlur = 5;
+    drawingContext.shadowColor = "rgba(0, 0, 0, 0.5)";
+
     image(cloudImg, this.cloudPosition.x, this.cloudPosition.y);
+    pop();
   }
 
   // FUNCTION TO DRAW THE SNOWFLAKES ON THE SCREEN.
@@ -127,7 +135,9 @@ class ResultScene implements Scene {
 
   //// FUNCTION TO DRAW THE WINNER'S PODIUM ON THE SCREEN.
   private drawPodium() {
+ 
     if (this.winner === "Yellow") {
+     
       image(
         podiumYellowImg,
         this.podiumPosition.x,

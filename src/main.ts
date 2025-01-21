@@ -1,7 +1,7 @@
 let game: Game; // the game starts here
 let changedScene: boolean = false;
-const canvasWidth = 1440;
-const canvasHeight = 1024;
+const canvasWidth = 1440 * 0.67;
+const canvasHeight = 1024 * 0.67;
 let canvas: p5.Renderer;
 
 function setup() {

@@ -8,12 +8,12 @@ class PlayerInstruction {
     constructor(game) {
         this.game = game;
         this.titlePosition = createVector(width / 2, 100);
-        this.textPosition = createVector(width / 2, 200);
-        this.player1Position = createVector(980, 300);
-        this.player2Position = createVector(410, 300);
-        this.playerKeysYellowPosition = createVector(970, 460);
-        this.playerKeysGreenPosition = createVector(400, 460);
-        this.playSoundPosition = createVector(windowWidth * 0.93, windowHeight * 0.86);
+        this.textPosition = createVector(width / 2, 300);
+        this.player1Position = createVector(980, 400);
+        this.player2Position = createVector(410, 400);
+        this.playerKeysYellowPosition = createVector(970, 560);
+        this.playerKeysGreenPosition = createVector(400, 560);
+        this.playSoundPosition = createVector(1370, 955);
     }
     update() {
         if (keyIsDown(32) && !changedScene) {
@@ -36,9 +36,9 @@ class PlayerInstruction {
     drawTitle() {
         push();
         fill("white");
-        textSize(100);
+        textSize(120);
         textAlign(CENTER, CENTER);
-        text("READY?", this.titlePosition.x, this.titlePosition.y);
+        text("READY?", this.titlePosition.x + 40, this.titlePosition.y);
         textFont(kavoonFont);
         pop();
     }
@@ -46,30 +46,32 @@ class PlayerInstruction {
         push();
         fill("white");
         let bounceText = sin(frameCount * 0.1) * 3;
-        textSize(20);
-        textAlign(CENTER, CENTER);
-        text("Press space to get started", this.textPosition.x, this.textPosition.y + bounceText);
-        text("You have 2 mins - Tag or DIE!", this.textPosition.x - 0, 630);
         textSize(40);
-        text("Player 1", this.textPosition.x - 300, 250);
-        text("Player 2", this.textPosition.x + 280, 250);
+        textAlign(CENTER, CENTER);
+        text("You have 2 mins - Tag or DIE!", this.textPosition.x + 30, this.textPosition.y - 80);
+        text("Press SPACE to get started", this.textPosition.x - -30, 820 + bounceText);
+        textSize(40);
+        text("Player 1", this.textPosition.x - 225, 350);
+        text("Player 2", this.textPosition.x + 280, 350);
         textFont(kavoonFont);
         pop();
     }
     drawPlayer1() {
-        image(playerInstruction1img, this.player1Position.x, this.player1Position.y, 130, 130);
+        push();
+        image(playerInstruction1img, this.player1Position.x - 50, this.player1Position.y, 130, 130);
+        pop();
     }
     drawPlayer2() {
-        image(playerInstruction2img, this.player2Position.x, this.player2Position.y, 130, 130);
+        image(playerInstruction2img, this.player2Position.x + 20, this.player2Position.y, 130, 130);
     }
     drawPlayerKeysYellow() {
-        image(playerKeysYellow, this.playerKeysYellowPosition.x, this.playerKeysYellowPosition.y, 150, 100);
+        image(playerKeysYellow, this.playerKeysYellowPosition.x - 50, this.playerKeysYellowPosition.y, 150, 100);
     }
     drawPlayerKeysGreen() {
-        image(playerKeysGreen, this.playerKeysGreenPosition.x, this.playerKeysGreenPosition.y, 150, 100);
+        image(playerKeysGreen, this.playerKeysGreenPosition.x + 20, this.playerKeysGreenPosition.y, 150, 100);
     }
     playSound() {
-        image(soundOnimg, this.playSoundPosition.x, this.playSoundPosition.y, 40, 40);
+        image(soundOnimg, this.playSoundPosition.x, this.playSoundPosition.y, 60, 60);
     }
 }
 let cloudImg;
@@ -80,9 +82,9 @@ let player2Img;
 class StartScene {
     constructor(game) {
         this.game = game;
-        this.titlePosition = createVector(windowWidth * 0.5, windowHeight * 0.5);
-        this.textPosition = createVector(windowWidth * 0.5, windowHeight * 0.5 + 150);
-        this.cloudPosition = createVector(350, 120);
+        this.titlePosition = createVector(720, 470);
+        this.textPosition = createVector(720, 650);
+        this.cloudPosition = createVector(250, 120);
         this.snowflakePositions = [];
         for (let i = 0; i < 50; i++) {
             this.snowflakePositions.push(createVector(random(width), random(height)));
@@ -91,9 +93,9 @@ class StartScene {
         for (let i = 0; i < 50; i++) {
             this.snowflakeVelocity.push(createVector(1, random(2)));
         }
-        this.platformPosition = createVector(50, 700);
-        this.player1Position = createVector(200, 650);
-        this.player2Position = createVector(600, 650);
+        this.platformPosition = createVector(50, 850);
+        this.player1Position = createVector(200, 785);
+        this.player2Position = createVector(600, 785);
         this.bounceTime = 0;
     }
     update() {
@@ -129,16 +131,20 @@ class StartScene {
     }
     drawTitle() {
         push();
-        fill("white");
         textSize(140);
         textAlign(CENTER, CENTER);
         textFont(kavoonFont);
-        text("Tag or DIE!", this.titlePosition.x, this.titlePosition.y);
+        fill(58, 168, 167);
+        text("Tag", this.titlePosition.x - textWidth(" or DIE!") / 2, this.titlePosition.y);
+        fill("white");
+        text("or ", this.titlePosition.x, this.titlePosition.y);
+        fill(255, 213, 118);
+        text(" DIE!", this.titlePosition.x + textWidth("Tag or ") / 2, this.titlePosition.y);
         pop();
     }
     drawText() {
         push();
-        const bounceOffset = sin(this.bounceTime) * 10;
+        const bounceOffset = sin(this.bounceTime) * 5;
         fill("white");
         textSize(40);
         textAlign(CENTER, CENTER);
@@ -146,7 +152,9 @@ class StartScene {
         pop();
     }
     drawCloud() {
+        push();
         image(cloudImg, this.cloudPosition.x, this.cloudPosition.y, 550, 250);
+        pop();
     }
     drawSnowflakes() {
         for (const pos of this.snowflakePositions) {
@@ -154,13 +162,19 @@ class StartScene {
         }
     }
     drawPlatform() {
+        push();
         image(platformImg, this.platformPosition.x, this.platformPosition.y, 800, 50);
+        pop();
     }
     drawPlayer1() {
+        push();
         image(player1Img, this.player1Position.x, this.player1Position.y);
+        pop();
     }
     drawPlayer2() {
+        push();
         image(player2Img, this.player2Position.x, this.player2Position.y);
+        pop();
     }
 }
 let startScene;
@@ -244,8 +258,8 @@ class GameObject {
     update() { }
 }
 let level;
-const squareSizeX = 144;
-const squareSizeY = 128;
+const squareSizeX = 144 * 0.67;
+const squareSizeY = 128 * 0.67;
 class LevelFactory {
     constructor(game) {
         this.game = game;
@@ -305,8 +319,8 @@ class LevelFactory {
 }
 let game;
 let changedScene = false;
-const canvasWidth = 1440;
-const canvasHeight = 1024;
+const canvasWidth = 1440 * 0.67;
+const canvasHeight = 1024 * 0.67;
 let canvas;
 function setup() {
     canvas = createCanvas(canvasWidth, canvasHeight);
@@ -428,10 +442,10 @@ class ResultScene {
         this.game = game;
         this.winner = winner;
         this.titlePosition = createVector(720, 400);
-        this.textPosition = createVector(720, 512);
+        this.textPosition = createVector(720, 550);
         this.cloudPosition = createVector(270, 100);
         this.snowflakePositions = [
-            { position: createVector(1050, 280), size: 200 },
+            { position: createVector(1100, 280), size: 200 },
             { position: createVector(1000, 120), size: 120 },
             { position: createVector(1200, 150), size: 150 },
             { position: createVector(1150, 500), size: 175 },
@@ -471,7 +485,7 @@ class ResultScene {
         drawingContext.shadowBlur = 5;
         drawingContext.shadowColor = "rgba(0, 0, 0, 0.5)";
         fill(titleColor);
-        textSize(100);
+        textSize(120);
         textFont(kavoonFont);
         text(titleText, this.titlePosition.x, this.titlePosition.y);
         pop();
@@ -483,7 +497,7 @@ class ResultScene {
         drawingContext.shadowBlur = 5;
         drawingContext.shadowColor = "rgba(0, 0, 0, 0.5)";
         fill("white");
-        textSize(30);
+        textSize(35);
         text("Press SPACE to play again", this.textPosition.x, this.textBounceY);
         pop();
     }
@@ -495,7 +509,13 @@ class ResultScene {
         }
     }
     drawCloud() {
+        push();
+        drawingContext.shadowOffsetX = 2;
+        drawingContext.shadowOffsetY = 2;
+        drawingContext.shadowBlur = 5;
+        drawingContext.shadowColor = "rgba(0, 0, 0, 0.5)";
         image(cloudImg, this.cloudPosition.x, this.cloudPosition.y);
+        pop();
     }
     drawSnowflakes() {
         for (let snowflake of this.snowflakePositions) {

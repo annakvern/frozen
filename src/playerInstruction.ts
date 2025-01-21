@@ -17,15 +17,12 @@ class PlayerInstruction implements Scene {
   constructor(game: Game) {
     this.game = game;
     this.titlePosition = createVector(width / 2, 100);
-    this.textPosition = createVector(width / 2, 200);
-    this.player1Position = createVector(980, 300);
-    this.player2Position = createVector(410, 300);
-    this.playerKeysYellowPosition = createVector(970, 460);
-    this.playerKeysGreenPosition = createVector(400, 460);
-    this.playSoundPosition = createVector(
-      windowWidth * 0.93,
-      windowHeight * 0.86
-    );
+    this.textPosition = createVector(width / 2, 300);
+    this.player1Position = createVector(980, 400);
+    this.player2Position = createVector(410, 400);
+    this.playerKeysYellowPosition = createVector(970, 560);
+    this.playerKeysGreenPosition = createVector(400, 560);
+    this.playSoundPosition = createVector(1370, 955);
   }
 
   public update(): void {
@@ -51,9 +48,9 @@ class PlayerInstruction implements Scene {
   private drawTitle() {
     push();
     fill("white");
-    textSize(100);
+    textSize(120);
     textAlign(CENTER, CENTER);
-    text("READY?", this.titlePosition.x, this.titlePosition.y);
+    text("READY?", this.titlePosition.x + 40, this.titlePosition.y);
     textFont(kavoonFont);
     pop();
   }
@@ -62,45 +59,47 @@ class PlayerInstruction implements Scene {
     push();
     fill("white");
     let bounceText = sin(frameCount * 0.1) * 3; // "Press space" gungar upp och ner.
-    textSize(20);
+    textSize(40);
     textAlign(CENTER, CENTER);
     text(
-      "Press space to get started",
-      this.textPosition.x,
-      this.textPosition.y + bounceText
+      "You have 2 mins - Tag or DIE!",
+      this.textPosition.x + 30,
+      this.textPosition.y - 80
     );
-    text("You have 2 mins - Tag or DIE!", this.textPosition.x - 0, 630);
+    text("Press SPACE to get started", this.textPosition.x - -30, 820 + bounceText);
     textSize(40);
-    text("Player 1", this.textPosition.x - 300, 250);
-    text("Player 2", this.textPosition.x + 280, 250);
+    text("Player 1", this.textPosition.x - 225, 350);
+    text("Player 2", this.textPosition.x + 280, 350);
     textFont(kavoonFont);
     pop();
   }
 
   private drawPlayer1() {
+    push();
+
     image(
       playerInstruction1img,
-      this.player1Position.x,
-      this.player1Position.y,
-      130,
-      130
-    );
+      this.player1Position.x - 50,
+      this.player1Position.y, 130, 130);
+      pop();
   }
 
   private drawPlayer2() {
+    
     image(
       playerInstruction2img,
-      this.player2Position.x,
+      this.player2Position.x + 20,
       this.player2Position.y,
       130,
       130
     );
+    
   }
 
   private drawPlayerKeysYellow() {
     image(
       playerKeysYellow,
-      this.playerKeysYellowPosition.x,
+      this.playerKeysYellowPosition.x - 50,
       this.playerKeysYellowPosition.y,
       150,
       100
@@ -109,19 +108,20 @@ class PlayerInstruction implements Scene {
   private drawPlayerKeysGreen() {
     image(
       playerKeysGreen,
-      this.playerKeysGreenPosition.x,
+      this.playerKeysGreenPosition.x + 20,
       this.playerKeysGreenPosition.y,
       150,
       100
     );
   }
   private playSound() {
+
     image(
       soundOnimg,
       this.playSoundPosition.x,
       this.playSoundPosition.y,
-      40,
-      40
+      60,
+      60
     );
   }
 }
