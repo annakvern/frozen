@@ -50,10 +50,10 @@ class LevelFactory {
           } else if (value === 6) {
             gameObjects.push(new Snowman(position));
             console.log(`Added object at ${position.x}, ${position.y}`);
-          } else if (value === 8) {
-            // gameObjects.push(new Timer("yellow"));
-          } else if (value === 9) {
-            // gameObjects.push(new Timer("green"));
+            // } else if (value === 8) {
+            //   new Timer("yellow").draw;
+            // } else if (value === 9) {
+            //   new Timer("green").draw;
           }
         }
       }
