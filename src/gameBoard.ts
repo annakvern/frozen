@@ -23,9 +23,31 @@ class GameBoard implements Scene {
       let nextPage = new ResultScene(this.game, "Yellow");
       this.game.changeActiveScreen(nextPage);
     }
+
+    this.checkCollisions()
   }
 
-  private checkCollisions() {}
+
+  private checkCollisions(){
+    for (const gameObject of this.gameObjects) {
+      if (gameObject !instanceof Player) continue;
+
+      gameObject.
+    }
+     //Urgent!!!!!!! Måste diskuteras med David
+    if(greenPlayer.position.x >= platform.position.x - platform.width / 2 &&
+      greenPLayer.position.x < = platform.positon.x + platform.width / 2 &&
+      greenPLayer.position.y + platform.height >= platform.position.y - platform.height / 2 &&
+      greenPlayer.position.y + platform.height <= platform.position.y + platform.height / 2 &&
+      jump === false;
+    ){
+      greenPlayer.position.y = greenPlayer.position.y; // stop falling
+      speed = 0;
+      jumpCounter = 0; // prohibits to jump more than once in the air
+    }
+  }
+  }
+  
 
   private bouncePlayers() {}
 

@@ -202,17 +202,44 @@ class GameBoard {
             let nextPage = new ResultScene(this.game, "Yellow");
             this.game.changeActiveScreen(nextPage);
         }
+        this.checkCollisions();
     }
-    checkCollisions() { }
-    bouncePlayers() { }
-    squishToGround() { }
-    freezeToIcicle() { }
-    teleportPlayer() { }
-    applyNoFriction() { }
-    switchChaser() { }
-    checkWinner() { }
-    checkTimer() { }
+    checkCollisions() {
+        for (const gameObject of this.gameObjects) {
+            if (gameObject instanceof Player)
+                continue;
+            gameObject.
+            ;
+        }
+        if (greenPlayer.position.x >= platform.position.x - platform.width / 2 &&
+            greenPLayer.position.x < )
+             = platform.positon.x + platform.width / 2 &&
+                greenPLayer.position.y + platform.height >= platform.position.y - platform.height / 2 &&
+                greenPlayer.position.y + platform.height <= platform.position.y + platform.height / 2 &&
+                jump === false;
+        {
+            greenPlayer.position.y = greenPlayer.position.y;
+            speed = 0;
+            jumpCounter = 0;
+        }
+    }
 }
+bouncePlayers();
+{ }
+squishToGround();
+{ }
+freezeToIcicle();
+{ }
+teleportPlayer();
+{ }
+applyNoFriction();
+{ }
+switchChaser();
+{ }
+checkWinner();
+{ }
+checkTimer();
+{ }
 class GameObject {
     constructor(position, width, height, img, isSolid) {
         this.position = position;
@@ -255,18 +282,20 @@ class LevelFactory {
                 [4, 4, 0, 0, 0, 0, 0, 0, 0, 0],
                 [0, 0, 0, 0, 4, 4, 0, 2, 0, 0],
                 [0, 4, 4, 0, 0, 0, 4, 4, 0, 0],
-                [0, 0, 0, 0, 0, 0, 0, 0, 5, 0],
+                [4, 4, 4, 4, 4, 4, 4, 4, 5, 4],
             ];
             for (let y = 0; y < level1.length; y++) {
                 for (let x = 0; x < level1[y].length; x++) {
                     let value = level1[y][x];
                     const position = createVector(x * squareSizeX, y * squareSizeY);
                     if (value === 1) {
-                        gameObjects.push(new Player("yellow", position, true, 0, 0));
+                        let yellowPlayer = new Player("yellow", position, true, 0, 0);
+                        gameObjects.push(yellowPlayer);
                         console.log(`Added object at ${position.x}, ${position.y}`);
                     }
                     else if (value === 2) {
-                        gameObjects.push(new Player("green", position, false, 0, 0));
+                        let greenPlayer = new Player("green", position, false, 0, 0);
+                        gameObjects.push(greenPlayer);
                         console.log(`Added object at ${position.x}, ${position.y}`);
                     }
                     else if (value === 3) {
@@ -352,6 +381,7 @@ class Platform extends GameObject {
 }
 let playerYellow;
 let playerGreen;
+let groundLevel = 200;
 class Player extends GameObject {
     constructor(color, position, isChasing, speedX, SpeedY) {
         if (color === "yellow") {
@@ -364,11 +394,46 @@ class Player extends GameObject {
         this.speed = createVector(speedX, SpeedY);
         this.isOnIce = false;
         this.isChasing = isChasing;
+        this.isJumping = false;
+        this.gravity = 0;
     }
     setPosition() { }
-    applyGravity() { }
+    applyGravity() {
+        this.speed.y += this.gravity;
+        if (this.position.y < height - 200) {
+        }
+        else {
+            this.speed.y = 0;
+            this.position.y = height - 200;
+            this.isJumping = false;
+        }
+        if (greenPlayer.position.y = groundLevel && this.isJumping === false) {
+            greenPlayer.position.y = groundLevel.position.y;
+            jumpCounter = 0;
+        }
+        else {
+            greenPlayer.position.y = greenPlayer.position.y + gravity * this.speed;
+        }
+        if (this.isJumping === true) {
+            if (greenPlayer.position.y <= maxJumpHeigth) {
+                if (greenPlayer.position.y >= groundLevel) {
+                    greenPlayer.posiiton.y = groundLevel;
+                }
+            }
+        }
+    }
     bounce() { }
-    jump() { }
+    jump() {
+        if (this.color === "yellow" && !this.isJumping && keyIsDown(UP_ARROW)) {
+            this.speed.y = -15;
+            this.isJumping = true;
+            console.log("borde hoppa");
+        }
+        else if (this.color === "green" && !this.isJumping && keyIsDown(87)) {
+            this.speed.y = -15;
+            this.isJumping = true;
+        }
+    }
     toggleIsChasing() { }
     playerControls() {
         if (this.color === "yellow") {
@@ -377,6 +442,12 @@ class Player extends GameObject {
             }
             else if (keyIsDown(RIGHT_ARROW)) {
                 this.speed.x = 10;
+            }
+            else if (keyIsDown(UP_ARROW)) {
+                this.speed.y = -10;
+            }
+            else if (keyIsDown(DOWN_ARROW)) {
+                this.speed.y = 10;
             }
             else {
                 this.speed.x = 0;
@@ -399,6 +470,7 @@ class Player extends GameObject {
     }
     update() {
         this.playerControls();
+        this.applyGravity();
         this.position.x += this.speed.x;
         this.position.y += this.speed.y;
     }
