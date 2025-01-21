@@ -1,5 +1,3 @@
-//// ATT GÖRA; FÄRDIGSTÄLL UPDATE()
-
 //// DECLARE IMAGES TO BE USED IN THE SCENE.
 let podiumYellowImg: p5.Image;
 let podiumGreenImg: p5.Image;
@@ -23,7 +21,7 @@ class ResultScene implements Scene {
     this.game = game;
     this.winner = winner;
     this.titlePosition = createVector(width * 0.5, height * 0.4);
-    this.textPosition = createVector(width * 0.5, height * 0.55);
+    this.textPosition = createVector(width * 0.4, height * 0.55);
     this.cloudPosition = createVector(width * 0.26, height * 0.13);
     this.snowflakePositions = [
       { position: createVector(width * 0.73, height * 0.23), size: 200 },
@@ -31,8 +29,8 @@ class ResultScene implements Scene {
       { position: createVector(width * 0.83, height * 0.15), size: 150 },
       { position: createVector(width * 0.77, height * 0.55), size: 175 },
     ];
-    this.podiumPosition = createVector(width * 0.35, height * 0.8);
-    this.quitButtonPosition = createVector(width * 0.03, height * 0.95);
+    this.podiumPosition = createVector(width * 0.39, height * 0.8);
+    this.quitButtonPosition = createVector(width * 0.04, height * 0.95);
     this.textBounceY = this.textPosition.y;
     this.textBounceSpeed = 0.25;
     this.textBounceRange = height * 0.003;
@@ -97,7 +95,7 @@ class ResultScene implements Scene {
 
     fill("white");
     textSize(txtSize);
-    text("Press space to play again", this.textPosition.x, this.textBounceY);
+    text("Press SPACE to play again", this.textPosition.x, this.textBounceY);
     pop();
   }
 

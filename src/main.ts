@@ -1,8 +1,13 @@
 let game: Game; // the game starts here
 let changedScene: boolean = false;
+const canvasWidth = 1440;
+const canvasHeight = 1024;
+let canvas: p5.Renderer;
 
 function setup() {
-  createCanvas(1440, 1024);
+  canvas = createCanvas(canvasWidth, canvasHeight);
+  centerCanvas();
+  
   frameRate(60);
 
   let startScene = new StartScene(null as unknown as Game);
@@ -10,8 +15,30 @@ function setup() {
   startScene = new StartScene(game);
   game.changeActiveScreen(startScene);
 
+
   textFont(kavoonFont);
 }
+
+function centerCanvas() {
+  const x = (windowWidth - canvasWidth) / 2;
+  const y = (windowHeight - canvasHeight) / 2; 
+  canvas.position(x, y)
+}
+
+function windowResized() {
+  centerCanvas();
+}
+
+
+function draw() {
+  game.update();
+  game.draw();
+}
+
+function keyReleased() {
+  changedScene = false;
+}
+
 
 function preload() {
   music = {
@@ -37,13 +64,4 @@ function preload() {
   soundOnimg = loadImage("assets/images/soundOn.svg");
   podiumYellowImg = loadImage("assets/images/podiumYellowWinner.svg");
   podiumGreenImg = loadImage("assets/images/podiumGreenWinner.svg");
-}
-
-function draw() {
-  game.update();
-  game.draw();
-}
-
-function keyReleased() {
-  changedScene = false;
 }
