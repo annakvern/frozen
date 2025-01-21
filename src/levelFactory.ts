@@ -32,11 +32,15 @@ class LevelFactory {
           let value = level1[y][x];
           const position = createVector(x * squareSizeX, y * squareSizeY);
 
+          const playerStart = random();
+
           if (value === 1) {
-            gameObjects.push(new Player("yellow", position, true, 0, 0));
+            let yellowPlayer = new Player("yellow", position, playerStart > .5, 0, 0);
+            gameObjects.push(yellowPlayer);
             console.log(`Added object at ${position.x}, ${position.y}`);
           } else if (value === 2) {
-            gameObjects.push(new Player("green", position, false, 0, 0));
+            let greenPlayer = new Player("green", position, playerStart <= .5, 0, 0);
+            gameObjects.push(greenPlayer);
             console.log(`Added object at ${position.x}, ${position.y}`);
           } else if (value === 3) {
             gameObjects.push(new Teleport(position));

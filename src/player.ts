@@ -16,17 +16,21 @@ class Player extends GameObject {
     isChasing: boolean,
     speedX: number,
     SpeedY: number
+
   ) {
+    
     if (color === "yellow") {
       super(position, 70, 70, playerYellow, false);
     } else {
       super(position, 70, 70, playerGreen, false);
     }
-
+    
+console.log("isChasing is:" + isChasing);
     this.color = color;
     this.speed = createVector(speedX, SpeedY);
     this.isOnIce = false;
     this.isChasing = isChasing;
+  
 
     // this.timeSinceTeleport = ;
     // this.timer = timer;
@@ -65,7 +69,11 @@ class Player extends GameObject {
   }
 
   public draw() {
-    image(this.img, this.position.x, this.position.y, 70, 70);
+    super.draw();
+
+    if (this.isChasing) {
+      // rita triangel
+    }
   }
 
   public update() {
@@ -73,4 +81,6 @@ class Player extends GameObject {
     this.position.x += this.speed.x;
     this.position.y += this.speed.y;
   }
+
+  
 }
