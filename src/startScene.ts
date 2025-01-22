@@ -168,13 +168,6 @@ class StartScene implements Scene {
 
   private drawPlatform() {
     push();
-
-    // SHADOW SETTINGS.
-    drawingContext.shadowOffsetX = 2;
-    drawingContext.shadowOffsetY = 2;
-    drawingContext.shadowBlur = 5;
-    drawingContext.shadowColor = "rgba(0, 0, 0, 0.5)";
-
     image(
       platformImg,
       this.platformPosition.x,
@@ -187,26 +180,12 @@ class StartScene implements Scene {
 
   private drawPlayer1() {
     push();
-
-    // SHADOW SETTINGS.
-    drawingContext.shadowOffsetX = 2;
-    drawingContext.shadowOffsetY = 2;
-    drawingContext.shadowBlur = 5;
-    drawingContext.shadowColor = "rgba(0, 0, 0, 0.5)";
-
     image(player1Img, this.player1Position.x, this.player1Position.y);
     pop();
   }
 
   private drawPlayer2() {
     push();
-
-    // SHADOW SETTINGS.
-    drawingContext.shadowOffsetX = 2;
-    drawingContext.shadowOffsetY = 2;
-    drawingContext.shadowBlur = 5;
-    drawingContext.shadowColor = "rgba(0, 0, 0, 0.5)";
-
     image(player2Img, this.player2Position.x, this.player2Position.y);
     pop();
   }

@@ -1,5 +1,5 @@
-const positionGreenTimerX: number = 1390;
-const positionTimerY: number = 50;
+const positionGreenTimerX: number = 974;
+const positionTimerY: number = 35;
 const positionYellowTimerX: number = 50;
 let timeLimit = 60;
 

@@ -29,7 +29,7 @@ class ResultScene implements Scene {
       { position: createVector(845, 70), size: 130 },
       { position: createVector(850, 350), size: 125 },
     ];
-    this.podiumPosition = createVector(350, 477);
+    this.podiumPosition = createVector(360, 506);
     this.quitButtonPosition = createVector(40, 660);
     this.textBounceY = this.textPosition.y;
     this.textBounceSpeed = 0.15;
@@ -129,12 +129,6 @@ class ResultScene implements Scene {
   private drawSnowflakes() {
     push();
 
-    // SHADOW SETTINGS.
-    drawingContext.shadowOffsetX = 2;
-    drawingContext.shadowOffsetY = 2;
-    drawingContext.shadowBlur = 5;
-    drawingContext.shadowColor = "rgba(0, 0, 0, 0.5)";
-
     for (let snowflake of this.snowflakePositions) {
       image(
         snowflakeImg,
@@ -150,20 +144,13 @@ class ResultScene implements Scene {
   //// FUNCTION TO DRAW THE WINNER'S PODIUM ON THE SCREEN.
   private drawPodium() {
     push();
-
-    // SHADOW SETTINGS.
-    drawingContext.shadowOffsetX = 2;
-    drawingContext.shadowOffsetY = 2;
-    drawingContext.shadowBlur = 5;
-    drawingContext.shadowColor = "rgba(0, 0, 0, 0.5)";
-
     if (this.winner === "Yellow") {
       image(
         podiumYellowImg,
         this.podiumPosition.x,
         this.podiumPosition.y,
         300,
-        210
+        180
       );
     } else if (this.winner === "Green") {
       image(
@@ -171,7 +158,7 @@ class ResultScene implements Scene {
         this.podiumPosition.x,
         this.podiumPosition.y,
         300,
-        210
+        180
       );
     }
     pop();

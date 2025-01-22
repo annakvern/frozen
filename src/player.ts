@@ -89,7 +89,7 @@ class Player extends GameObject {
   }
 
   public draw() {
-    image(this.img, this.position.x, this.position.y, 70, 70);
+    image(this.img, this.position.x, this.position.y, 50, 50);
   }
 
   public update() {

@@ -18,11 +18,11 @@ class PlayerInstruction implements Scene {
     this.game = game;
     this.titlePosition = createVector(width / 2 - 25, 70);
     this.textPosition = createVector(width / 2 - 15, 250);
-    this.player1Position = createVector(700, 285);
-    this.player2Position = createVector(210, 285);
+    this.player1Position = createVector(710, 285);
+    this.player2Position = createVector(220, 285);
     this.playerKeysYellowPosition = createVector(735, 430);
     this.playerKeysGreenPosition = createVector(175, 430);
-    this.playSoundPosition = createVector(1370, 955);
+    this.playSoundPosition = createVector(960, 625);
   }
 
   public update(): void {
@@ -54,7 +54,7 @@ class PlayerInstruction implements Scene {
     drawingContext.shadowBlur = 5;
     drawingContext.shadowColor = "rgba(0, 0, 0, 0.5)";
 
-    fill(152, 159, 227);
+    fill("white");
     textSize(80);
     textAlign(CENTER, CENTER);
     text("READY?", this.titlePosition.x + 40, this.titlePosition.y);
@@ -76,30 +76,21 @@ class PlayerInstruction implements Scene {
     textSize(30);
     textAlign(CENTER, CENTER);
     text(
-      "You have 2 mins - ",
-      this.textPosition.x - 40,
+      "You have 2 mins - Tag or DIE!",
+      this.textPosition.x + 30,
       this.textPosition.y - 100
     );
-    push();
-    fill(58, 168, 167);
-    text("Tag", this.textPosition.x + 115, this.textPosition.y - 100);
-
+    
+   
     fill("white");
-    text("or", this.textPosition.x + 170, this.textPosition.y - 100);
-
+    text("Press", this.textPosition.x - 140, 600 + bounceText);
     fill(255, 213, 118);
-    text("DIE!", this.textPosition.x + 225, this.textPosition.y - 100);
-    pop();
+    text("SPACE", this.textPosition.x - 43, 600 + bounceText);
     fill("white");
-    text("Press", this.textPosition.x - 130, 600 + bounceText);
-    fill(255, 213, 118);
-    text("SPACE", this.textPosition.x - 35, 600 + bounceText);
-    fill("white");
-    text("to get started", this.textPosition.x + 115, 600 + bounceText);
+    text("to get started", this.textPosition.x + 110, 600 + bounceText);
     textSize(30);
-    fill(58, 168, 167);
-    text("Player 1", this.textPosition.x - 225, 230);
-    fill(255, 213, 118);
+    fill("white");
+    text("Player 1", this.textPosition.x - 225, 230); 
     text("Player 2", this.textPosition.x + 260, 230);
     textFont(kavoonFont);
     pop();
@@ -108,18 +99,12 @@ class PlayerInstruction implements Scene {
   private drawPlayer1() {
     push();
 
-    // SHADOW SETTINGS.
-    drawingContext.shadowOffsetX = 2;
-    drawingContext.shadowOffsetY = 2;
-    drawingContext.shadowBlur = 5;
-    drawingContext.shadowColor = "rgba(0, 0, 0, 0.5)";
-
     image(
       playerInstruction1img,
       this.player1Position.x,
       this.player1Position.y,
-      120,
-      120
+      100,
+      100
     );
     pop();
   }
@@ -127,18 +112,12 @@ class PlayerInstruction implements Scene {
   private drawPlayer2() {
     push();
 
-    // SHADOW SETTINGS.
-    drawingContext.shadowOffsetX = 2;
-    drawingContext.shadowOffsetY = 2;
-    drawingContext.shadowBlur = 5;
-    drawingContext.shadowColor = "rgba(0, 0, 0, 0.5)";
-
     image(
       playerInstruction2img,
       this.player2Position.x,
       this.player2Position.y,
-      120,
-      120
+      100,
+      100
     );
     pop();
   }
