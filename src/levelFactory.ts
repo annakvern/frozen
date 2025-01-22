@@ -2,6 +2,7 @@ let level: number;
 const squareSizeX = 144;
 const squareSizeY = 128;
 
+
 class LevelFactory {
   private game: Game;
   constructor(game: Game) {
@@ -25,7 +26,7 @@ class LevelFactory {
         [4, 4, 0, 0, 0, 0, 0, 0, 0, 0],
         [0, 0, 0, 0, 4, 4, 0, 2, 0, 0],
         [0, 4, 4, 0, 0, 0, 4, 4, 0, 0],
-        [0, 0, 0, 0, 0, 0, 0, 0, 5, 0],
+        [4, 4, 4, 4, 4, 4, 4, 4, 5, 4],
       ];
       for (let y = 0; y < level1.length; y++) {
         for (let x = 0; x < level1[y].length; x++) {

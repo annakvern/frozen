@@ -4,16 +4,18 @@ let changedScene: boolean = false;
 function setup() {
   createCanvas(1440, 1024);
   frameRate(60);
+  game = new Game();
+  userStartAudio(); //Aktiverar ljudet efter en användargest
 
-  let startScene = new StartScene(null as unknown as Game);
-  game = new Game(startScene);
-  startScene = new StartScene(game);
-  game.changeActiveScreen(startScene);
+  // let startScene = new StartScene(null as unknown as Game);  
+  // startScene = new StartScene(game);
+  // game.changeActiveScreen(startScene);
 
   textFont(kavoonFont);
 }
 
 function preload() {
+  soundOnimg = loadImage("assets/images/soundOn.svg");
   music = {
     mystery: loadSound("/assets/music/mystery.mp3"),
   };

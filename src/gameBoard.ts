@@ -53,9 +53,56 @@ class GameBoard implements Scene {
       let nextPage = new ResultScene(this.game, "Yellow");
       this.game.changeActiveScreen(nextPage);
     }
+
+    this.checkCollisions();
   }
 
-  private checkCollisions() {}
+  private checkCollisions() {
+    const canvasWidth = 1440; // canvas bredd
+    // const canvasHeight = 1024; // behöver vi ha stopp för höjden?
+
+    for (const o1 of this.gameObjects) {
+      if (!(o1 instanceof Player)) continue;
+
+      if (o1.position.x < 0) {
+        o1.position.x = 0; // stopp till vänster
+        o1.speed.x = 0; // Spelarens fart går till när den möter väggen
+      } else if (o1.position.x + o1.width > canvasWidth) {
+        o1.position.x = canvasWidth - o1.width; // Stoppa till höger kant
+        o1.speed.x = 0; //Spelarens fart går till 0 när den möter väggen
+      }
+
+      for (const o2 of this.gameObjects) {
+        if (o1 === o2) continue;
+        if (o2 instanceof Snowman) continue;
+
+        if (this.objectsOverlap(o1, o2)) {
+          if (o2 instanceof Player) {
+            // bounce
+          }
+          if (this.objectsOverlap(o1, o2)) {
+            if (o2 instanceof Platform) {
+              // Push above platform
+              if (o1.speed.y > 0) {
+                o1.position.y = o2.position.y - 70;
+                o1.speed.y = 0;
+                o1.isJumping = false;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+
+  private objectsOverlap(o1: GameObject, o2: GameObject) {
+    return (
+      o1.position.x < o2.position.x + o2.width &&
+      o1.position.x + o1.width > o2.position.x &&
+      o1.position.y < o2.position.y + o2.height &&
+      o1.position.y + o1.height > o2.position.y
+    );
+  }
 
   private bouncePlayers() {}
 
@@ -84,3 +131,10 @@ class GameBoard implements Scene {
   }
   }
 }
+
+// Al < Br
+// Ar > Bl
+
+//För att ta reda på positionX (Höger) position.x + width av objektet (plattform)
+
+// Samma sak för Y-axeln. Position.y + height (då får vi andra hörnet av objektet)
