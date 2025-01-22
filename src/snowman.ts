@@ -1,10 +1,10 @@
 let snowman: p5.Image;
 class Snowman extends GameObject {
   constructor(position: p5.Vector) {
-    super(position, 60, 100, snowman, false);
+    super(position, 69, 118, snowman, false);
   }
   public draw() {
-    image(this.img, this.position.x, this.position.y, 99, 168);
+    image(this.img, 600, 145, 69, 118);
   }
 
   public update() {}

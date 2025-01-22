@@ -17,16 +17,15 @@ class PlayerInstruction implements Scene {
 
   constructor(game: Game) {
     this.game = game;
-    this.titlePosition = createVector(width / 2, 100);
-    this.textPosition = createVector(width / 2, 200);
-    this.player1Position = createVector(980, 300);
-    this.player2Position = createVector(410, 300);
-    this.playerKeysYellowPosition = createVector(970, 460);
-    this.playerKeysGreenPosition = createVector(400, 460);
-    this.playSoundPosition = createVector(
-      windowWidth * 0.7,
-      windowHeight * 0.8
-    );
+
+    this.titlePosition = createVector(width / 2 - 25, 70);
+    this.textPosition = createVector(width / 2 - 15, 250);
+    this.player1Position = createVector(710, 285);
+    this.player2Position = createVector(220, 285);
+    this.playerKeysYellowPosition = createVector(735, 430);
+    this.playerKeysGreenPosition = createVector(175, 430);
+    this.playSoundPosition = createVector(960, 625);
+
   }
 
   public update(): void {     
@@ -57,73 +56,128 @@ class PlayerInstruction implements Scene {
 
   private drawTitle() {
     push();
+
+    // SHADOW SETTINGS.
+    drawingContext.shadowOffsetX = 2;
+    drawingContext.shadowOffsetY = 2;
+    drawingContext.shadowBlur = 5;
+    drawingContext.shadowColor = "rgba(0, 0, 0, 0.5)";
+
     fill("white");
-    textSize(100);
+    textSize(80);
     textAlign(CENTER, CENTER);
-    text("READY?", this.titlePosition.x, this.titlePosition.y);
+    text("READY?", this.titlePosition.x + 40, this.titlePosition.y);
     textFont(kavoonFont);
     pop();
   }
 
   private drawText() {
     push();
+
+    // SHADOW SETTINGS.
+    drawingContext.shadowOffsetX = 2;
+    drawingContext.shadowOffsetY = 2;
+    drawingContext.shadowBlur = 5;
+    drawingContext.shadowColor = "rgba(0, 0, 0, 0.5)";
+
     fill("white");
     let bounceText = sin(frameCount * 0.1) * 3; // "Press space" gungar upp och ner.
-    textSize(20);
+    textSize(30);
     textAlign(CENTER, CENTER);
     text(
-      "Press space to get started",
-      this.textPosition.x,
-      this.textPosition.y + bounceText
+      "You have 2 mins - Tag or DIE!",
+      this.textPosition.x + 30,
+      this.textPosition.y - 100
     );
+
+    
+   
+    fill("white");
+    text("Press", this.textPosition.x - 140, 600 + bounceText);
+    fill(255, 213, 118);
+    text("SPACE", this.textPosition.x - 43, 600 + bounceText);
+    fill("white");
+    text("to get started", this.textPosition.x + 110, 600 + bounceText);
+    textSize(30);
+    fill("white");
+    text("Player 1", this.textPosition.x - 225, 230); 
+    text("Player 2", this.textPosition.x + 260, 230);
+
     text("You have 2 mins - Tag or DIE!", this.textPosition.x - 0, 630);
     textSize(40);
     text("Player 1", this.textPosition.x - 300, 250);
     text("Player 2", this.textPosition.x + 280, 250);
     textSize(15);
     text("Press p to play and pause music", this.textPosition.x + 480, 630); 
+
     textFont(kavoonFont);
     pop();
   }
 
   private drawPlayer1() {
+    push();
+
     image(
       playerInstruction1img,
       this.player1Position.x,
       this.player1Position.y,
-      130,
-      130
+      100,
+      100
     );
+    pop();
   }
 
   private drawPlayer2() {
+    push();
+
     image(
       playerInstruction2img,
       this.player2Position.x,
       this.player2Position.y,
-      130,
-      130
+      100,
+      100
     );
+    pop();
   }
 
   private drawPlayerKeysYellow() {
+    push();
+
+    // SHADOW SETTINGS.
+    drawingContext.shadowOffsetX = 2;
+    drawingContext.shadowOffsetY = 2;
+    drawingContext.shadowBlur = 5;
+    drawingContext.shadowColor = "rgba(0, 0, 0, 0.5)";
+
     image(
       playerKeysYellow,
-      this.playerKeysYellowPosition.x,
+      this.playerKeysYellowPosition.x - 50,
       this.playerKeysYellowPosition.y,
       150,
       100
     );
+    pop();
   }
+
   private drawPlayerKeysGreen() {
+    push();
+
+    // SHADOW SETTINGS.
+    drawingContext.shadowOffsetX = 2;
+    drawingContext.shadowOffsetY = 2;
+    drawingContext.shadowBlur = 5;
+    drawingContext.shadowColor = "rgba(0, 0, 0, 0.5)";
+
     image(
       playerKeysGreen,
-      this.playerKeysGreenPosition.x,
+      this.playerKeysGreenPosition.x + 20,
       this.playerKeysGreenPosition.y,
       150,
       100
     );
+    pop();
   }
+
 
   public playSound() { 
 
@@ -147,5 +201,6 @@ function keyPressed() {
     } else {
       music.mystery.loop();
     }
+
   }
 } 
