@@ -41,6 +41,9 @@ class GameBoard implements Scene {
           }
           if (o2 instanceof Platform) {
             // move out of it
+            if (o1.speed.y > 0) {
+              o1.position.y = o2.position.y + 30;
+            }
           }
         }
       }
