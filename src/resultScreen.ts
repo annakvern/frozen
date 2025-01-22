@@ -21,7 +21,7 @@ class ResultScene implements Scene {
     this.game = game;
     this.winner = winner;
     this.titlePosition = createVector(canvasWidth / 2, 300);
-    this.textPosition = createVector(canvasWidth / 2, 400);
+    this.textPosition = createVector(canvasWidth / 2, 380);
     this.cloudPosition = createVector(120, 100);
     this.snowflakePositions = [
       { position: createVector(770, 185), size: 140 },
@@ -32,8 +32,8 @@ class ResultScene implements Scene {
     this.podiumPosition = createVector(350, 477);
     this.quitButtonPosition = createVector(40, 660);
     this.textBounceY = this.textPosition.y;
-    this.textBounceSpeed = 0.25;
-    this.textBounceRange = 4;
+    this.textBounceSpeed = 0.15;
+    this.textBounceRange = 2;
   }
 
   update() {
@@ -91,8 +91,13 @@ class ResultScene implements Scene {
     drawingContext.shadowColor = "rgba(0, 0, 0, 0.5)";
 
     fill("white");
-    textSize(30);
-    text("Press SPACE to play again", this.textPosition.x, this.textBounceY);
+    textSize(25);
+    fill("white");
+    text("Press", this.textPosition.x - 115, +this.textBounceY);
+    fill(255, 213, 118);
+    text("SPACE", this.textPosition.x - 35, this.textBounceY);
+    fill("white");
+    text("to play again", this.textPosition.x + 90, this.textBounceY);
     pop();
   }
 
@@ -122,6 +127,14 @@ class ResultScene implements Scene {
   // FUNCTION TO DRAW THE SNOWFLAKES ON THE SCREEN.
   // LOOP THROUGH ALL SNOWFLAKES AND DRAW THEM AT THEIR RESPECTIVE POSITIONS.
   private drawSnowflakes() {
+    push();
+
+    // SHADOW SETTINGS.
+    drawingContext.shadowOffsetX = 2;
+    drawingContext.shadowOffsetY = 2;
+    drawingContext.shadowBlur = 5;
+    drawingContext.shadowColor = "rgba(0, 0, 0, 0.5)";
+
     for (let snowflake of this.snowflakePositions) {
       image(
         snowflakeImg,
@@ -131,13 +144,20 @@ class ResultScene implements Scene {
         snowflake.size
       );
     }
+    pop();
   }
 
   //// FUNCTION TO DRAW THE WINNER'S PODIUM ON THE SCREEN.
   private drawPodium() {
- 
+    push();
+
+    // SHADOW SETTINGS.
+    drawingContext.shadowOffsetX = 2;
+    drawingContext.shadowOffsetY = 2;
+    drawingContext.shadowBlur = 5;
+    drawingContext.shadowColor = "rgba(0, 0, 0, 0.5)";
+
     if (this.winner === "Yellow") {
-     
       image(
         podiumYellowImg,
         this.podiumPosition.x,
@@ -154,9 +174,9 @@ class ResultScene implements Scene {
         210
       );
     }
+    pop();
   }
 
-  
   private drawQuitButton() {
     // Rita texten för knappen
     push();
@@ -166,13 +186,11 @@ class ResultScene implements Scene {
     text("Quit", this.quitButtonPosition.x, this.quitButtonPosition.y);
     pop();
   }
-  
-    
 
   private checkQuitButtonClick() {
     const buttonWidth = 120; // Matcha med fasta värden
     const buttonHeight = 70; // Matcha med fasta värden
-  
+
     return (
       mouseX > this.quitButtonPosition.x - buttonWidth / 2 &&
       mouseX < this.quitButtonPosition.x + buttonWidth / 2 &&
@@ -180,7 +198,6 @@ class ResultScene implements Scene {
       mouseY < this.quitButtonPosition.y + buttonHeight / 2
     );
   }
-  
 
   private quitGame() {
     game.changeActiveScreen(new StartScene(this.game));

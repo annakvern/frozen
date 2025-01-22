@@ -9,9 +9,9 @@ class PlayerInstruction {
         this.game = game;
         this.titlePosition = createVector(width / 2 - 25, 70);
         this.textPosition = createVector(width / 2 - 15, 250);
-        this.player1Position = createVector(720, 285);
+        this.player1Position = createVector(700, 285);
         this.player2Position = createVector(210, 285);
-        this.playerKeysYellowPosition = createVector(755, 430);
+        this.playerKeysYellowPosition = createVector(735, 430);
         this.playerKeysGreenPosition = createVector(175, 430);
         this.playSoundPosition = createVector(1370, 955);
     }
@@ -35,7 +35,11 @@ class PlayerInstruction {
     }
     drawTitle() {
         push();
-        fill("white");
+        drawingContext.shadowOffsetX = 2;
+        drawingContext.shadowOffsetY = 2;
+        drawingContext.shadowBlur = 5;
+        drawingContext.shadowColor = "rgba(0, 0, 0, 0.5)";
+        fill(152, 159, 227);
         textSize(80);
         textAlign(CENTER, CENTER);
         text("READY?", this.titlePosition.x + 40, this.titlePosition.y);
@@ -44,31 +48,72 @@ class PlayerInstruction {
     }
     drawText() {
         push();
+        drawingContext.shadowOffsetX = 2;
+        drawingContext.shadowOffsetY = 2;
+        drawingContext.shadowBlur = 5;
+        drawingContext.shadowColor = "rgba(0, 0, 0, 0.5)";
         fill("white");
         let bounceText = sin(frameCount * 0.1) * 3;
         textSize(30);
         textAlign(CENTER, CENTER);
-        text("You have 2 mins - Tag or DIE!", this.textPosition.x + 30, this.textPosition.y - 100);
-        text("Press SPACE to get started", this.textPosition.x - -30, 600 + bounceText);
+        text("You have 2 mins - ", this.textPosition.x - 40, this.textPosition.y - 100);
+        push();
+        fill(58, 168, 167);
+        text("Tag", this.textPosition.x + 115, this.textPosition.y - 100);
+        fill("white");
+        text("or", this.textPosition.x + 170, this.textPosition.y - 100);
+        fill(255, 213, 118);
+        text("DIE!", this.textPosition.x + 225, this.textPosition.y - 100);
+        pop();
+        fill("white");
+        text("Press", this.textPosition.x - 130, 600 + bounceText);
+        fill(255, 213, 118);
+        text("SPACE", this.textPosition.x - 35, 600 + bounceText);
+        fill("white");
+        text("to get started", this.textPosition.x + 115, 600 + bounceText);
         textSize(30);
+        fill(58, 168, 167);
         text("Player 1", this.textPosition.x - 225, 230);
-        text("Player 2", this.textPosition.x + 280, 230);
+        fill(255, 213, 118);
+        text("Player 2", this.textPosition.x + 260, 230);
         textFont(kavoonFont);
         pop();
     }
     drawPlayer1() {
         push();
+        drawingContext.shadowOffsetX = 2;
+        drawingContext.shadowOffsetY = 2;
+        drawingContext.shadowBlur = 5;
+        drawingContext.shadowColor = "rgba(0, 0, 0, 0.5)";
         image(playerInstruction1img, this.player1Position.x, this.player1Position.y, 120, 120);
         pop();
     }
     drawPlayer2() {
+        push();
+        drawingContext.shadowOffsetX = 2;
+        drawingContext.shadowOffsetY = 2;
+        drawingContext.shadowBlur = 5;
+        drawingContext.shadowColor = "rgba(0, 0, 0, 0.5)";
         image(playerInstruction2img, this.player2Position.x, this.player2Position.y, 120, 120);
+        pop();
     }
     drawPlayerKeysYellow() {
+        push();
+        drawingContext.shadowOffsetX = 2;
+        drawingContext.shadowOffsetY = 2;
+        drawingContext.shadowBlur = 5;
+        drawingContext.shadowColor = "rgba(0, 0, 0, 0.5)";
         image(playerKeysYellow, this.playerKeysYellowPosition.x - 50, this.playerKeysYellowPosition.y, 150, 100);
+        pop();
     }
     drawPlayerKeysGreen() {
+        push();
+        drawingContext.shadowOffsetX = 2;
+        drawingContext.shadowOffsetY = 2;
+        drawingContext.shadowBlur = 5;
+        drawingContext.shadowColor = "rgba(0, 0, 0, 0.5)";
         image(playerKeysGreen, this.playerKeysGreenPosition.x + 20, this.playerKeysGreenPosition.y, 150, 100);
+        pop();
     }
     playSound() {
         image(soundOnimg, this.playSoundPosition.x, this.playSoundPosition.y, 60, 60);
@@ -83,7 +128,7 @@ class StartScene {
     constructor(game) {
         this.game = game;
         this.titlePosition = createVector(canvasWidth / 2, canvasHeight / 2 - 60);
-        this.textPosition = createVector(canvasWidth / 2, canvasHeight / 2 + 40);
+        this.textPosition = createVector(canvasWidth / 2, canvasHeight / 2 + 50);
         this.cloudPosition = createVector(120, 60);
         this.snowflakePositions = [];
         for (let i = 0; i < 50; i++) {
@@ -131,7 +176,11 @@ class StartScene {
     }
     drawTitle() {
         push();
-        textSize(80);
+        drawingContext.shadowOffsetX = 2;
+        drawingContext.shadowOffsetY = 2;
+        drawingContext.shadowBlur = 5;
+        drawingContext.shadowColor = "rgba(0, 0, 0, 0.5)";
+        textSize(100);
         textAlign(CENTER, CENTER);
         textFont(kavoonFont);
         fill(58, 168, 167);
@@ -144,15 +193,28 @@ class StartScene {
     }
     drawText() {
         push();
-        const bounceOffset = sin(this.bounceTime) * 5;
+        drawingContext.shadowOffsetX = 2;
+        drawingContext.shadowOffsetY = 2;
+        drawingContext.shadowBlur = 5;
+        drawingContext.shadowColor = "rgba(0, 0, 0, 0.5)";
+        const bounceOffset = sin(this.bounceTime) * 3;
         fill("white");
-        textSize(30);
+        textSize(25);
         textAlign(CENTER, CENTER);
-        text("Press space to continue", this.textPosition.x, this.textPosition.y + bounceOffset);
+        fill("white");
+        text("Press", this.textPosition.x - 115, this.textPosition.y + bounceOffset);
+        fill(255, 213, 118);
+        text("SPACE", this.textPosition.x - 35, this.textPosition.y + bounceOffset);
+        fill("white");
+        text("to get started", this.textPosition.x + 95, this.textPosition.y + bounceOffset);
         pop();
     }
     drawCloud() {
         push();
+        drawingContext.shadowOffsetX = 2;
+        drawingContext.shadowOffsetY = 2;
+        drawingContext.shadowBlur = 5;
+        drawingContext.shadowColor = "rgba(0, 0, 0, 0.5)";
         image(cloudImg, this.cloudPosition.x, this.cloudPosition.y, 300, 150);
         pop();
     }
@@ -163,16 +225,28 @@ class StartScene {
     }
     drawPlatform() {
         push();
+        drawingContext.shadowOffsetX = 2;
+        drawingContext.shadowOffsetY = 2;
+        drawingContext.shadowBlur = 5;
+        drawingContext.shadowColor = "rgba(0, 0, 0, 0.5)";
         image(platformImg, this.platformPosition.x, this.platformPosition.y, 500, 35);
         pop();
     }
     drawPlayer1() {
         push();
+        drawingContext.shadowOffsetX = 2;
+        drawingContext.shadowOffsetY = 2;
+        drawingContext.shadowBlur = 5;
+        drawingContext.shadowColor = "rgba(0, 0, 0, 0.5)";
         image(player1Img, this.player1Position.x, this.player1Position.y);
         pop();
     }
     drawPlayer2() {
         push();
+        drawingContext.shadowOffsetX = 2;
+        drawingContext.shadowOffsetY = 2;
+        drawingContext.shadowBlur = 5;
+        drawingContext.shadowColor = "rgba(0, 0, 0, 0.5)";
         image(player2Img, this.player2Position.x, this.player2Position.y);
         pop();
     }
@@ -442,7 +516,7 @@ class ResultScene {
         this.game = game;
         this.winner = winner;
         this.titlePosition = createVector(canvasWidth / 2, 300);
-        this.textPosition = createVector(canvasWidth / 2, 400);
+        this.textPosition = createVector(canvasWidth / 2, 380);
         this.cloudPosition = createVector(120, 100);
         this.snowflakePositions = [
             { position: createVector(770, 185), size: 140 },
@@ -453,8 +527,8 @@ class ResultScene {
         this.podiumPosition = createVector(350, 477);
         this.quitButtonPosition = createVector(40, 660);
         this.textBounceY = this.textPosition.y;
-        this.textBounceSpeed = 0.25;
-        this.textBounceRange = 4;
+        this.textBounceSpeed = 0.15;
+        this.textBounceRange = 2;
     }
     update() {
         if (mouseIsPressed && this.checkQuitButtonClick()) {
@@ -497,8 +571,13 @@ class ResultScene {
         drawingContext.shadowBlur = 5;
         drawingContext.shadowColor = "rgba(0, 0, 0, 0.5)";
         fill("white");
-        textSize(30);
-        text("Press SPACE to play again", this.textPosition.x, this.textBounceY);
+        textSize(25);
+        fill("white");
+        text("Press", this.textPosition.x - 115, +this.textBounceY);
+        fill(255, 213, 118);
+        text("SPACE", this.textPosition.x - 35, this.textBounceY);
+        fill("white");
+        text("to play again", this.textPosition.x + 90, this.textBounceY);
         pop();
     }
     textBounce() {
@@ -518,17 +597,29 @@ class ResultScene {
         pop();
     }
     drawSnowflakes() {
+        push();
+        drawingContext.shadowOffsetX = 2;
+        drawingContext.shadowOffsetY = 2;
+        drawingContext.shadowBlur = 5;
+        drawingContext.shadowColor = "rgba(0, 0, 0, 0.5)";
         for (let snowflake of this.snowflakePositions) {
             image(snowflakeImg, snowflake.position.x, snowflake.position.y, snowflake.size, snowflake.size);
         }
+        pop();
     }
     drawPodium() {
+        push();
+        drawingContext.shadowOffsetX = 2;
+        drawingContext.shadowOffsetY = 2;
+        drawingContext.shadowBlur = 5;
+        drawingContext.shadowColor = "rgba(0, 0, 0, 0.5)";
         if (this.winner === "Yellow") {
             image(podiumYellowImg, this.podiumPosition.x, this.podiumPosition.y, 300, 210);
         }
         else if (this.winner === "Green") {
             image(podiumGreenImg, this.podiumPosition.x, this.podiumPosition.y, 300, 210);
         }
+        pop();
     }
     drawQuitButton() {
         push();
