@@ -78,8 +78,12 @@ class Player extends GameObject {
       } else if (keyIsDown(68)) {
         // D-tangenten (höger)
         this.speed.x = 10;
+      } else if (keyIsDown(87)) {
+        this.jump();
+        this.isJumping = true;
+        console.log("hoppar vi?");
       } else {
-        this.speed.x = 0; //Spelaren stannar för tillfället helt när anvndaren släpper tangenten
+        this.speed.x = 0;
       }
     }
   }
