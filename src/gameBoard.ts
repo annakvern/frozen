@@ -69,10 +69,14 @@ class GameBoard implements Scene {
           if (o2 instanceof Player) {
             // bounce
           }
-          if (o2 instanceof Platform) {
-            // move out of it
-            if (o1.speed.y > 0) {
-              o1.position.y = o2.position.y + 30;
+          if (this.objectsOverlap(o1, o2)) {
+            if (o2 instanceof Platform) {
+              // Push above platform
+              if (o1.speed.y > 0) {
+                o1.position.y = o2.position.y - 70;
+                o1.speed.y = 0;
+                o1.isJumping = false;
+              }
             }
           }
         }
