@@ -19,9 +19,9 @@ class StartScene implements Scene {
 
   constructor(game: Game) {
     this.game = game;
-    this.titlePosition = createVector(720, 470); // Titelns position
-    this.textPosition = createVector(720,650); // Textens position
-    this.cloudPosition = createVector(250, 120); // Molnets position
+    this.titlePosition = createVector(canvasWidth / 2, canvasHeight / 2 - 60); // Titelns position
+    this.textPosition = createVector(canvasWidth / 2, canvasHeight / 2 + 40); // Textens position
+    this.cloudPosition = createVector(120, 60); // Molnets position
     this.snowflakePositions = [];
     for (let i = 0; i < 50; i++) {
       // Lägg till 50 snöflingor
@@ -33,9 +33,9 @@ class StartScene implements Scene {
       this.snowflakeVelocity.push(createVector(1, random(2)));
     }
 
-    this.platformPosition = createVector(50, 850); // Plattformens position
-    this.player1Position = createVector(200, 785);
-    this.player2Position = createVector(600, 785);
+    this.platformPosition = createVector(50, 600); // Plattformens position
+    this.player1Position = createVector(120, 535);
+    this.player2Position = createVector(400, 535);
     this.bounceTime = 0;
   }
 
@@ -86,7 +86,7 @@ class StartScene implements Scene {
   private drawTitle() {
     push();
   
-    textSize(140);
+    textSize(80);
     textAlign(CENTER, CENTER);
     textFont(kavoonFont);
   
@@ -108,7 +108,7 @@ class StartScene implements Scene {
 
     const bounceOffset = sin(this.bounceTime) * 5;
     fill("white"); // Vit färg
-    textSize(40);
+    textSize(30);
     textAlign(CENTER, CENTER);
     text(
       "Press space to continue",
@@ -120,8 +120,7 @@ class StartScene implements Scene {
 
   private drawCloud() {
     push();
-
-    image(cloudImg, this.cloudPosition.x, this.cloudPosition.y, 550, 250);
+    image(cloudImg, this.cloudPosition.x, this.cloudPosition.y, 300, 150);
     pop();
   }
 
@@ -138,8 +137,8 @@ class StartScene implements Scene {
       platformImg,
       this.platformPosition.x,
       this.platformPosition.y,
-      800,
-      50); // Rita plattform
+      500,
+      35); // Rita plattform
       pop();
   }
 

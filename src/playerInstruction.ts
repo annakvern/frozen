@@ -16,12 +16,12 @@ class PlayerInstruction implements Scene {
 
   constructor(game: Game) {
     this.game = game;
-    this.titlePosition = createVector(width / 2, 100);
-    this.textPosition = createVector(width / 2, 300);
-    this.player1Position = createVector(980, 400);
-    this.player2Position = createVector(410, 400);
-    this.playerKeysYellowPosition = createVector(970, 560);
-    this.playerKeysGreenPosition = createVector(400, 560);
+    this.titlePosition = createVector(width / 2 - 25, 70);
+    this.textPosition = createVector(width / 2 - 15, 250);
+    this.player1Position = createVector(720, 285);
+    this.player2Position = createVector(210, 285);
+    this.playerKeysYellowPosition = createVector(755, 430);
+    this.playerKeysGreenPosition = createVector(175, 430);
     this.playSoundPosition = createVector(1370, 955);
   }
 
@@ -48,7 +48,7 @@ class PlayerInstruction implements Scene {
   private drawTitle() {
     push();
     fill("white");
-    textSize(120);
+    textSize(80);
     textAlign(CENTER, CENTER);
     text("READY?", this.titlePosition.x + 40, this.titlePosition.y);
     textFont(kavoonFont);
@@ -59,17 +59,17 @@ class PlayerInstruction implements Scene {
     push();
     fill("white");
     let bounceText = sin(frameCount * 0.1) * 3; // "Press space" gungar upp och ner.
-    textSize(40);
+    textSize(30);
     textAlign(CENTER, CENTER);
     text(
       "You have 2 mins - Tag or DIE!",
       this.textPosition.x + 30,
-      this.textPosition.y - 80
+      this.textPosition.y - 100
     );
-    text("Press SPACE to get started", this.textPosition.x - -30, 820 + bounceText);
-    textSize(40);
-    text("Player 1", this.textPosition.x - 225, 350);
-    text("Player 2", this.textPosition.x + 280, 350);
+    text("Press SPACE to get started", this.textPosition.x - -30, 600 + bounceText);
+    textSize(30);
+    text("Player 1", this.textPosition.x - 225, 230);
+    text("Player 2", this.textPosition.x + 280, 230);
     textFont(kavoonFont);
     pop();
   }
@@ -79,8 +79,8 @@ class PlayerInstruction implements Scene {
 
     image(
       playerInstruction1img,
-      this.player1Position.x - 50,
-      this.player1Position.y, 130, 130);
+      this.player1Position.x,
+      this.player1Position.y, 120, 120);
       pop();
   }
 
@@ -88,10 +88,10 @@ class PlayerInstruction implements Scene {
     
     image(
       playerInstruction2img,
-      this.player2Position.x + 20,
+      this.player2Position.x,
       this.player2Position.y,
-      130,
-      130
+      120,
+      120
     );
     
   }

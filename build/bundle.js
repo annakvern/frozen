@@ -7,12 +7,12 @@ let soundOnimg;
 class PlayerInstruction {
     constructor(game) {
         this.game = game;
-        this.titlePosition = createVector(width / 2, 100);
-        this.textPosition = createVector(width / 2, 300);
-        this.player1Position = createVector(980, 400);
-        this.player2Position = createVector(410, 400);
-        this.playerKeysYellowPosition = createVector(970, 560);
-        this.playerKeysGreenPosition = createVector(400, 560);
+        this.titlePosition = createVector(width / 2 - 25, 70);
+        this.textPosition = createVector(width / 2 - 15, 250);
+        this.player1Position = createVector(720, 285);
+        this.player2Position = createVector(210, 285);
+        this.playerKeysYellowPosition = createVector(755, 430);
+        this.playerKeysGreenPosition = createVector(175, 430);
         this.playSoundPosition = createVector(1370, 955);
     }
     update() {
@@ -36,7 +36,7 @@ class PlayerInstruction {
     drawTitle() {
         push();
         fill("white");
-        textSize(120);
+        textSize(80);
         textAlign(CENTER, CENTER);
         text("READY?", this.titlePosition.x + 40, this.titlePosition.y);
         textFont(kavoonFont);
@@ -46,23 +46,23 @@ class PlayerInstruction {
         push();
         fill("white");
         let bounceText = sin(frameCount * 0.1) * 3;
-        textSize(40);
+        textSize(30);
         textAlign(CENTER, CENTER);
-        text("You have 2 mins - Tag or DIE!", this.textPosition.x + 30, this.textPosition.y - 80);
-        text("Press SPACE to get started", this.textPosition.x - -30, 820 + bounceText);
-        textSize(40);
-        text("Player 1", this.textPosition.x - 225, 350);
-        text("Player 2", this.textPosition.x + 280, 350);
+        text("You have 2 mins - Tag or DIE!", this.textPosition.x + 30, this.textPosition.y - 100);
+        text("Press SPACE to get started", this.textPosition.x - -30, 600 + bounceText);
+        textSize(30);
+        text("Player 1", this.textPosition.x - 225, 230);
+        text("Player 2", this.textPosition.x + 280, 230);
         textFont(kavoonFont);
         pop();
     }
     drawPlayer1() {
         push();
-        image(playerInstruction1img, this.player1Position.x - 50, this.player1Position.y, 130, 130);
+        image(playerInstruction1img, this.player1Position.x, this.player1Position.y, 120, 120);
         pop();
     }
     drawPlayer2() {
-        image(playerInstruction2img, this.player2Position.x + 20, this.player2Position.y, 130, 130);
+        image(playerInstruction2img, this.player2Position.x, this.player2Position.y, 120, 120);
     }
     drawPlayerKeysYellow() {
         image(playerKeysYellow, this.playerKeysYellowPosition.x - 50, this.playerKeysYellowPosition.y, 150, 100);
@@ -82,9 +82,9 @@ let player2Img;
 class StartScene {
     constructor(game) {
         this.game = game;
-        this.titlePosition = createVector(720, 470);
-        this.textPosition = createVector(720, 650);
-        this.cloudPosition = createVector(250, 120);
+        this.titlePosition = createVector(canvasWidth / 2, canvasHeight / 2 - 60);
+        this.textPosition = createVector(canvasWidth / 2, canvasHeight / 2 + 40);
+        this.cloudPosition = createVector(120, 60);
         this.snowflakePositions = [];
         for (let i = 0; i < 50; i++) {
             this.snowflakePositions.push(createVector(random(width), random(height)));
@@ -93,9 +93,9 @@ class StartScene {
         for (let i = 0; i < 50; i++) {
             this.snowflakeVelocity.push(createVector(1, random(2)));
         }
-        this.platformPosition = createVector(50, 850);
-        this.player1Position = createVector(200, 785);
-        this.player2Position = createVector(600, 785);
+        this.platformPosition = createVector(50, 600);
+        this.player1Position = createVector(120, 535);
+        this.player2Position = createVector(400, 535);
         this.bounceTime = 0;
     }
     update() {
@@ -131,7 +131,7 @@ class StartScene {
     }
     drawTitle() {
         push();
-        textSize(140);
+        textSize(80);
         textAlign(CENTER, CENTER);
         textFont(kavoonFont);
         fill(58, 168, 167);
@@ -146,14 +146,14 @@ class StartScene {
         push();
         const bounceOffset = sin(this.bounceTime) * 5;
         fill("white");
-        textSize(40);
+        textSize(30);
         textAlign(CENTER, CENTER);
         text("Press space to continue", this.textPosition.x, this.textPosition.y + bounceOffset);
         pop();
     }
     drawCloud() {
         push();
-        image(cloudImg, this.cloudPosition.x, this.cloudPosition.y, 550, 250);
+        image(cloudImg, this.cloudPosition.x, this.cloudPosition.y, 300, 150);
         pop();
     }
     drawSnowflakes() {
@@ -163,7 +163,7 @@ class StartScene {
     }
     drawPlatform() {
         push();
-        image(platformImg, this.platformPosition.x, this.platformPosition.y, 800, 50);
+        image(platformImg, this.platformPosition.x, this.platformPosition.y, 500, 35);
         pop();
     }
     drawPlayer1() {
@@ -258,8 +258,8 @@ class GameObject {
     update() { }
 }
 let level;
-const squareSizeX = 144 * 0.67;
-const squareSizeY = 128 * 0.67;
+const squareSizeX = 102;
+const squareSizeY = 86;
 class LevelFactory {
     constructor(game) {
         this.game = game;
@@ -319,8 +319,8 @@ class LevelFactory {
 }
 let game;
 let changedScene = false;
-const canvasWidth = 1440 * 0.67;
-const canvasHeight = 1024 * 0.67;
+const canvasWidth = 1024;
+const canvasHeight = 685;
 let canvas;
 function setup() {
     canvas = createCanvas(canvasWidth, canvasHeight);
@@ -441,17 +441,17 @@ class ResultScene {
     constructor(game, winner) {
         this.game = game;
         this.winner = winner;
-        this.titlePosition = createVector(720, 400);
-        this.textPosition = createVector(720, 550);
-        this.cloudPosition = createVector(270, 100);
+        this.titlePosition = createVector(canvasWidth / 2, 300);
+        this.textPosition = createVector(canvasWidth / 2, 400);
+        this.cloudPosition = createVector(120, 100);
         this.snowflakePositions = [
-            { position: createVector(1100, 280), size: 200 },
-            { position: createVector(1000, 120), size: 120 },
-            { position: createVector(1200, 150), size: 150 },
-            { position: createVector(1150, 500), size: 175 },
+            { position: createVector(770, 185), size: 140 },
+            { position: createVector(700, 40), size: 120 },
+            { position: createVector(845, 70), size: 130 },
+            { position: createVector(850, 350), size: 125 },
         ];
-        this.podiumPosition = createVector(561, 819);
-        this.quitButtonPosition = createVector(60, 980);
+        this.podiumPosition = createVector(350, 477);
+        this.quitButtonPosition = createVector(40, 660);
         this.textBounceY = this.textPosition.y;
         this.textBounceSpeed = 0.25;
         this.textBounceRange = 4;
@@ -485,7 +485,7 @@ class ResultScene {
         drawingContext.shadowBlur = 5;
         drawingContext.shadowColor = "rgba(0, 0, 0, 0.5)";
         fill(titleColor);
-        textSize(120);
+        textSize(80);
         textFont(kavoonFont);
         text(titleText, this.titlePosition.x, this.titlePosition.y);
         pop();
@@ -497,7 +497,7 @@ class ResultScene {
         drawingContext.shadowBlur = 5;
         drawingContext.shadowColor = "rgba(0, 0, 0, 0.5)";
         fill("white");
-        textSize(35);
+        textSize(30);
         text("Press SPACE to play again", this.textPosition.x, this.textBounceY);
         pop();
     }
@@ -514,7 +514,7 @@ class ResultScene {
         drawingContext.shadowOffsetY = 2;
         drawingContext.shadowBlur = 5;
         drawingContext.shadowColor = "rgba(0, 0, 0, 0.5)";
-        image(cloudImg, this.cloudPosition.x, this.cloudPosition.y);
+        image(cloudImg, this.cloudPosition.x, this.cloudPosition.y, 300, 150);
         pop();
     }
     drawSnowflakes() {
@@ -534,7 +534,7 @@ class ResultScene {
         push();
         fill(66, 165, 246);
         textAlign(CENTER, CENTER);
-        textSize(50);
+        textSize(30);
         text("Quit", this.quitButtonPosition.x, this.quitButtonPosition.y);
         pop();
     }

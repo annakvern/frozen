@@ -1,6 +1,6 @@
 let level: number;
-const squareSizeX = 144 * 0.67;
-const squareSizeY = 128 * 0.67;
+const squareSizeX = 102;
+const squareSizeY = 86;
 
 class LevelFactory {
   private game: Game;

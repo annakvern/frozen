@@ -20,17 +20,17 @@ class ResultScene implements Scene {
   constructor(game: Game, winner: string) {
     this.game = game;
     this.winner = winner;
-    this.titlePosition = createVector(720, 400);
-    this.textPosition = createVector(720, 550);
-    this.cloudPosition = createVector(270, 100);
+    this.titlePosition = createVector(canvasWidth / 2, 300);
+    this.textPosition = createVector(canvasWidth / 2, 400);
+    this.cloudPosition = createVector(120, 100);
     this.snowflakePositions = [
-      { position: createVector(1100, 280), size: 200 },
-      { position: createVector(1000, 120), size: 120 },
-      { position: createVector(1200, 150), size: 150 },
-      { position: createVector(1150, 500), size: 175 },
+      { position: createVector(770, 185), size: 140 },
+      { position: createVector(700, 40), size: 120 },
+      { position: createVector(845, 70), size: 130 },
+      { position: createVector(850, 350), size: 125 },
     ];
-    this.podiumPosition = createVector(561, 819);
-    this.quitButtonPosition = createVector(60, 980);
+    this.podiumPosition = createVector(350, 477);
+    this.quitButtonPosition = createVector(40, 660);
     this.textBounceY = this.textPosition.y;
     this.textBounceSpeed = 0.25;
     this.textBounceRange = 4;
@@ -74,7 +74,7 @@ class ResultScene implements Scene {
     drawingContext.shadowColor = "rgba(0, 0, 0, 0.5)";
 
     fill(titleColor);
-    textSize(120);
+    textSize(80);
     textFont(kavoonFont);
     text(titleText, this.titlePosition.x, this.titlePosition.y);
     pop();
@@ -91,7 +91,7 @@ class ResultScene implements Scene {
     drawingContext.shadowColor = "rgba(0, 0, 0, 0.5)";
 
     fill("white");
-    textSize(35);
+    textSize(30);
     text("Press SPACE to play again", this.textPosition.x, this.textBounceY);
     pop();
   }
@@ -115,7 +115,7 @@ class ResultScene implements Scene {
     drawingContext.shadowBlur = 5;
     drawingContext.shadowColor = "rgba(0, 0, 0, 0.5)";
 
-    image(cloudImg, this.cloudPosition.x, this.cloudPosition.y);
+    image(cloudImg, this.cloudPosition.x, this.cloudPosition.y, 300, 150);
     pop();
   }
 
@@ -162,7 +162,7 @@ class ResultScene implements Scene {
     push();
     fill(66, 165, 246);
     textAlign(CENTER, CENTER);
-    textSize(50);
+    textSize(30);
     text("Quit", this.quitButtonPosition.x, this.quitButtonPosition.y);
     pop();
   }
