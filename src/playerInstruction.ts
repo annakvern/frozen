@@ -1,10 +1,9 @@
+let soundOnimg: p5.Image;
+let soundOffimg: p5.Image;
 let playerInstruction1img: p5.Image;
 let playerInstruction2img: p5.Image;
 let playerKeysYellow: p5.Image;
 let playerKeysGreen: p5.Image;
-let soundOnimg: p5.Image;
-let soundOffimg: p5.Image;
-let sound: p5.Image;
 let playerInstruction: PlayerInstruction;
 
 
@@ -17,13 +16,12 @@ class PlayerInstruction implements Scene {
   private playerKeysYellowPosition: p5.Vector;
   private playerKeysGreenPosition: p5.Vector;
   private playSoundPosition: p5.Vector;
-  public isSoundOn: boolean;
+  private isSoundOn: boolean = true;
 
-  // private isSoundOff: boolean;
+  
 
   constructor(game: Game) {
     this.game = game;
-    this.isSoundOn = true;
     this.titlePosition = createVector(width / 2, 100);
     this.textPosition = createVector(width / 2, 200);
     this.player1Position = createVector(980, 300);
@@ -31,24 +29,46 @@ class PlayerInstruction implements Scene {
     this.playerKeysYellowPosition = createVector(970, 460);
     this.playerKeysGreenPosition = createVector(400, 460);
     this.playSoundPosition = createVector(
-      windowWidth * 0.93,
-      windowHeight * 0.86
+      windowWidth * 0.5,
+      windowHeight * 0.5
     );
   }
 
   public update(): void {
     
     if (keyIsDown(32) && !changedScene) {
+      userStartAudio(); // Aktiverar AudioContext om det behövs
       changedScene = true;
       const factory = new LevelFactory(this.game);
       const gameBoard = factory.createGameBoard(this.game, 1);
       this.game.changeActiveScreen(gameBoard);
     }
+
+    if (music.mystery.isLoaded() && !music.mystery.isPlaying()) {
+      music.mystery.loop(); // Spela musiken i loop
+    }
+    music.mystery.setVolume(0.8);
+
+    if (keyIsDown(80)) {  // 80 är keycode för 'P'
+      this.isSoundOn = !this.isSoundOn;
+      if (this.isSoundOn) {
+          music.mystery.loop();
+      } else {
+          music.mystery.pause();
+      }
+    }
+
+     // Starta musiken med P om den är avstängd
+    if (keyIsDown(80)) {
+      if (!music.mystery.isPlaying()) {
+        music.mystery.loop();
+      }
+    }
+
+    //press m pause 
   }
 
   public draw(): void {
-    console.log(`Draw called - isSoundOn: ${this.isSoundOn}`);
-
     background(164, 210, 247);
     this.drawTitle();
     this.drawText();
@@ -56,14 +76,15 @@ class PlayerInstruction implements Scene {
     this.drawPlayer2();
     this.drawPlayerKeysYellow();
     this.drawPlayerKeysGreen();
+
+    // Visa ljudikonen
     image(
       this.isSoundOn ? soundOnimg : soundOffimg,
       this.playSoundPosition.x,
       this.playSoundPosition.y,
       40,
       40
-  );
-    
+    );    
   }
 
   private drawTitle() {
@@ -135,78 +156,23 @@ class PlayerInstruction implements Scene {
     );
   }
 
-  public playSound(isSoundOn: boolean) {
-    if (isSoundOn) {
-      console.log("isSoundOn is true");
-      image(
-            soundOnimg,
-            this.playSoundPosition.x,
-            this.playSoundPosition.y,
-            40,
-            40
-          );
-
+  public playSound() {
+      if (this.isSoundOn) {
+        music.mystery.loop();
     } else {
-      console.log("isSoundOn is false");
-      image(
-        soundOffimg,
-        this.playSoundPosition.x,
-        this.playSoundPosition.y,
-        40,
-        40
-      );
-    
-    }
-
-    // if (this.isSoundOn) {
-    //   image(
-    //     soundOnimg,
-    //     this.playSoundPosition.x,
-    //     this.playSoundPosition.y,
-    //     40,
-    //     40
-    //   );
-    // } else if (this.isSoundOff) {
-    //   image(
-    //     soundOffimg,
-    //     this.playSoundPosition.x,
-    //     this.playSoundPosition.y,
-    //     40,
-    //     40
-    //   );
-    // }
-  }
-  public mouseClicked() {
-    if (
-        mouseX > this.playSoundPosition.x &&
-        mouseX < this.playSoundPosition.x + 40 &&
-        mouseY > this.playSoundPosition.y &&
-        mouseY < this.playSoundPosition.y + 40
-    ) {
-        this.isSoundOn = !this.isSoundOn; // Toggla ljudtillståndet
-        console.log(`Sound state toggled: ${this.isSoundOn}`);
-        music.mystery.setVolume(this.isSoundOn ? 0.8 : 0);
-        this.playSound(this.isSoundOn); // Justera volymen baserat på isSoundOn
-    }
+        music.mystery.pause();
+    }    
+  }  
 }
-  
 
-    //  console.log('Mouse pressed on icon:', mouseOverSoundIcon);
-
-    
-     
-    // if (this.isSoundOn && mouseIsPressed) {
-    //   this.isSoundOn = true;
-    // } else if (this.isSoundOn && mouseIsPressed) {
-    //   this.isSoundOff = true;
-    // } 
+function keyPressed() {
+  if (keyCode === 80) {
+    userStartAudio();
+    if (music.mystery.isPlaying()) {
+      music.mystery.pause();
+    } else {
+      music.mystery.loop();
+    }
   }
-  
+}
 
-
-
-// function mousePressed() {
-//   if (playerInstruction) {
-//       playerInstruction.handleMousePressed();
-//   }
-// }

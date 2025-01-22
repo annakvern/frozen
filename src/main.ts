@@ -4,22 +4,14 @@ let changedScene: boolean = false;
 function setup() {
   createCanvas(1440, 1024);
   frameRate(60);
-
-  let startScene = new StartScene(null as unknown as Game);
-  game = new Game(startScene);
-  startScene = new StartScene(game);
-  game.changeActiveScreen(startScene);
-  playerInstruction = new PlayerInstruction(game);
-  playerInstruction.playSound(playerInstruction.isSoundOn);
-
+  game = new Game();
+  userStartAudio(); //Aktiverar ljudet efter en användargest
   textFont(kavoonFont);
  
 }
-function mouseClicked() {
-  playerInstruction.mouseClicked(); // Call the class method
-}
 
 function preload() {
+  soundOnimg = loadImage("assets/images/soundOn.svg");
   music = {
     mystery: loadSound("/assets/music/mystery.mp3"),
   };
@@ -40,8 +32,6 @@ function preload() {
   playerKeysGreen = loadImage("assets/images/playerKeysGreen.svg");
   playerInstruction1img = loadImage("assets/images/yellowPlayerLeft.svg");
   playerInstruction2img = loadImage("assets/images/greenPlayerRight.svg");
-  soundOnimg = loadImage("assets/images/soundOn.svg");
-  soundOffimg = loadImage("assets/images/soundOff.svg");
   podiumYellowImg = loadImage("assets/images/podiumYellowWinner.svg");
   podiumGreenImg = loadImage("assets/images/podiumGreenWinner.svg");
 }

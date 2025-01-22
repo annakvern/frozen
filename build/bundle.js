@@ -1,34 +1,51 @@
 "use strict";
+let soundOnimg;
+let soundOffimg;
 let playerInstruction1img;
 let playerInstruction2img;
 let playerKeysYellow;
 let playerKeysGreen;
-let soundOnimg;
-let soundOffimg;
-let sound;
 let playerInstruction;
 class PlayerInstruction {
     constructor(game) {
-        this.game = game;
         this.isSoundOn = true;
+        this.game = game;
         this.titlePosition = createVector(width / 2, 100);
         this.textPosition = createVector(width / 2, 200);
         this.player1Position = createVector(980, 300);
         this.player2Position = createVector(410, 300);
         this.playerKeysYellowPosition = createVector(970, 460);
         this.playerKeysGreenPosition = createVector(400, 460);
-        this.playSoundPosition = createVector(windowWidth * 0.93, windowHeight * 0.86);
+        this.playSoundPosition = createVector(windowWidth * 0.5, windowHeight * 0.5);
     }
     update() {
         if (keyIsDown(32) && !changedScene) {
+            userStartAudio();
             changedScene = true;
             const factory = new LevelFactory(this.game);
             const gameBoard = factory.createGameBoard(this.game, 1);
             this.game.changeActiveScreen(gameBoard);
         }
+        if (music.mystery.isLoaded() && !music.mystery.isPlaying()) {
+            music.mystery.loop();
+        }
+        music.mystery.setVolume(0.8);
+        if (keyIsDown(80)) {
+            this.isSoundOn = !this.isSoundOn;
+            if (this.isSoundOn) {
+                music.mystery.loop();
+            }
+            else {
+                music.mystery.pause();
+            }
+        }
+        if (keyIsDown(80)) {
+            if (!music.mystery.isPlaying()) {
+                music.mystery.loop();
+            }
+        }
     }
     draw() {
-        console.log(`Draw called - isSoundOn: ${this.isSoundOn}`);
         background(164, 210, 247);
         this.drawTitle();
         this.drawText();
@@ -73,25 +90,23 @@ class PlayerInstruction {
     drawPlayerKeysGreen() {
         image(playerKeysGreen, this.playerKeysGreenPosition.x, this.playerKeysGreenPosition.y, 150, 100);
     }
-    playSound(isSoundOn) {
-        if (isSoundOn) {
-            console.log("isSoundOn is true");
-            image(soundOnimg, this.playSoundPosition.x, this.playSoundPosition.y, 40, 40);
+    playSound() {
+        if (this.isSoundOn) {
+            music.mystery.loop();
         }
         else {
-            console.log("isSoundOn is false");
-            image(soundOffimg, this.playSoundPosition.x, this.playSoundPosition.y, 40, 40);
+            music.mystery.pause();
         }
     }
-    mouseClicked() {
-        if (mouseX > this.playSoundPosition.x &&
-            mouseX < this.playSoundPosition.x + 40 &&
-            mouseY > this.playSoundPosition.y &&
-            mouseY < this.playSoundPosition.y + 40) {
-            this.isSoundOn = !this.isSoundOn;
-            console.log(`Sound state toggled: ${this.isSoundOn}`);
-            music.mystery.setVolume(this.isSoundOn ? 0.8 : 0);
-            this.playSound(this.isSoundOn);
+}
+function keyPressed() {
+    if (keyCode === 80) {
+        userStartAudio();
+        if (music.mystery.isPlaying()) {
+            music.mystery.pause();
+        }
+        else {
+            music.mystery.loop();
         }
     }
 }
@@ -190,8 +205,8 @@ let startScene;
 let kavoonFont;
 let music;
 class Game {
-    constructor(initialScreen) {
-        this.activeScene = initialScreen;
+    constructor() {
+        this.activeScene = new StartScene(this);
     }
     changeActiveScreen(scene) {
         this.activeScene = scene;
@@ -325,18 +340,12 @@ let changedScene = false;
 function setup() {
     createCanvas(1440, 1024);
     frameRate(60);
-    let startScene = new StartScene(null);
-    game = new Game(startScene);
-    startScene = new StartScene(game);
-    game.changeActiveScreen(startScene);
-    playerInstruction = new PlayerInstruction(game);
-    playerInstruction.playSound(playerInstruction.isSoundOn);
+    game = new Game();
+    userStartAudio();
     textFont(kavoonFont);
 }
-function mouseClicked() {
-    playerInstruction.mouseClicked();
-}
 function preload() {
+    soundOnimg = loadImage("assets/images/soundOn.svg");
     music = {
         mystery: loadSound("/assets/music/mystery.mp3"),
     };
@@ -357,8 +366,6 @@ function preload() {
     playerKeysGreen = loadImage("assets/images/playerKeysGreen.svg");
     playerInstruction1img = loadImage("assets/images/yellowPlayerLeft.svg");
     playerInstruction2img = loadImage("assets/images/greenPlayerRight.svg");
-    soundOnimg = loadImage("assets/images/soundOn.svg");
-    soundOffimg = loadImage("assets/images/soundOff.svg");
     podiumYellowImg = loadImage("assets/images/podiumYellowWinner.svg");
     podiumGreenImg = loadImage("assets/images/podiumGreenWinner.svg");
 }
