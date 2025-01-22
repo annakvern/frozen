@@ -17,9 +17,7 @@ class PlayerInstruction implements Scene {
   private playerKeysGreenPosition: p5.Vector;
   private playSoundPosition: p5.Vector;
   private isSoundOn: boolean = true;
-
   
-
   constructor(game: Game) {
     this.game = game;
     this.titlePosition = createVector(width / 2, 100);
@@ -36,36 +34,35 @@ class PlayerInstruction implements Scene {
 
   public update(): void {
     
-    if (keyIsDown(32) && !changedScene) {
-      userStartAudio(); // Aktiverar AudioContext om det behövs
+    // if (keyIsDown(80)) {  // 80 är keycode för 'P'
+    //   this.isSoundOn = !this.isSoundOn;
+    //   if (this.isSoundOn) {
+    //       music.mystery.loop();
+    //   } else {
+    //       music.mystery.pause();
+    //   }
+    // }  
+
+    // // Starta musiken med P om den är avstängd
+    // if (keyIsDown(80)) {
+    //   if (!music.mystery.isPlaying()) {
+    //     music.mystery.loop();
+    //   }
+    // }
+
+    // if (music.mystery.isLoaded() && !music.mystery.isPlaying()) {
+    //   music.mystery.loop(); // Spela musiken i loop
+    // }
+    
+    // music.mystery.setVolume(0.8);
+
+    if (keyIsDown(32) && !changedScene) { // 32 är keycode för 'space'
+      userStartAudio();
       changedScene = true;
       const factory = new LevelFactory(this.game);
       const gameBoard = factory.createGameBoard(this.game, 1);
       this.game.changeActiveScreen(gameBoard);
     }
-
-    if (music.mystery.isLoaded() && !music.mystery.isPlaying()) {
-      music.mystery.loop(); // Spela musiken i loop
-    }
-    music.mystery.setVolume(0.8);
-
-    if (keyIsDown(80)) {  // 80 är keycode för 'P'
-      this.isSoundOn = !this.isSoundOn;
-      if (this.isSoundOn) {
-          music.mystery.loop();
-      } else {
-          music.mystery.pause();
-      }
-    }
-
-     // Starta musiken med P om den är avstängd
-    if (keyIsDown(80)) {
-      if (!music.mystery.isPlaying()) {
-        music.mystery.loop();
-      }
-    }
-
-    //press m pause 
   }
 
   public draw(): void {
@@ -78,13 +75,10 @@ class PlayerInstruction implements Scene {
     this.drawPlayerKeysGreen();
 
     // Visa ljudikonen
-    image(
-      this.isSoundOn ? soundOnimg : soundOffimg,
-      this.playSoundPosition.x,
-      this.playSoundPosition.y,
-      40,
-      40
-    );    
+    if (this.isSoundOn && soundOnimg) {
+      image(soundOnimg, this.playSoundPosition.x, this.playSoundPosition.y, 40, 40);
+  }
+    
   }
 
   private drawTitle() {
@@ -166,13 +160,14 @@ class PlayerInstruction implements Scene {
 }
 
 function keyPressed() {
-  if (keyCode === 80) {
-    userStartAudio();
+  if (keyCode === 80) {  // 80 är keycode för 'P'
+    userStartAudio();  // Om ljudet inte har startat än
     if (music.mystery.isPlaying()) {
-      music.mystery.pause();
+      music.mystery.pause();  // Pausa musiken om den är spelande
     } else {
-      music.mystery.loop();
+      music.mystery.loop();  // Spela musiken i loop om den inte spelas
     }
   }
 }
+
 

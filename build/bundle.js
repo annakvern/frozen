@@ -26,24 +26,6 @@ class PlayerInstruction {
             const gameBoard = factory.createGameBoard(this.game, 1);
             this.game.changeActiveScreen(gameBoard);
         }
-        if (music.mystery.isLoaded() && !music.mystery.isPlaying()) {
-            music.mystery.loop();
-        }
-        music.mystery.setVolume(0.8);
-        if (keyIsDown(80)) {
-            this.isSoundOn = !this.isSoundOn;
-            if (this.isSoundOn) {
-                music.mystery.loop();
-            }
-            else {
-                music.mystery.pause();
-            }
-        }
-        if (keyIsDown(80)) {
-            if (!music.mystery.isPlaying()) {
-                music.mystery.loop();
-            }
-        }
     }
     draw() {
         background(164, 210, 247);
@@ -53,7 +35,9 @@ class PlayerInstruction {
         this.drawPlayer2();
         this.drawPlayerKeysYellow();
         this.drawPlayerKeysGreen();
-        image(this.isSoundOn ? soundOnimg : soundOffimg, this.playSoundPosition.x, this.playSoundPosition.y, 40, 40);
+        if (this.isSoundOn && soundOnimg) {
+            image(soundOnimg, this.playSoundPosition.x, this.playSoundPosition.y, 40, 40);
+        }
     }
     drawTitle() {
         push();
