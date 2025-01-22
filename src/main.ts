@@ -5,6 +5,7 @@ function setup() {
   createCanvas(1440, 1024);
   frameRate(60);
 
+
   let startScene = new StartScene(null as unknown as Game);
   game = new Game(startScene);
   startScene = new StartScene(game);
