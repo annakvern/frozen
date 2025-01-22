@@ -27,13 +27,14 @@ class GameBoard implements Scene {
     // recording the starting time
     this.lastUpdateTime = millis();
   }
-  draw(): void {
+  draw(): void { 
     background(backgroundImgL1);
     this.yellowTimer.draw();
     this.greenTimer.draw();
     for (const obj of this.gameObjects) {
       obj.draw();
     }
+   
   }
   update(): void {
     // timer logic...calculates the time difference since the last update
