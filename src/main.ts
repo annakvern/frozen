@@ -12,7 +12,7 @@ function setup() {
   game = new Game();
   userStartAudio(); //Aktiverar ljudet efter en användargest
 
-  // let startScene = new StartScene(null as unknown as Game);  
+  // let startScene = new StartScene(null as unknown as Game);
   // startScene = new StartScene(game);
   // game.changeActiveScreen(startScene);
 
@@ -54,6 +54,8 @@ function preload() {
   player2Img = loadImage("assets/images/yellowPlayerLeft.svg");
   backgroundImgL1 = loadImage("assets/images/bgLevel1.png");
   platform = loadImage("assets/images/platform.svg");
+  icyPlatform = loadImage("assets/images/icyPlatform.svg");
+  iciclePlatform = loadImage("assets/images/iciclePlatform.svg");
   snowman = loadImage("assets/images/snowman.svg");
   trampoline = loadImage("assets/images/trampoline.svg");
   teleport = loadImage("assets/images/teleport.svg");
