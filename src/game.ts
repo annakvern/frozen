@@ -7,8 +7,8 @@ let music: {
 class Game {
   private activeScene: Scene;
 
-  constructor(initialScreen: Scene) {
-    this.activeScene = initialScreen;
+  constructor() {
+    this.activeScene = new StartScene(this);
   }
 
   public changeActiveScreen(scene: Scene): void {

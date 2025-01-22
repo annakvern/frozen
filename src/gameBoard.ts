@@ -59,8 +59,19 @@ class GameBoard implements Scene {
   }
 
   private checkCollisions() {
+    const canvasWidth = 1440; // canvas bredd
+    // const canvasHeight = 1024; // behöver vi ha stopp för höjden?
+
     for (const o1 of this.gameObjects) {
       if (!(o1 instanceof Player)) continue;
+
+      if (o1.position.x < 0) {
+        o1.position.x = 0; // stopp till vänster
+        o1.speed.x = 0; // Spelarens fart går till när den möter väggen
+      } else if (o1.position.x + o1.width > canvasWidth) {
+        o1.position.x = canvasWidth - o1.width; // Stoppa till höger kant
+        o1.speed.x = 0; //Spelarens fart går till 0 när den möter väggen
+      }
 
       for (const o2 of this.gameObjects) {
         if (o1 === o2) continue;
