@@ -1,11 +1,9 @@
 let soundOnimg: p5.Image;
-let soundOffimg: p5.Image;
 let playerInstruction1img: p5.Image;
 let playerInstruction2img: p5.Image;
 let playerKeysYellow: p5.Image;
 let playerKeysGreen: p5.Image;
 let playerInstruction: PlayerInstruction;
-
 
 class PlayerInstruction implements Scene {
   private game: Game;
@@ -27,36 +25,13 @@ class PlayerInstruction implements Scene {
     this.playerKeysYellowPosition = createVector(970, 460);
     this.playerKeysGreenPosition = createVector(400, 460);
     this.playSoundPosition = createVector(
-      windowWidth * 0.5,
-      windowHeight * 0.5
+      windowWidth * 0.8,
+      windowHeight * 0.8
     );
   }
 
-  public update(): void {
-    
-    // if (keyIsDown(80)) {  // 80 är keycode för 'P'
-    //   this.isSoundOn = !this.isSoundOn;
-    //   if (this.isSoundOn) {
-    //       music.mystery.loop();
-    //   } else {
-    //       music.mystery.pause();
-    //   }
-    // }  
-
-    // // Starta musiken med P om den är avstängd
-    // if (keyIsDown(80)) {
-    //   if (!music.mystery.isPlaying()) {
-    //     music.mystery.loop();
-    //   }
-    // }
-
-    // if (music.mystery.isLoaded() && !music.mystery.isPlaying()) {
-    //   music.mystery.loop(); // Spela musiken i loop
-    // }
-    
-    // music.mystery.setVolume(0.8);
-
-    if (keyIsDown(32) && !changedScene) { // 32 är keycode för 'space'
+  public update(): void {    
+    if (keyIsDown(32) && !changedScene) { // 32 keycode for 'space'
       userStartAudio();
       changedScene = true;
       const factory = new LevelFactory(this.game);
@@ -74,15 +49,20 @@ class PlayerInstruction implements Scene {
     this.drawPlayerKeysYellow();
     this.drawPlayerKeysGreen();
 
-    // Visa ljudikonen
+    // Show soundicon
     if (this.isSoundOn && soundOnimg) {
       image(soundOnimg, this.playSoundPosition.x, this.playSoundPosition.y, 40, 40);
-  }
-    
+    }    
   }
 
   private drawTitle() {
     push();
+    // SHADOW SETTINGS
+    drawingContext.shadowOffsetX = 2;
+    drawingContext.shadowOffsetY = 2;
+    drawingContext.shadowBlur = 5;
+    drawingContext.shadowColor = "rgba(0, 0, 0, 0.5)";
+
     fill("white");
     textSize(100);
     textAlign(CENTER, CENTER);
@@ -93,6 +73,12 @@ class PlayerInstruction implements Scene {
 
   private drawText() {
     push();
+    // SHADOW SETTINGS
+    drawingContext.shadowOffsetX = 2;
+    drawingContext.shadowOffsetY = 2;
+    drawingContext.shadowBlur = 5;
+    drawingContext.shadowColor = "rgba(0, 0, 0, 0.5)";
+
     fill("white");
     let bounceText = sin(frameCount * 0.1) * 3; // "Press space" gungar upp och ner.
     textSize(20);
@@ -102,10 +88,13 @@ class PlayerInstruction implements Scene {
       this.textPosition.x,
       this.textPosition.y + bounceText
     );
+
     text("You have 2 mins - Tag or DIE!", this.textPosition.x - 0, 630);
     textSize(40);
     text("Player 1", this.textPosition.x - 300, 250);
     text("Player 2", this.textPosition.x + 280, 250);
+    textSize(15);
+    text("Press p to play and pause music", this.textPosition.x + 480, 630);
     textFont(kavoonFont);
     pop();
   }
@@ -159,13 +148,14 @@ class PlayerInstruction implements Scene {
   }  
 }
 
+// Pause and play music "P"
 function keyPressed() {
-  if (keyCode === 80) {  // 80 är keycode för 'P'
-    userStartAudio();  // Om ljudet inte har startat än
+  if (keyCode === 80) {
+    userStartAudio();
     if (music.mystery.isPlaying()) {
-      music.mystery.pause();  // Pausa musiken om den är spelande
+      music.mystery.pause();
     } else {
-      music.mystery.loop();  // Spela musiken i loop om den inte spelas
+      music.mystery.loop();
     }
   }
 }
