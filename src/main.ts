@@ -5,7 +5,6 @@ function setup() {
   createCanvas(1440, 1024);
   frameRate(60);
 
-
   let startScene = new StartScene(null as unknown as Game);
   game = new Game(startScene);
   startScene = new StartScene(game);
@@ -26,6 +25,8 @@ function preload() {
   player2Img = loadImage("assets/images/yellowPlayerLeft.svg");
   backgroundImgL1 = loadImage("assets/images/bgLevel1.png");
   platform = loadImage("assets/images/platform.svg");
+  icyPlatform = loadImage("assets/images/icyPlatform.svg");
+  iciclePlatform = loadImage("assets/images/iciclePlatform.svg");
   snowman = loadImage("assets/images/snowman.svg");
   trampoline = loadImage("assets/images/trampoline.svg");
   teleport = loadImage("assets/images/teleport.svg");
