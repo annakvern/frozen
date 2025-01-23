@@ -1,5 +1,3 @@
-//// ATT GÖRA; FÄRDIGSTÄLL UPDATE()
-
 //// DECLARE IMAGES TO BE USED IN THE SCENE.
 let podiumYellowImg: p5.Image;
 let podiumGreenImg: p5.Image;
@@ -22,20 +20,20 @@ class ResultScene implements Scene {
   constructor(game: Game, winner: string) {
     this.game = game;
     this.winner = winner;
-    this.titlePosition = createVector(width * 0.5, height * 0.4);
-    this.textPosition = createVector(width * 0.5, height * 0.55);
-    this.cloudPosition = createVector(width * 0.26, height * 0.13);
+    this.titlePosition = createVector(canvasWidth / 2, 300);
+    this.textPosition = createVector(canvasWidth / 2, 380);
+    this.cloudPosition = createVector(120, 100);
     this.snowflakePositions = [
-      { position: createVector(width * 0.73, height * 0.23), size: 200 },
-      { position: createVector(width * 0.65, height * 0.1), size: 150 },
-      { position: createVector(width * 0.83, height * 0.15), size: 150 },
-      { position: createVector(width * 0.77, height * 0.55), size: 175 },
+      { position: createVector(770, 185), size: 140 },
+      { position: createVector(700, 40), size: 120 },
+      { position: createVector(845, 70), size: 130 },
+      { position: createVector(850, 350), size: 125 },
     ];
-    this.podiumPosition = createVector(width * 0.35, height * 0.8);
-    this.quitButtonPosition = createVector(width * 0.03, height * 0.95);
+    this.podiumPosition = createVector(360, 506);
+    this.quitButtonPosition = createVector(40, 660);
     this.textBounceY = this.textPosition.y;
-    this.textBounceSpeed = 0.25;
-    this.textBounceRange = height * 0.003;
+    this.textBounceSpeed = 0.15;
+    this.textBounceRange = 2;
   }
 
   update() {
@@ -65,7 +63,6 @@ class ResultScene implements Scene {
   //// FUNCTION TO DRAW THE TITLE ON THE SCREEN.
   private drawTitle() {
     push();
-    const titleSize = width * 0.07;
     const titleColor =
       this.winner === "Yellow" ? "rgb(255, 213, 118)" : "rgb(58, 168, 167)";
     const titleText = this.winner === "Yellow" ? "Yellow wins!" : "Green wins!";
@@ -77,8 +74,7 @@ class ResultScene implements Scene {
     drawingContext.shadowColor = "rgba(0, 0, 0, 0.5)";
 
     fill(titleColor);
-    textAlign(CENTER, CENTER);
-    textSize(titleSize);
+    textSize(80);
     textFont(kavoonFont);
     text(titleText, this.titlePosition.x, this.titlePosition.y);
     pop();
@@ -87,7 +83,6 @@ class ResultScene implements Scene {
   //// FUNCTION TO DRAW THE TEXT ON THE SCREEN.
   private drawText() {
     push();
-    const txtSize = width * 0.015;
 
     // SHADOW SETTINGS.
     drawingContext.shadowOffsetX = 2;
@@ -96,8 +91,13 @@ class ResultScene implements Scene {
     drawingContext.shadowColor = "rgba(0, 0, 0, 0.5)";
 
     fill("white");
-    textSize(txtSize);
-    text("Press space to play again", this.textPosition.x, this.textBounceY);
+    textSize(25);
+    fill("white");
+    text("Press", this.textPosition.x - 115, +this.textBounceY);
+    fill(255, 213, 118);
+    text("SPACE", this.textPosition.x - 35, this.textBounceY);
+    fill("white");
+    text("to play again", this.textPosition.x + 90, this.textBounceY);
     pop();
   }
 
@@ -113,12 +113,22 @@ class ResultScene implements Scene {
 
   //// FUNCTION TO DRAW THE CLOUD ON THE SCREEN.
   private drawCloud() {
-    image(cloudImg, this.cloudPosition.x, this.cloudPosition.y);
+    push();
+    // SHADOW SETTINGS.
+    drawingContext.shadowOffsetX = 2;
+    drawingContext.shadowOffsetY = 2;
+    drawingContext.shadowBlur = 5;
+    drawingContext.shadowColor = "rgba(0, 0, 0, 0.5)";
+
+    image(cloudImg, this.cloudPosition.x, this.cloudPosition.y, 300, 150);
+    pop();
   }
 
   // FUNCTION TO DRAW THE SNOWFLAKES ON THE SCREEN.
   // LOOP THROUGH ALL SNOWFLAKES AND DRAW THEM AT THEIR RESPECTIVE POSITIONS.
   private drawSnowflakes() {
+    push();
+
     for (let snowflake of this.snowflakePositions) {
       image(
         snowflakeImg,
@@ -128,45 +138,46 @@ class ResultScene implements Scene {
         snowflake.size
       );
     }
+    pop();
   }
 
   //// FUNCTION TO DRAW THE WINNER'S PODIUM ON THE SCREEN.
   private drawPodium() {
-    /// ("yellow").
-    const podiumWidth = width * 0.23;
-    const podiumHeight = height * 0.2;
-
+    push();
     if (this.winner === "Yellow") {
       image(
         podiumYellowImg,
         this.podiumPosition.x,
         this.podiumPosition.y,
-        podiumWidth,
-        podiumHeight
+        300,
+        180
       );
     } else if (this.winner === "Green") {
       image(
         podiumGreenImg,
         this.podiumPosition.x,
         this.podiumPosition.y,
-        podiumWidth,
-        podiumHeight
+        300,
+        180
       );
     }
+    pop();
   }
 
   private drawQuitButton() {
+    // Rita texten för knappen
     push();
     fill(66, 165, 246);
     textAlign(CENTER, CENTER);
-    textSize(50);
+    textSize(30);
     text("Quit", this.quitButtonPosition.x, this.quitButtonPosition.y);
     pop();
   }
 
   private checkQuitButtonClick() {
-    const buttonWidth = width * 0.05;
-    const buttonHeight = height * 0.035;
+    const buttonWidth = 120; // Matcha med fasta värden
+    const buttonHeight = 70; // Matcha med fasta värden
+
     return (
       mouseX > this.quitButtonPosition.x - buttonWidth / 2 &&
       mouseX < this.quitButtonPosition.x + buttonWidth / 2 &&

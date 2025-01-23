@@ -1,18 +1,45 @@
 let game: Game; // the game starts here
 let changedScene: boolean = false;
+const canvasWidth = 1024; // ~ * 0.7
+const canvasHeight = 685; // ~ * 0.7
+let canvas: p5.Renderer;
 
 function setup() {
-  createCanvas(1440, 1024);
+  canvas = createCanvas(canvasWidth, canvasHeight);
+  centerCanvas();
+  
   frameRate(60);
   game = new Game();
   userStartAudio(); //Aktiverar ljudet efter en användargest
 
-  // let startScene = new StartScene(null as unknown as Game);  
+  // let startScene = new StartScene(null as unknown as Game);
   // startScene = new StartScene(game);
   // game.changeActiveScreen(startScene);
 
+
   textFont(kavoonFont);
 }
+
+function centerCanvas() {
+  const x = (windowWidth - canvasWidth) / 2;
+  const y = (windowHeight - canvasHeight) / 2; 
+  canvas.position(x, y)
+}
+
+function windowResized() {
+  centerCanvas();
+}
+
+
+function draw() {
+  game.update();
+  game.draw();
+}
+
+function keyReleased() {
+  changedScene = false;
+}
+
 
 function preload() {
   soundOnimg = loadImage("assets/images/soundOn.svg");
@@ -27,6 +54,8 @@ function preload() {
   player2Img = loadImage("assets/images/yellowPlayerLeft.svg");
   backgroundImgL1 = loadImage("assets/images/bgLevel1.png");
   platform = loadImage("assets/images/platform.svg");
+  icyPlatform = loadImage("assets/images/icyPlatform.svg");
+  iciclePlatform = loadImage("assets/images/iciclePlatform.svg");
   snowman = loadImage("assets/images/snowman.svg");
   trampoline = loadImage("assets/images/trampoline.svg");
   teleport = loadImage("assets/images/teleport.svg");
@@ -39,13 +68,4 @@ function preload() {
   soundOnimg = loadImage("assets/images/soundOn.svg");
   podiumYellowImg = loadImage("assets/images/podiumYellowWinner.svg");
   podiumGreenImg = loadImage("assets/images/podiumGreenWinner.svg");
-}
-
-function draw() {
-  game.update();
-  game.draw();
-}
-
-function keyReleased() {
-  changedScene = false;
 }
