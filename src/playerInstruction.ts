@@ -24,7 +24,7 @@ class PlayerInstruction implements Scene {
     this.player2Position = createVector(220, 285);
     this.playerKeysYellowPosition = createVector(735, 430);
     this.playerKeysGreenPosition = createVector(175, 430);
-    this.playSoundPosition = createVector(960, 625);
+    this.playSoundPosition = createVector(980, 645);
 
   }
 
@@ -93,22 +93,20 @@ class PlayerInstruction implements Scene {
     
    
     fill("white");
-    text("Press", this.textPosition.x - 140, 600 + bounceText);
+    text("Press", this.textPosition.x - 135, 600 + bounceText);
     fill(255, 213, 118);
-    text("SPACE", this.textPosition.x - 43, 600 + bounceText);
+    text("SPACE", this.textPosition.x - 35, 600 + bounceText);
     fill("white");
-    text("to get started", this.textPosition.x + 110, 600 + bounceText);
+    text("to get started", this.textPosition.x + 120, 600 + bounceText);
     textSize(30);
     fill("white");
     text("Player 1", this.textPosition.x - 225, 230); 
     text("Player 2", this.textPosition.x + 260, 230);
 
-    text("You have 2 mins - Tag or DIE!", this.textPosition.x - 0, 630);
     textSize(40);
-    text("Player 1", this.textPosition.x - 300, 250);
-    text("Player 2", this.textPosition.x + 280, 250);
+    
     textSize(15);
-    text("Press p to play and pause music", this.textPosition.x + 480, 630); 
+    text("Press P to play and pause music", this.textPosition.x + 363, 662); 
 
     textFont(kavoonFont);
     pop();
