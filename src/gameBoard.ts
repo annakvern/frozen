@@ -94,13 +94,13 @@ class GameBoard implements Scene {
               //move under platform
               if (o1.speed.y < 0) {
                 o1.position.y = o2.position.y + 70 * 0.7;
-                o1.speed.y = 10;
-                o1.isJumping = false;
+                o1.speed.y = 0;
+                o1.isJumping = true;
               }
             }
             if (o2 instanceof Trampoline) {
               if (o1.position.y + o1.height >= o2.position.y + 5) {
-                if (o1.speed.y > 0 && !o1.isJumping) {
+                if (o1.speed.y > 0) {
                   // Kontrollera att spelaren inte redan är i luften
                   o1.position.y = o2.position.y - 70; // Placera ovanpå trampolinen
                   o1.speed.y = -20; // Studseffekt
