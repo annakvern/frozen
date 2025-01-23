@@ -20,15 +20,13 @@ class Platform extends GameObject {
       img = iciclePlatform;
       height = 80 * 0.7;
     }
-    super(position, 146 * 0.7, height, img, true);
+    super(position, 146 * 0.72, height, img, true);
     this.type = type;
     this.height = height;
-
   }
 
   public draw() {
-    image(this.img, this.position.x, this.position.y, 146 * 0.7, this.height);
-
+    image(this.img, this.position.x, this.position.y, 146 * 0.72, this.height);
   }
 
   public update() {}

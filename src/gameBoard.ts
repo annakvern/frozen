@@ -27,14 +27,13 @@ class GameBoard implements Scene {
     // recording the starting time
     this.lastUpdateTime = millis();
   }
-  draw(): void { 
+  draw(): void {
     background(backgroundImgL1);
     this.yellowTimer.draw();
     this.greenTimer.draw();
     for (const obj of this.gameObjects) {
       obj.draw();
     }
-   
   }
   update(): void {
     // timer logic...calculates the time difference since the last update
@@ -59,7 +58,7 @@ class GameBoard implements Scene {
   }
 
   private checkCollisions() {
-    const canvasWidth = 1440; // canvas bredd
+    const canvasWidth = 1440 * 0.7; // canvas bredd
     // const canvasHeight = 1024; // behöver vi ha stopp för höjden?
 
     for (const o1 of this.gameObjects) {
@@ -85,7 +84,7 @@ class GameBoard implements Scene {
             if (o2 instanceof Platform) {
               // Push above platform
               if (o1.speed.y > 0) {
-                o1.position.y = o2.position.y - 70;
+                o1.position.y = o2.position.y - 70 * 0.7;
                 o1.speed.y = 0;
                 o1.isJumping = false;
               }
