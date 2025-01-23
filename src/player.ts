@@ -121,7 +121,27 @@ class Player extends GameObject {
     }
   }
 
+ 
+  private slideOnIcePatch() {
+    const icePatchLeftX = 485;
+    const icePatchRightX = 590;
+    const icePatchY = 381;
+    if (
+      this.position.x > icePatchLeftX &&
+      this.position.x < icePatchRightX &&
+      this.position.y === icePatchY
+    ) {
+      if (this.speed.x > 0) {
+        this.speed.x = min(20, this.speed.x + 2);
+      } else if (this.speed.x < 0) {
+        this.speed.x = max(-20, this.speed.x - 2);
+      }
+    }
+    // console.log("coords:",this.position.x, this.position.y, "speed:", this.speed.x);
+  }
+
   public update() {
+    this.slideOnIcePatch();
     this.applyFriction();
     this.applyGravity();
     this.playerControls();
