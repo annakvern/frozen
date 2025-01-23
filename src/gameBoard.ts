@@ -83,6 +83,7 @@ class GameBoard implements Scene {
           if (o2 instanceof Player) {
             // bounce
             this.bouncePlayers(o1, o2);
+            // this.bouncePlayers(o2, o1);
           }
           if (this.objectsOverlap(o1, o2)) {
             if (o2 instanceof Platform) {
@@ -97,7 +98,6 @@ class GameBoard implements Scene {
                 o1.position.y = o2.position.y + 70 * 0.7;
                 o1.speed.y = 0;
                 o1.isJumping = true;
-
               }
             }
             if (o2 instanceof Trampoline) {
@@ -109,7 +109,6 @@ class GameBoard implements Scene {
                   o1.isJumping = true; // Markera att spelaren är i luften
                   console.log("studsa");
                 }
-
               }
             }
           }
@@ -134,7 +133,7 @@ class GameBoard implements Scene {
     let minDist = o1.width / 2 + o2.width / 2;
     console.log("Distance: " + distance);
     console.log("Min distance: " + minDist);
-    let spring = 5;
+    let spring = 0.3;
     if (distance < minDist) {
       console.log(distance + "distance is less than minDistance" + minDist);
       let angle = atan2(dy, dx);
@@ -150,6 +149,25 @@ class GameBoard implements Scene {
       o2.speed.x += ax;
       o2.speed.y += ay;
     }
+
+    // let dx = this.others[i].x - this.x;
+    //   let dy = this.others[i].y - this.y;
+    //   let distance = sqrt(dx * dx + dy * dy);
+    //   let minDist = this.others[i].diameter / 2 + this.diameter / 2;
+    //     console.log(distance);
+    //   console.log(minDist);
+    //   if (distance < minDist) {
+    //     console.log("2");
+    //     let angle = atan2(dy, dx);
+    //     let targetX = this.x + cos(angle) * minDist;
+    //     let targetY = this.y + sin(angle) * minDist;
+    //     let ax = (targetX - this.others[i].x) * spring;
+    //     let ay = (targetY - this.others[i].y) * spring;
+    //     this.vx -= ax;
+    //     this.vy -= ay;
+    //     this.others[i].vx += ax;
+    //     this.others[i].vy += ay;
+    //   }
   }
 
   private squishToGround() {}
