@@ -44,32 +44,32 @@ class LevelFactory {
               offsetY = 0;
               break;
             case 3: // Teleport
-              offsetX = squareSizeX / 2 - 50; // Center in X
-              offsetY = 0; // Center in Y
+              offsetX = squareSizeX / 2 - 50; // center
+              offsetY = 0; // top
               break;
             case 4: // Standard Platform
-              offsetX = 0; // No offset in X
-              offsetY = 0; // Top of rectangle
+              offsetX = 0; // left
+              offsetY = 0; // top
               break;
             case 5: // Trampoline
-              offsetX = squareSizeX / 2 - 76 / 2; // Center in X + offset width
-              offsetY = +15; // Top of rectangle
+              offsetX = squareSizeX / 2 - 76 / 2; // Center in X + offset half object width
+              offsetY = +15; // 15px down from top
               break;
             case 6: // Snowman
-              offsetX = squareSizeX / 2; // Center in X
-              offsetY = squareSizeY / 2; // Center in Y
+              offsetX = squareSizeX / 2; // center
+              offsetY = squareSizeY / 2; // center
               break;
             case 8: // Icy Platform
-              offsetX = 0; // No offset in X
-              offsetY = 0; // Top of rectangle
+              offsetX = 0; // Left
+              offsetY = 0; // Top
               break;
             case 9: // Icicle Platform
-              offsetX = 0; // No offset in X
-              offsetY = 0; // Top of rectangle
+              offsetX = 0; // Left
+              offsetY = 0; // Top
               break;
             case 10: // Base Platform
-              offsetX = 0; // No offset in X
-              offsetY = squareSizeY - 30 * 0.7; // Top of rectangle
+              offsetX = 0; // Left
+              offsetY = squareSizeY - 30 * 0.7; //bottom
               break;
           }
 
