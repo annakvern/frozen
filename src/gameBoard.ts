@@ -6,6 +6,8 @@ class GameBoard implements Scene {
   private yellowTimer: Timer;
   private greenTimer: Timer;
   private lastUpdateTime: number;
+  // private playerYellow: Player;
+  // private playerGreen: Player;
 
   constructor(gameObjects: GameObject[], game: Game) {
     this.game = game;
@@ -26,6 +28,9 @@ class GameBoard implements Scene {
 
     // recording the starting time
     this.lastUpdateTime = millis();
+    this.randomChaser();
+    // this.playerYellow = playerYellow;
+    // this.playerGreen = playerGreen;
   }
   draw(): void {
     background(backgroundImgL1);
@@ -121,14 +126,14 @@ class GameBoard implements Scene {
   private checkTimer() {}
 
   private randomChaser() {
-    
-    // const isChasing = Math.random() < 0.5;  // 50% chans att vara den som jagar
-    // if (isChasing) {
-    //   yellowPlayer.isChasing = true;
+   
+    const isChasing = Math.random() < 0.5;  // 50% chans att vara den som jagar
+    if (isChasing) {
+      playerYellow.isChasing = true;
 
-    // } else {
-    //   greenPlayer.isChasing = true;
-    // }
+    } else {
+      playerGreen.isChasing = true;
+    }
   }
 }
 

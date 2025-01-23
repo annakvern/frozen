@@ -83,10 +83,10 @@ class LevelFactory {
           console.log("Green player chasing:", playerStart <= 0.5);
 
           if (value === 1) {
-            gameObjects.push(new Player("yellow", position, true, 0, 0));
+            gameObjects.push(new Player("yellow", position, playerStart > .5, 0, 0));
             console.log(`Added object at ${position.x}, ${position.y}`);
           } else if (value === 2) {
-            gameObjects.push(new Player("green", position, false, 0, 0));
+            gameObjects.push(new Player("green", position, playerStart <= .5, 0, 0));
             console.log(`Added object at ${position.x}, ${position.y}`);
           } else if (value === 3) {
             gameObjects.push(new Teleport(position));

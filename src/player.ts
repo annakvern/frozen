@@ -96,16 +96,17 @@ class Player extends GameObject {
     if (this.isChasing) {
       // rita triangel
       push();
-      translate(this.position.x + 35, this.position.y - 30);
+      translate(this.position.x + 25, this.position.y - 25);
       fill('blue');
-      noStroke(); // Inget streck runt triangeln
+      noStroke();
       beginShape();
-      vertex(-10, 0); // Vänstra hörnet (basen)
-      vertex(10, 0);  // Högra hörnet (basen)
-      vertex(0, 20); // Högra hörnet
+      vertex(-8, 0);
+      vertex(8, 0);
+      vertex(0, 14);
       endShape(CLOSE);
       pop(); 
     }
+
     image(this.img, this.position.x, this.position.y, 50, 50);
   }
 
