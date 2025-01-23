@@ -133,7 +133,7 @@ class GameBoard implements Scene {
     let minDist = o1.width / 2 + o2.width / 2;
     console.log("Distance: " + distance);
     console.log("Min distance: " + minDist);
-    let spring = 0.3;
+    let spring = 0.7;
     if (distance < minDist) {
       console.log(distance + "distance is less than minDistance" + minDist);
       let angle = atan2(dy, dx);
