@@ -20,9 +20,9 @@ class Player extends GameObject {
     speedY: number
   ) {
     if (color === "yellow") {
-      super(position, 70, 70, playerYellow, false);
+      super(position, 50, 50, playerYellow, false);
     } else {
-      super(position, 70, 70, playerGreen, false);
+      super(position, 50, 50, playerGreen, false);
     }
 
     this.color = color;
@@ -45,9 +45,9 @@ class Player extends GameObject {
 
     this.position.y += this.speed.y;
 
-    if (this.position.y >= height - 200) {
+    if (this.position.y >= height - 30 * 0.7) {
       this.speed.y = 0;
-      this.position.y = height - 200;
+      this.position.y = height - 30 * 0.7;
       this.isJumping = false;
     }
   }
@@ -89,7 +89,7 @@ class Player extends GameObject {
   }
 
   public draw() {
-    image(this.img, this.position.x, this.position.y, 70, 70);
+    image(this.img, this.position.x, this.position.y, 50, 50);
   }
 
   public update() {

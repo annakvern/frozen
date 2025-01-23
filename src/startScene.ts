@@ -19,12 +19,9 @@ class StartScene implements Scene {
 
   constructor(game: Game) {
     this.game = game;
-    this.titlePosition = createVector(windowWidth * 0.5, windowHeight * 0.5); // Titelns position
-    this.textPosition = createVector(
-      windowWidth * 0.5,
-      windowHeight * 0.5 + 150
-    ); // Textens position
-    this.cloudPosition = createVector(350, 120); // Molnets position
+    this.titlePosition = createVector(canvasWidth / 2, canvasHeight / 2 - 60); // Titelns position
+    this.textPosition = createVector(canvasWidth / 2, canvasHeight / 2 + 50); // Textens position
+    this.cloudPosition = createVector(120, 60); // Molnets position
     this.snowflakePositions = [];
     for (let i = 0; i < 50; i++) {
       // Lägg till 50 snöflingor
@@ -36,9 +33,9 @@ class StartScene implements Scene {
       this.snowflakeVelocity.push(createVector(1, random(2)));
     }
 
-    this.platformPosition = createVector(50, 700); // Plattformens position
-    this.player1Position = createVector(200, 650);
-    this.player2Position = createVector(600, 650);
+    this.platformPosition = createVector(50, 600); // Plattformens position
+    this.player1Position = createVector(120, 535);
+    this.player2Position = createVector(400, 535);
     this.bounceTime = 0;
   }
 
@@ -88,30 +85,79 @@ class StartScene implements Scene {
 
   private drawTitle() {
     push();
-    fill("white");
-    textSize(140);
+
+    // SHADOW SETTINGS.
+    drawingContext.shadowOffsetX = 2;
+    drawingContext.shadowOffsetY = 2;
+    drawingContext.shadowBlur = 5;
+    drawingContext.shadowColor = "rgba(0, 0, 0, 0.5)";
+
+    textSize(100);
     textAlign(CENTER, CENTER);
     textFont(kavoonFont);
-    text("Tag or DIE!", this.titlePosition.x, this.titlePosition.y);
+
+    fill(58, 168, 167);
+    text(
+      "Tag",
+      this.titlePosition.x - textWidth(" or DIE!") / 2,
+      this.titlePosition.y
+    );
+
+    fill("white");
+    text("or ", this.titlePosition.x, this.titlePosition.y);
+
+    fill(255, 213, 118);
+    text(
+      " DIE!",
+      this.titlePosition.x + textWidth("Tag or ") / 2,
+      this.titlePosition.y
+    );
+
     pop();
   }
 
   private drawText() {
     push();
-    const bounceOffset = sin(this.bounceTime) * 10;
+
+    // SHADOW SETTINGS.
+    drawingContext.shadowOffsetX = 2;
+    drawingContext.shadowOffsetY = 2;
+    drawingContext.shadowBlur = 5;
+    drawingContext.shadowColor = "rgba(0, 0, 0, 0.5)";
+
+    const bounceOffset = sin(this.bounceTime) * 3;
     fill("white"); // Vit färg
-    textSize(40);
+    textSize(25);
     textAlign(CENTER, CENTER);
+    fill("white");
     text(
-      "Press space to continue",
-      this.textPosition.x,
+      "Press",
+      this.textPosition.x - 115,
       this.textPosition.y + bounceOffset
     );
+    fill(255, 213, 118);
+    text("SPACE", this.textPosition.x - 35, this.textPosition.y + bounceOffset);
+    fill("white");
+    text(
+      "to get started",
+      this.textPosition.x + 95,
+      this.textPosition.y + bounceOffset
+    );
+
     pop();
   }
 
   private drawCloud() {
-    image(cloudImg, this.cloudPosition.x, this.cloudPosition.y, 550, 250);
+    push();
+
+    // SHADOW SETTINGS.
+    drawingContext.shadowOffsetX = 2;
+    drawingContext.shadowOffsetY = 2;
+    drawingContext.shadowBlur = 5;
+    drawingContext.shadowColor = "rgba(0, 0, 0, 0.5)";
+
+    image(cloudImg, this.cloudPosition.x, this.cloudPosition.y, 300, 150);
+    pop();
   }
 
   private drawSnowflakes() {
@@ -121,21 +167,27 @@ class StartScene implements Scene {
   }
 
   private drawPlatform() {
+    push();
     image(
       platformImg,
       this.platformPosition.x,
       this.platformPosition.y,
-      800,
-      50
+      500,
+      35
     ); // Rita plattform
+    pop();
   }
 
   private drawPlayer1() {
+    push();
     image(player1Img, this.player1Position.x, this.player1Position.y);
+    pop();
   }
 
   private drawPlayer2() {
+    push();
     image(player2Img, this.player2Position.x, this.player2Position.y);
+    pop();
   }
 }
 

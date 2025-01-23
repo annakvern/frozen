@@ -61,6 +61,9 @@ class GameBoard implements Scene {
   }
 
   private checkCollisions() {
+    const canvasWidth = 1440 * 0.7; // canvas bredd
+    // const canvasHeight = 1024; // behöver vi ha stopp för höjden?
+
     for (const o1 of this.gameObjects) {
       if (!(o1 instanceof Player)) continue;
 
@@ -84,7 +87,7 @@ class GameBoard implements Scene {
             if (o2 instanceof Platform) {
               // Push above platform
               if (o1.speed.y > 0) {
-                o1.position.y = o2.position.y - 70;
+                o1.position.y = o2.position.y - 70 * 0.7;
                 o1.speed.y = 0;
                 o1.isJumping = false;
               }
