@@ -73,6 +73,9 @@ class GameBoard implements Scene {
       } else if (o1.position.x + o1.width > width) {
         o1.position.x = width - o1.width; // Stoppa till höger kant
         o1.speed.x = 0; //Spelarens fart går till 0 när den möter väggen
+      } else if (o1.position.y < 0) {
+        o1.position.y = 0; //Förhindrar spealren att hoppa igenom taket
+        o1.speed.y = 0; // Återställer farten i y-led
       }
 
       for (const o2 of this.gameObjects) {
