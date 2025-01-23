@@ -27,6 +27,11 @@ class LevelFactory {
         [0, 4, 4, 0, 0, 0, 4, 4, 0, 0],
         [10, 10, 10, 10, 10, 10, 10, 10, 5, 10],
       ];
+
+      const playerStart = random();
+      console.log("Yellow player chasing:", playerStart > 0.5);
+      console.log("Green player chasing:", playerStart <= 0.5);
+
       for (let y = 0; y < level1.length; y++) {
         for (let x = 0; x < level1[y].length; x++) {
           let value = level1[y][x];
@@ -78,15 +83,15 @@ class LevelFactory {
             basePosition.y + offsetY
           );
 
-          const playerStart = random();
-          console.log("Yellow player chasing:", playerStart > 0.5);
-          console.log("Green player chasing:", playerStart <= 0.5);
-
           if (value === 1) {
-            gameObjects.push(new Player("yellow", position, playerStart > .5, 0, 0));
+            gameObjects.push(
+              new Player("yellow", position, playerStart > 0.5, 0, 0)
+            );
             console.log(`Added object at ${position.x}, ${position.y}`);
           } else if (value === 2) {
-            gameObjects.push(new Player("green", position, playerStart <= .5, 0, 0));
+            gameObjects.push(
+              new Player("green", position, playerStart <= 0.5, 0, 0)
+            );
             console.log(`Added object at ${position.x}, ${position.y}`);
           } else if (value === 3) {
             gameObjects.push(new Teleport(position));
