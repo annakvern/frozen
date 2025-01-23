@@ -25,20 +25,64 @@ class LevelFactory {
         [4, 4, 0, 0, 0, 0, 0, 0, 0, 0],
         [0, 0, 0, 0, 4, 8, 0, 2, 0, 0],
         [0, 4, 4, 0, 0, 0, 4, 4, 0, 0],
-        [4, 4, 4, 4, 4, 4, 4, 4, 5, 4],
+        [10, 10, 10, 10, 10, 10, 10, 10, 5, 10],
       ];
       for (let y = 0; y < level1.length; y++) {
         for (let x = 0; x < level1[y].length; x++) {
           let value = level1[y][x];
-          const position = createVector(x * squareSizeX, y * squareSizeY);
+          const basePosition = createVector(x * squareSizeX, y * squareSizeY);
+          let offsetX = 0;
+          let offsetY = 0;
+
+          switch (value) {
+            case 1: // Yellow Player
+              offsetX = 0;
+              offsetY = 0;
+              break;
+            case 2: // Green Player
+              offsetX = 0;
+              offsetY = 0;
+              break;
+            case 3: // Teleport
+              offsetX = squareSizeX / 2 - 50; // Center in X
+              offsetY = 0; // Center in Y
+              break;
+            case 4: // Standard Platform
+              offsetX = 0; // No offset in X
+              offsetY = 0; // Top of rectangle
+              break;
+            case 5: // Trampoline
+              offsetX = squareSizeX / 2 - 76 / 2; // Center in X + offset width
+              offsetY = +15; // Top of rectangle
+              break;
+            case 6: // Snowman
+              offsetX = squareSizeX / 2; // Center in X
+              offsetY = squareSizeY / 2; // Center in Y
+              break;
+            case 8: // Icy Platform
+              offsetX = 0; // No offset in X
+              offsetY = 0; // Top of rectangle
+              break;
+            case 9: // Icicle Platform
+              offsetX = 0; // No offset in X
+              offsetY = 0; // Top of rectangle
+              break;
+            case 10: // Base Platform
+              offsetX = 0; // No offset in X
+              offsetY = squareSizeY - 30 * 0.7; // Top of rectangle
+              break;
+          }
+
+          const position = createVector(
+            basePosition.x + offsetX,
+            basePosition.y + offsetY
+          );
 
           if (value === 1) {
-            let yellowPlayer = new Player("yellow", position, true, 0, 0);
-            gameObjects.push(yellowPlayer);
+            gameObjects.push(new Player("yellow", position, true, 0, 0));
             console.log(`Added object at ${position.x}, ${position.y}`);
           } else if (value === 2) {
-            let greenPlayer = new Player("green", position, false, 0, 0);
-            gameObjects.push(greenPlayer);
+            gameObjects.push(new Player("green", position, false, 0, 0));
             console.log(`Added object at ${position.x}, ${position.y}`);
           } else if (value === 3) {
             gameObjects.push(new Teleport(position));
@@ -56,6 +100,8 @@ class LevelFactory {
             gameObjects.push(new Platform("icy", position));
           } else if (value === 9) {
             gameObjects.push(new Platform("icicle", position));
+          } else if (value === 10) {
+            gameObjects.push(new Platform("standard", position));
           }
         }
       }
