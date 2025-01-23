@@ -10,7 +10,7 @@ class Player extends GameObject {
   isJumping: boolean;
   gravity: number;
   // timeSinceTeleport: number;
-  // timer: number; //Står att den ska vara timer i diagrammet?
+  // timer: Timer; //Står att den ska vara timer i diagrammet?
 
   constructor(
     color: string,
@@ -25,6 +25,7 @@ class Player extends GameObject {
       super(position, 50, 50, playerGreen, false);
     }
 
+    console.log("isChasing is:" + isChasing);
     this.color = color;
     this.speed = createVector(speedX, speedY);
     this.isOnIce = false;
@@ -94,7 +95,27 @@ class Player extends GameObject {
   }
 
   public draw() {
-    image(this.img, this.position.x, this.position.y, 50, 50);
+    push();
+
+    //use scale to turn player
+    super.draw();
+
+    if (this.isChasing) {
+      // rita triangel
+      push();
+      translate(this.position.x + 25, this.position.y - 25);
+      fill("blue");
+      noStroke();
+      beginShape();
+      vertex(-8, 0);
+      vertex(8, 0);
+      vertex(0, 14);
+      endShape(CLOSE);
+      pop();
+    }
+
+    // this.timer.draw();
+    pop();
   }
 
   public update() {
@@ -102,5 +123,8 @@ class Player extends GameObject {
     this.applyGravity();
     this.position.x += this.speed.x;
     this.position.y += this.speed.y;
+
+    // if this.isChasing
+    // this.timer.update()
   }
 }
