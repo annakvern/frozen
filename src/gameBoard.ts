@@ -111,64 +111,24 @@ class GameBoard implements Scene {
   }
 
   private bouncePlayers(o1: Player, o2: Player) {
-    console.log("we're in bounce function!");
-    let p1x = o1.position.x;
-    let p1y = o1.position.y;
-    let p2x = o2.position.x;
-    let p2y = o2.position.y;
-
-    const radius = o1.width / 2;
-
-    let distance = dist(p1x, p1y, p2x, p2y);
-    console.log(`Distance between players: ${distance}, Radius: ${radius}`);
-    console.log(
-      `Player 1 position: (${p1x}, ${p1y}), Player 2 position: (${p2x}, ${p2y})`
-    );
-    let p1speedX = o1.speed.x;
-    let p1speedY = o1.speed.y;
-    let p2speedX = o2.speed.x;
-    let p2speedY = o2.speed.y;
-    const combinedRadius = o1.width / 2 + o2.width / 2;
-
-    // Resolve overlap (move players apart slightly less)
-
-    if (distance <= combinedRadius) {
-      let x1: [number, number] = [p1x, p1y];
-      let x2: [number, number] = [p2x, p2y];
-      let v1: [number, number] = [p1speedX, p1speedY];
-      let v2: [number, number] = [p2speedX, p2speedY];
-
-      let num1 = dotProduct(vectorSub(v1, v2), vectorSub(x1, x2)); // Numerator 1
-      let num2 = vectorSub(x1, x2); // Numerator 2
-      let den1 = vectorMag(vectorSub(x1, x2)) ** 2; // Denominator 1
-
-      let num3 = dotProduct(vectorSub(v2, v1), vectorSub(x2, x1)); // Numerator 3
-      let num4 = vectorSub(x2, x1); // Numerator 4
-      let den2 = vectorMag(vectorSub(x2, x1)) ** 2; // Denominator 2
-
-      let newv1 = vectorSub(v1, vectorMult(num2, num1 / den1));
-      let newv2 = vectorSub(v2, vectorMult(num4, num3 / den2));
-
-      if (den1 === 0 || den2 === 0) {
-        console.error("Denominator is zero, skipping velocity update.");
-        return;
-      }
-
-      // Update the velocities
-      p1speedX = newv1[0];
-      p1speedY = newv1[1];
-      p2speedX = newv2[0];
-      p2speedY = newv2[1];
-      console.log(`Player 1 new velocity: (${o1.speed.x}, ${o1.speed.y})`);
-      console.log(`Player 2 new velocity: (${o2.speed.x}, ${o2.speed.y})`);
-
-      // Update the positions
-      p1x += p1speedX;
-      p1y += p1speedY;
-      p2x += p2speedX;
-      p2y += p2speedY;
-    } else {
-      console.log("Players are too far apart to bounce.");
+    // console.log(others[i]);
+    let dx = o2.position.x - o1.position.x;
+    let dy = this.others[i].y - o1.position.y;
+    let distance = sqrt(dx * dx + dy * dy);
+    let minDist = this.others[i].diameter / 2 + this.diameter / 2;
+    //   console.log(distance);
+    //console.log(minDist);
+    if (distance < minDist) {
+      //console.log("2");
+      let angle = atan2(dy, dx);
+      let targetX = this.x + cos(angle) * minDist;
+      let targetY = this.y + sin(angle) * minDist;
+      let ax = (targetX - this.others[i].x) * spring;
+      let ay = (targetY - this.others[i].y) * spring;
+      this.vx -= ax;
+      this.vy -= ay;
+      this.others[i].vx += ax;
+      this.others[i].vy += ay;
     }
   }
 
@@ -185,56 +145,4 @@ class GameBoard implements Scene {
   private checkWinner() {}
 
   private checkTimer() {}
-}
-
-// Al < Br
-// Ar > Bl
-
-//För att ta reda på positionX (Höger) position.x + width av objektet (plattform)
-
-// Samma sak för Y-axeln. Position.y + height (då får vi andra hörnet av objektet)
-function dotProduct(a: [number, number], b: [number, number]): number {
-  // Dot product of a*b (inner product/ scalar product)
-  let product = 0;
-
-  if (a.length !== b.length) {
-    throw new Error("Vectors must be of the same length");
-  } else {
-    for (let i = 0; i < a.length; i++) {
-      product += a[i] * b[i];
-    }
-    return product; // this is a scalar (just a number)
-  }
-}
-
-function vectorMag(v: [number, number]): number {
-  // Vector magnitude
-  let mag = 0;
-  for (let i of v) {
-    mag += i ** 2;
-  }
-  return sqrt(mag); // this is also a scalar
-}
-
-function vectorSub(a: [number, number], b: [number, number]): [number, number] {
-  // Subtracts vector b from vector a
-  let sub = [];
-  if (a.length !== b.length) {
-    throw new Error("Vectors must be of the same length");
-  } else {
-    
-    for (let i = 0; i < a.length; i++) {
-      sub[i] = a[i] - b[i];
-    }
-    return sub; // this is a vector
-  }
-}
-
-function vectorMult(v: [number, number], s: number): [number, number] {
-  Multiplies vector (v) by scalar (s)
-  let mult = [];
-  for (let i = 0; i < v.length; i++) {
-    mult[i] = v[i] * s;
-  }
-  return mult; // This is also a vector
 }
