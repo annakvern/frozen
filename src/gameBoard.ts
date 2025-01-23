@@ -117,13 +117,22 @@ class GameBoard implements Scene {
     let p2x = o2.position.x;
     let p2y = o2.position.y;
 
+    const radius = o1.width / 2;
+
+    let distance = dist(p1x, p1y, p2x, p2y);
+    console.log(`Distance between players: ${distance}, Radius: ${radius}`);
+    console.log(
+      `Player 1 position: (${p1x}, ${p1y}), Player 2 position: (${p2x}, ${p2y})`
+    );
     let p1speedX = o1.speed.x;
     let p1speedY = o1.speed.y;
     let p2speedX = o2.speed.x;
     let p2speedY = o2.speed.y;
-    const radius = o1.width / 2;
+    const combinedRadius = o1.width / 2 + o2.width / 2;
 
-    if (dist(p1x, p1y, p2x, p2y) <= radius) {
+    // Resolve overlap (move players apart slightly less)
+
+    if (distance <= combinedRadius) {
       let x1: [number, number] = [p1x, p1y];
       let x2: [number, number] = [p2x, p2y];
       let v1: [number, number] = [p1speedX, p1speedY];
@@ -140,17 +149,26 @@ class GameBoard implements Scene {
       let newv1 = vectorSub(v1, vectorMult(num2, num1 / den1));
       let newv2 = vectorSub(v2, vectorMult(num4, num3 / den2));
 
+      if (den1 === 0 || den2 === 0) {
+        console.error("Denominator is zero, skipping velocity update.");
+        return;
+      }
+
       // Update the velocities
       p1speedX = newv1[0];
       p1speedY = newv1[1];
       p2speedX = newv2[0];
       p2speedY = newv2[1];
+      console.log(`Player 1 new velocity: (${o1.speed.x}, ${o1.speed.y})`);
+      console.log(`Player 2 new velocity: (${o2.speed.x}, ${o2.speed.y})`);
 
       // Update the positions
       p1x += p1speedX;
       p1y += p1speedY;
       p2x += p2speedX;
       p2y += p2speedY;
+    } else {
+      console.log("Players are too far apart to bounce.");
     }
   }
 
@@ -200,23 +218,23 @@ function vectorMag(v: [number, number]): number {
 
 function vectorSub(a: [number, number], b: [number, number]): [number, number] {
   // Subtracts vector b from vector a
-
+  let sub = [];
   if (a.length !== b.length) {
     throw new Error("Vectors must be of the same length");
   } else {
-    return [a[0] - b[0], a[1] - b[1]];
-    // for (let i = 0; i < a.length; i++) {
-    //   sub[i] = a[i] - b[i];
-    // }
-    // return sub; // this is a vector
+    
+    for (let i = 0; i < a.length; i++) {
+      sub[i] = a[i] - b[i];
+    }
+    return sub; // this is a vector
   }
 }
 
 function vectorMult(v: [number, number], s: number): [number, number] {
-  // Multiplies vector (v) by scalar (s)
-  // let mult = [];
-  // for (let i = 0; i < v.length; i++) {
-  //   mult[i] = v[i] * s;
-  // }
-  return [v[0] * s, v[1] * s]; // This is also a vector
+  Multiplies vector (v) by scalar (s)
+  let mult = [];
+  for (let i = 0; i < v.length; i++) {
+    mult[i] = v[i] * s;
+  }
+  return mult; // This is also a vector
 }
