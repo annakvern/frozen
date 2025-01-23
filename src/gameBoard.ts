@@ -88,6 +88,12 @@ class GameBoard implements Scene {
                 o1.speed.y = 0;
                 o1.isJumping = false;
               }
+              //move under platform
+              if (o1.speed.y < 0) {
+                o1.position.y = o2.position.y + 70 * 0.7;
+                o1.speed.y = 10;
+                o1.isJumping = false;
+              }
             }
           }
         }
