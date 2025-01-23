@@ -96,6 +96,7 @@ class GameBoard implements Scene {
                 o1.position.y = o2.position.y + 70 * 0.7;
                 o1.speed.y = 0;
                 o1.isJumping = true;
+
               }
             }
             if (o2 instanceof Trampoline) {
@@ -107,6 +108,7 @@ class GameBoard implements Scene {
                   o1.isJumping = true; // Markera att spelaren är i luften
                   console.log("studsa");
                 }
+
               }
             }
           }

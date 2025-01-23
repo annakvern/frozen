@@ -64,13 +64,16 @@ class Player extends GameObject {
         this.speed.x = -10;
       } else if (keyIsDown(RIGHT_ARROW)) {
         this.speed.x = 10;
-      } else if (keyIsDown(UP_ARROW)) {
-        this.jump();
-        this.isJumping = true;
-        console.log("hoppar vi?");
       } else {
         this.speed.x = 0;
       }
+      
+      if (keyIsDown(UP_ARROW)) {
+      this.jump();
+      this.isJumping = true;
+      console.log("hoppar vi?");
+      }
+      
     } else if (this.color === "green") {
       if (keyIsDown(65)) {
         // A-tangenten (vänster)
@@ -78,12 +81,14 @@ class Player extends GameObject {
       } else if (keyIsDown(68)) {
         // D-tangenten (höger)
         this.speed.x = 10;
-      } else if (keyIsDown(87)) {
-        this.jump();
-        this.isJumping = true;
-        console.log("hoppar vi?");
       } else {
         this.speed.x = 0;
+      }
+
+      if (keyIsDown(87)) {
+      this.jump();
+      this.isJumping = true;
+      console.log("hoppar vi?");
       }
     }
   }
