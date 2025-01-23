@@ -93,22 +93,17 @@ class GameBoard implements Scene {
               }
             }
             if (o2 instanceof Trampoline) {
-              if (o1.position.y + o1.height <= o2.position.y + 10) {
+              if (o1.position.y + o1.height >= o2.position.y + 5) {
                 if (o1.speed.y > 0 && !o1.isJumping) {
                   // Kontrollera att spelaren inte redan är i luften
                   o1.position.y = o2.position.y - 70; // Placera ovanpå trampolinen
-                  o1.speed.y = -25; // Studseffekt
+                  o1.speed.y = -20; // Studseffekt
                   o1.isJumping = true; // Markera att spelaren är i luften
                   console.log("studsa");
                 }
               }
             }
           }
-        }
-        if (o1.position.y + o1.height >= this.groundLevel) {
-          o1.position.y = this.groundLevel - o1.height; // Placera ovanför marknivån
-          o1.speed.y = 0; // Stoppa eventuell nedåtgående rörelse
-          o1.isJumping = false; // Återställ hoppstatus
         }
       }
     }
