@@ -78,6 +78,7 @@ class GameBoard implements Scene {
 
         if (this.objectsOverlap(o1, o2)) {
           if (o2 instanceof Player) {
+            // bounce
             this.bouncePlayers(o1, o2);
           }
           if (this.objectsOverlap(o1, o2)) {
@@ -111,24 +112,27 @@ class GameBoard implements Scene {
   }
 
   private bouncePlayers(o1: Player, o2: Player) {
-    // console.log(others[i]);
     let dx = o2.position.x - o1.position.x;
-    let dy = this.others[i].y - o1.position.y;
+    let dy = o2.position.y - o1.position.y;
     let distance = sqrt(dx * dx + dy * dy);
-    let minDist = this.others[i].diameter / 2 + this.diameter / 2;
-    //   console.log(distance);
-    //console.log(minDist);
+    let minDist = o1.width / 2 + o2.width / 2;
+    console.log("Distance: " + distance);
+    console.log("Min distance: " + minDist);
+    let spring = 5;
     if (distance < minDist) {
-      //console.log("2");
+      console.log(distance + "distance is less than minDistance" + minDist);
       let angle = atan2(dy, dx);
-      let targetX = this.x + cos(angle) * minDist;
-      let targetY = this.y + sin(angle) * minDist;
-      let ax = (targetX - this.others[i].x) * spring;
-      let ay = (targetY - this.others[i].y) * spring;
-      this.vx -= ax;
-      this.vy -= ay;
-      this.others[i].vx += ax;
-      this.others[i].vy += ay;
+      let targetX = o1.position.x + cos(angle) * minDist;
+      let targetY = o1.position.y + sin(angle) * minDist;
+      console.log("TargetX " + targetX);
+      console.log("o2 position x " + o2.position.x);
+      let ax = (targetX - o2.position.x) * spring;
+      console.log("ax " + ax);
+      let ay = (targetY - o2.position.y) * spring;
+      o1.speed.x -= ax;
+      o1.speed.y -= ay;
+      o2.speed.x += ax;
+      o2.speed.y += ay;
     }
   }
 
