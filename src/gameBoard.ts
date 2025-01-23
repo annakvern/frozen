@@ -6,6 +6,7 @@ class GameBoard implements Scene {
   private yellowTimer: Timer;
   private greenTimer: Timer;
   private lastUpdateTime: number;
+  private groundLevel: number;
 
   constructor(gameObjects: GameObject[], game: Game) {
     this.game = game;
@@ -26,6 +27,8 @@ class GameBoard implements Scene {
 
     // recording the starting time
     this.lastUpdateTime = millis();
+
+    this.groundLevel = 950;
   }
   draw(): void {
     background(backgroundImgL1);
@@ -67,8 +70,8 @@ class GameBoard implements Scene {
       if (o1.position.x < 0) {
         o1.position.x = 0; // stopp till vänster
         o1.speed.x = 0; // Spelarens fart går till när den möter väggen
-      } else if (o1.position.x + o1.width > canvasWidth) {
-        o1.position.x = canvasWidth - o1.width; // Stoppa till höger kant
+      } else if (o1.position.x + o1.width > width) {
+        o1.position.x = width - o1.width; // Stoppa till höger kant
         o1.speed.x = 0; //Spelarens fart går till 0 när den möter väggen
       }
 
@@ -94,6 +97,19 @@ class GameBoard implements Scene {
                 o1.position.y = o2.position.y + 70 * 0.7;
                 o1.speed.y = 0;
                 o1.isJumping = true;
+
+              }
+            }
+            if (o2 instanceof Trampoline) {
+              if (o1.position.y + o1.height >= o2.position.y + 5) {
+                if (o1.speed.y > 0) {
+                  // Kontrollera att spelaren inte redan är i luften
+                  o1.position.y = o2.position.y - 70; // Placera ovanpå trampolinen
+                  o1.speed.y = -20; // Studseffekt
+                  o1.isJumping = true; // Markera att spelaren är i luften
+                  console.log("studsa");
+                }
+
               }
             }
           }

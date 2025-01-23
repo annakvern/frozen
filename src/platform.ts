@@ -24,10 +24,4 @@ class Platform extends GameObject {
     this.type = type;
     this.height = height;
   }
-
-  public draw() {
-    image(this.img, this.position.x, this.position.y, 146 * 0.72, this.height);
-  }
-
-  public update() {}
 }
