@@ -122,13 +122,13 @@ class GameBoard implements Scene {
 
   private randomChaser() {
     
-    const isChasing = Math.random() < 0.5;  // 50% chans att vara den som jagar
-    if (isChasing) {
-      yellowPlayer.isChasing = true;
+    // const isChasing = Math.random() < 0.5;  // 50% chans att vara den som jagar
+    // if (isChasing) {
+    //   yellowPlayer.isChasing = true;
 
-  } else {
-    greenPlayer.isChasing = true;
-  }
+    // } else {
+    //   greenPlayer.isChasing = true;
+    // }
   }
 }
 

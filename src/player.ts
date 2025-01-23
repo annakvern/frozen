@@ -18,7 +18,7 @@ class Player extends GameObject {
     isChasing: boolean,
     speedX: number,
     speedY: number
-  ) {
+    ) {
     
     if (color === "yellow") {
       super(position, 70, 70, playerYellow, false);
@@ -26,7 +26,7 @@ class Player extends GameObject {
       super(position, 70, 70, playerGreen, false);
     }
     
-console.log("isChasing is:" + isChasing);
+    console.log("isChasing is:" + isChasing);
     this.color = color;
     this.speed = createVector(speedX, speedY);
     this.isOnIce = false;
@@ -95,6 +95,16 @@ console.log("isChasing is:" + isChasing);
 
     if (this.isChasing) {
       // rita triangel
+      push();
+      translate(this.position.x + 35, this.position.y - 30);
+      fill('blue');
+      noStroke(); // Inget streck runt triangeln
+      beginShape();
+      vertex(-10, 0); // Vänstra hörnet (basen)
+      vertex(10, 0);  // Högra hörnet (basen)
+      vertex(0, 20); // Högra hörnet
+      endShape(CLOSE);
+      pop(); 
     }
   }
 
