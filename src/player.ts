@@ -62,34 +62,29 @@ class Player extends GameObject {
   public playerControls() {
     if (this.color === "yellow") {
       if (keyIsDown(LEFT_ARROW)) {
-        this.speed.x = -10;
+        this.speed.x = max(-10, this.speed.x - 1.5);
       } else if (keyIsDown(RIGHT_ARROW)) {
-        this.speed.x = 10;
-      } else {
-        this.speed.x = 0;
+        this.speed.x = min(10, this.speed.x + 1.5);
       }
-      
+
       if (keyIsDown(UP_ARROW)) {
-      this.jump();
-      this.isJumping = true;
-      console.log("hoppar vi?");
+        this.jump();
+        this.isJumping = true;
+        console.log("hoppar vi?");
       }
-      
     } else if (this.color === "green") {
       if (keyIsDown(65)) {
         // A-tangenten (vänster)
-        this.speed.x = -10;
+        this.speed.x = max(-10, this.speed.x - 1.5);
       } else if (keyIsDown(68)) {
         // D-tangenten (höger)
-        this.speed.x = 10;
-      } else {
-        this.speed.x = 0;
+        this.speed.x = min(10, this.speed.x + 1.5);
       }
 
       if (keyIsDown(87)) {
-      this.jump();
-      this.isJumping = true;
-      console.log("hoppar vi?");
+        this.jump();
+        this.isJumping = true;
+        console.log("hoppar vi?");
       }
     }
   }
@@ -118,9 +113,18 @@ class Player extends GameObject {
     pop();
   }
 
+  private applyFriction() {
+    if (this.speed.x > 0) {
+      this.speed.x = max(0, this.speed.x - 0.5);
+    } else if (this.speed.x < 0) {
+      this.speed.x = min(0, this.speed.x + 0.5);
+    }
+  }
+
   public update() {
-    this.playerControls();
+    this.applyFriction();
     this.applyGravity();
+    this.playerControls();
     this.position.x += this.speed.x;
     this.position.y += this.speed.y;
 
