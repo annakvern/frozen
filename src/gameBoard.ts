@@ -128,7 +128,8 @@ class GameBoard implements Scene {
             ) {
               o1.position.y = o2.position.y + 15;
               o1.position.x = o2.position.x + 15;
-              o1.speed.y = 0;
+              o1.speed.y = -15;
+              o1.speed.x = 15;
               o1.dropTimer = 500;
               o1.setPosition("left");
             }
@@ -139,7 +140,8 @@ class GameBoard implements Scene {
             ) {
               o1.position.y = o2.position.y + 15;
               o1.position.x = o2.position.x + 15;
-              o1.speed.y = 0;
+              o1.speed.y = -15;
+              o1.speed.x = -15;
               o1.dropTimer = 500;
               o1.setPosition("right");
             }
