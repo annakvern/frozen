@@ -150,6 +150,7 @@ class Player extends GameObject {
     if (this.dropTimer > 0) {
       return;
     }
+    this.slideOnIcePatch()
     this.applyFriction();
     this.applyGravity();
     this.playerControls();
