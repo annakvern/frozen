@@ -61,18 +61,6 @@ class Player extends GameObject {
 
   public playerControls() {
     if (this.color === "yellow") {
-      if (keyIsDown(LEFT_ARROW)) {
-        this.speed.x = max(-10, this.speed.x - 1.5);
-      } else if (keyIsDown(RIGHT_ARROW)) {
-        this.speed.x = min(10, this.speed.x + 1.5);
-      }
-
-      if (keyIsDown(UP_ARROW)) {
-        this.jump();
-        this.isJumping = true;
-        console.log("hoppar vi?");
-      }
-    } else if (this.color === "green") {
       if (keyIsDown(65)) {
         // A-tangenten (vänster)
         this.speed.x = max(-10, this.speed.x - 1.5);
@@ -80,8 +68,18 @@ class Player extends GameObject {
         // D-tangenten (höger)
         this.speed.x = min(10, this.speed.x + 1.5);
       }
-
       if (keyIsDown(87)) {
+        this.jump();
+        this.isJumping = true;
+        console.log("hoppar vi?");
+      }
+    } else if (this.color === "green") {
+      if (keyIsDown(LEFT_ARROW)) {
+        this.speed.x = max(-10, this.speed.x - 1.5);
+      } else if (keyIsDown(RIGHT_ARROW)) {
+        this.speed.x = min(10, this.speed.x + 1.5);
+      }
+      if (keyIsDown(UP_ARROW)) {
         this.jump();
         this.isJumping = true;
         console.log("hoppar vi?");
