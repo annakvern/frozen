@@ -89,9 +89,16 @@ class GameBoard implements Scene {
             // this.bouncePlayers(o2, o1);
           }
           if (this.objectsOverlap(o1, o2)) {
+            if (o2 instanceof Platform && o2.img === iciclePlatform) {
+              if (o1.speed.y < 0 && o1.dropTimer < -100) {
+                o1.position.y = o2.position.y + 80 * 0.7;
+                o1.dropTimer = 500;
+                console.log("Vi är på ice");
+              }
+            }
             if (o2 instanceof Platform) {
               // Push above platform
-              if (o1.speed.y > 0) {
+              if (o1.speed.y > 0 && o1.dropTimer < -100) {
                 o1.position.y = o2.position.y - 70 * 0.7;
                 o1.speed.y = 0;
                 o1.isJumping = false;
