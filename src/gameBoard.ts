@@ -152,25 +152,6 @@ class GameBoard implements Scene {
       o2.speed.x += ax;
       o2.speed.y += ay;
     }
-
-    // let dx = this.others[i].x - this.x;
-    //   let dy = this.others[i].y - this.y;
-    //   let distance = sqrt(dx * dx + dy * dy);
-    //   let minDist = this.others[i].diameter / 2 + this.diameter / 2;
-    //     console.log(distance);
-    //   console.log(minDist);
-    //   if (distance < minDist) {
-    //     console.log("2");
-    //     let angle = atan2(dy, dx);
-    //     let targetX = this.x + cos(angle) * minDist;
-    //     let targetY = this.y + sin(angle) * minDist;
-    //     let ax = (targetX - this.others[i].x) * spring;
-    //     let ay = (targetY - this.others[i].y) * spring;
-    //     this.vx -= ax;
-    //     this.vy -= ay;
-    //     this.others[i].vx += ax;
-    //     this.others[i].vy += ay;
-    //   }
   }
 
   private squishToGround() {}
