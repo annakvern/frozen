@@ -121,6 +121,28 @@ class GameBoard implements Scene {
                 }
               }
             }
+            if (
+              o2 instanceof Teleport &&
+              o2.position.x > 200 &&
+              o1.dropTimer < -100
+            ) {
+              o1.position.y = o2.position.y + 15;
+              o1.position.x = o2.position.x + 15;
+              o1.speed.y = 0;
+              o1.dropTimer = 500;
+              o1.setPosition("left");
+            }
+            if (
+              o2 instanceof Teleport &&
+              o2.position.x < 200 &&
+              o1.dropTimer < -100
+            ) {
+              o1.position.y = o2.position.y + 15;
+              o1.position.x = o2.position.x + 15;
+              o1.speed.y = 0;
+              o1.dropTimer = 500;
+              o1.setPosition("right");
+            }
           }
         }
       }

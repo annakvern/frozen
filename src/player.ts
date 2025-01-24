@@ -10,7 +10,7 @@ class Player extends GameObject {
   isJumping: boolean;
   gravity: number;
   dropTimer: number;
-  // timeSinceTeleport: number;
+  timeSinceTeleport: number;
   // timer: Timer; //Står att den ska vara timer i diagrammet?
 
   constructor(
@@ -34,14 +34,19 @@ class Player extends GameObject {
     this.isJumping = false;
     this.gravity = 1;
     this.dropTimer = -1000;
-
-    // this.timeSinceTeleport = ;
+    this.timeSinceTeleport = -1000;
     // this.timer = timer;
   }
   public bounce() {}
   public toggleIsChasing() {}
 
-  private setPosition(): void {}
+  public setPosition(port: string): void {
+    if (port === "left") {
+      this.position.x = 15;
+    } else {
+      this.position.x = 930;
+    }
+  }
 
   private applyGravity(): void {
     this.speed.y += this.gravity;
