@@ -9,7 +9,8 @@ class Player extends GameObject {
   isChasing: boolean;
   isJumping: boolean;
   gravity: number;
-  // timeSinceTeleport: number;
+  dropTimer: number;
+  timeSinceTeleport: number;
   // timer: Timer; //Står att den ska vara timer i diagrammet?
 
   constructor(
@@ -32,14 +33,20 @@ class Player extends GameObject {
     this.isChasing = isChasing;
     this.isJumping = false;
     this.gravity = 1;
-
-    // this.timeSinceTeleport = ;
+    this.dropTimer = -1000;
+    this.timeSinceTeleport = -1000;
     // this.timer = timer;
   }
   public bounce() {}
   public toggleIsChasing() {}
 
-  private setPosition(): void {}
+  public setPosition(port: string): void {
+    if (port === "left") {
+      this.position.x = 15;
+    } else {
+      this.position.x = 930;
+    }
+  }
 
   private applyGravity(): void {
     this.speed.y += this.gravity;
@@ -61,18 +68,6 @@ class Player extends GameObject {
 
   public playerControls() {
     if (this.color === "yellow") {
-      if (keyIsDown(LEFT_ARROW)) {
-        this.speed.x = max(-10, this.speed.x - 1.5);
-      } else if (keyIsDown(RIGHT_ARROW)) {
-        this.speed.x = min(10, this.speed.x + 1.5);
-      }
-
-      if (keyIsDown(UP_ARROW)) {
-        this.jump();
-        this.isJumping = true;
-        console.log("hoppar vi?");
-      }
-    } else if (this.color === "green") {
       if (keyIsDown(65)) {
         // A-tangenten (vänster)
         this.speed.x = max(-10, this.speed.x - 1.5);
@@ -80,8 +75,18 @@ class Player extends GameObject {
         // D-tangenten (höger)
         this.speed.x = min(10, this.speed.x + 1.5);
       }
-
       if (keyIsDown(87)) {
+        this.jump();
+        this.isJumping = true;
+        console.log("hoppar vi?");
+      }
+    } else if (this.color === "green") {
+      if (keyIsDown(LEFT_ARROW)) {
+        this.speed.x = max(-10, this.speed.x - 1.5);
+      } else if (keyIsDown(RIGHT_ARROW)) {
+        this.speed.x = min(10, this.speed.x + 1.5);
+      }
+      if (keyIsDown(UP_ARROW)) {
         this.jump();
         this.isJumping = true;
         console.log("hoppar vi?");
@@ -141,7 +146,10 @@ class Player extends GameObject {
   }
 
   public update() {
-    this.slideOnIcePatch();
+    this.dropTimer -= deltaTime;
+    if (this.dropTimer > 0) {
+      return;
+    }
     this.applyFriction();
     this.applyGravity();
     this.playerControls();

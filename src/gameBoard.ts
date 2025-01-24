@@ -89,9 +89,16 @@ class GameBoard implements Scene {
             // this.bouncePlayers(o2, o1);
           }
           if (this.objectsOverlap(o1, o2)) {
+            if (o2 instanceof Platform && o2.img === iciclePlatform) {
+              if (o1.speed.y < 0 && o1.dropTimer < -100) {
+                o1.position.y = o2.position.y + 80 * 0.7;
+                o1.dropTimer = 500;
+                console.log("Vi är på ice");
+              }
+            }
             if (o2 instanceof Platform) {
               // Push above platform
-              if (o1.speed.y > 0) {
+              if (o1.speed.y > 0 && o1.dropTimer < -100) {
                 o1.position.y = o2.position.y - 70 * 0.7;
                 o1.speed.y = 0;
                 o1.isJumping = false;
@@ -113,6 +120,28 @@ class GameBoard implements Scene {
                   console.log("studsa");
                 }
               }
+            }
+            if (
+              o2 instanceof Teleport &&
+              o2.position.x > 200 &&
+              o1.dropTimer < -100
+            ) {
+              o1.position.y = o2.position.y + 15;
+              o1.position.x = o2.position.x + 15;
+              o1.speed.y = 0;
+              o1.dropTimer = 500;
+              o1.setPosition("left");
+            }
+            if (
+              o2 instanceof Teleport &&
+              o2.position.x < 200 &&
+              o1.dropTimer < -100
+            ) {
+              o1.position.y = o2.position.y + 15;
+              o1.position.x = o2.position.x + 15;
+              o1.speed.y = 0;
+              o1.dropTimer = 500;
+              o1.setPosition("right");
             }
           }
         }
@@ -152,25 +181,6 @@ class GameBoard implements Scene {
       o2.speed.x += ax;
       o2.speed.y += ay;
     }
-
-    // let dx = this.others[i].x - this.x;
-    //   let dy = this.others[i].y - this.y;
-    //   let distance = sqrt(dx * dx + dy * dy);
-    //   let minDist = this.others[i].diameter / 2 + this.diameter / 2;
-    //     console.log(distance);
-    //   console.log(minDist);
-    //   if (distance < minDist) {
-    //     console.log("2");
-    //     let angle = atan2(dy, dx);
-    //     let targetX = this.x + cos(angle) * minDist;
-    //     let targetY = this.y + sin(angle) * minDist;
-    //     let ax = (targetX - this.others[i].x) * spring;
-    //     let ay = (targetY - this.others[i].y) * spring;
-    //     this.vx -= ax;
-    //     this.vy -= ay;
-    //     this.others[i].vx += ax;
-    //     this.others[i].vy += ay;
-    //   }
   }
 
   private squishToGround() {}
