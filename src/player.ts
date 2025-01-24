@@ -68,12 +68,24 @@ class Player extends GameObject {
 
   public playerControls() {
     if (this.color === "yellow") {
-      if (keyIsDown(65)) {
-        // A-tangenten (vänster)
-        this.speed.x = max(-10, this.speed.x - 1.5);
-      } else if (keyIsDown(68)) {
-        // D-tangenten (höger)
-        this.speed.x = min(10, this.speed.x + 1.5);
+      if (this.isOnIce) {
+        // Mindre kontroll på isfläcken
+        if (keyIsDown(65)) {
+          // A-tangenten (vänster)
+          this.speed.x = max(-10, this.speed.x - 0.5); // Mindre förändring
+        } else if (keyIsDown(68)) {
+          // D-tangenten (höger)
+          this.speed.x = min(10, this.speed.x + 0.5); // Mindre förändring
+        }
+      } else {
+        // Normal kontroll
+        if (keyIsDown(65)) {
+          // A-tangenten (vänster)
+          this.speed.x = max(-10, this.speed.x - 1.5);
+        } else if (keyIsDown(68)) {
+          // D-tangenten (höger)
+          this.speed.x = min(10, this.speed.x + 1.5);
+        }
       }
       if (keyIsDown(87)) {
         this.jump();
@@ -81,10 +93,24 @@ class Player extends GameObject {
         console.log("hoppar vi?");
       }
     } else if (this.color === "green") {
-      if (keyIsDown(LEFT_ARROW)) {
-        this.speed.x = max(-10, this.speed.x - 1.5);
-      } else if (keyIsDown(RIGHT_ARROW)) {
-        this.speed.x = min(10, this.speed.x + 1.5);
+      if (this.isOnIce) {
+        // Reduce control while on icepatch
+        if (keyIsDown(LEFT_ARROW)) {
+          
+          this.speed.x = max(-10, this.speed.x - 0.5);
+        } else if (keyIsDown(RIGHT_ARROW)) {
+         
+          this.speed.x = min(10, this.speed.x + 0.5);
+        }
+      } else {
+        // Normal control
+        if (keyIsDown(LEFT_ARROW)) {
+          
+          this.speed.x = max(-10, this.speed.x - 1.5);
+        } else if (keyIsDown(RIGHT_ARROW)) {
+          
+          this.speed.x = min(10, this.speed.x + 1.5);
+        }
       }
       if (keyIsDown(UP_ARROW)) {
         this.jump();
@@ -93,6 +119,7 @@ class Player extends GameObject {
       }
     }
   }
+  
 
   public draw() {
     push();
@@ -119,30 +146,45 @@ class Player extends GameObject {
   }
 
   private applyFriction() {
-    if (this.speed.x > 0) {
-      this.speed.x = max(0, this.speed.x - 0.5);
-    } else if (this.speed.x < 0) {
-      this.speed.x = min(0, this.speed.x + 0.5);
-    }
+    if (!this.isOnIce) {
+      if (this.speed.x > 0) {
+        this.speed.x = max(0, this.speed.x - 0.5);
+      } else if (this.speed.x < 0) {
+        this.speed.x = min(0, this.speed.x + 0.5);
+      }
+   }
   }
 
  
   private slideOnIcePatch() {
-    const icePatchLeftX = 485;
-    const icePatchRightX = 590;
-    const icePatchY = 381;
-    if (
+    // Original platform
+    // const icePatchLeftX = 450;
+    // const icePatchRightX = 625;
+    // const icePatchY = 381;
+
+    //Top platform
+    const icePatchLeftX = 260;
+    const icePatchRightX = 720;
+    const icePatchY = 209;
+
+    this.isOnIce =
       this.position.x > icePatchLeftX &&
       this.position.x < icePatchRightX &&
-      this.position.y === icePatchY
-    ) {
+      this.position.y === icePatchY;
+     
+    if (this.isOnIce) {     
+      console.log("We are on icepatch");
+       
       if (this.speed.x > 0) {
-        this.speed.x = min(20, this.speed.x + 2);
+        this.speed.x = min(20, this.speed.x + 0.2);
       } else if (this.speed.x < 0) {
-        this.speed.x = max(-20, this.speed.x - 2);
+        this.speed.x = max(-20, this.speed.x - 0.2);
+      } else {
+        this.speed.x = 2;
       }
     }
-    // console.log("coords:",this.position.x, this.position.y, "speed:", this.speed.x);
+    // console.log(`${this.position.x}, ${this.position.y}`);
+
   }
 
   public update() {

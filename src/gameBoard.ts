@@ -93,7 +93,7 @@ class GameBoard implements Scene {
               if (o1.speed.y < 0 && o1.dropTimer < -100) {
                 o1.position.y = o2.position.y + 80 * 0.7;
                 o1.dropTimer = 500;
-                console.log("Vi är på ice");
+                console.log("We are stuck on icicle");
               }
             }
             if (o2 instanceof Platform) {
