@@ -9,6 +9,7 @@ class Player extends GameObject {
   isChasing: boolean;
   isJumping: boolean;
   gravity: number;
+  dropTimer: number;
   // timeSinceTeleport: number;
   // timer: Timer; //Står att den ska vara timer i diagrammet?
 
@@ -32,6 +33,7 @@ class Player extends GameObject {
     this.isChasing = isChasing;
     this.isJumping = false;
     this.gravity = 1;
+    this.dropTimer = -1000;
 
     // this.timeSinceTeleport = ;
     // this.timer = timer;
@@ -120,6 +122,10 @@ class Player extends GameObject {
   }
 
   public update() {
+    this.dropTimer -= deltaTime;
+    if (this.dropTimer > 0) {
+      return;
+    }
     this.applyFriction();
     this.applyGravity();
     this.playerControls();
