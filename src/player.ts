@@ -18,7 +18,8 @@ class Player extends GameObject {
     position: p5.Vector,
     isChasing: boolean,
     speedX: number,
-    speedY: number
+    speedY: number,
+    timer: Timer
   ) {
     if (color === "yellow") {
       super(position, 50, 50, playerYellow, false);
@@ -161,5 +162,17 @@ class Player extends GameObject {
     } else {
       return;
     }
+<<<<<<< HEAD
+=======
+    this.applyFriction();
+    this.applyGravity();
+    this.playerControls();
+    this.position.x += this.speed.x;
+    this.position.y += this.speed.y;
+
+    // if (this.isChasing){
+    //  this.timer.update() 
+    // }    
+>>>>>>> f4e1f2555b55d3cb8b72cade5fffacad3805169b
   }
 }
