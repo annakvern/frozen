@@ -7,7 +7,7 @@ let canvas: p5.Renderer;
 function setup() {
   canvas = createCanvas(canvasWidth, canvasHeight);
   centerCanvas();
-  
+
   frameRate(60);
   game = new Game();
   userStartAudio(); //Aktiverar ljudet efter en användargest
@@ -16,20 +16,18 @@ function setup() {
   // startScene = new StartScene(game);
   // game.changeActiveScreen(startScene);
 
-
   textFont(kavoonFont);
 }
 
 function centerCanvas() {
   const x = (windowWidth - canvasWidth) / 2;
-  const y = (windowHeight - canvasHeight) / 2; 
-  canvas.position(x, y)
+  const y = (windowHeight - canvasHeight) / 2;
+  canvas.position(x, y);
 }
 
 function windowResized() {
   centerCanvas();
 }
-
 
 function draw() {
   game.update();
@@ -40,18 +38,19 @@ function keyReleased() {
   changedScene = false;
 }
 
-
 function preload() {
   soundOnimg = loadImage("assets/images/soundOn.svg");
   music = {
-    mystery: loadSound("/assets/music/mystery.mp3"),
+    chase: loadSound("/assets/music/crazy-chase-126687.mp3"),
   };
   cloudImg = loadImage("assets/images/cloudNew.svg");
   snowflakeImg = loadImage("assets/images/snowflake.svg");
   platformImg = loadImage("assets/images/platformStart.svg");
   kavoonFont = loadFont("assets/Font(s)/Kavoon-Regular.ttf");
-  player1Img = loadImage("assets/images/greenPlayerRight.svg");
-  player2Img = loadImage("assets/images/yellowPlayerLeft.svg");
+  greenRight = loadImage("assets/images/greenPlayerRight.svg");
+  yellowLeft = loadImage("assets/images/yellowPlayerLeft.svg");
+  yellowRight = loadImage("assets/images/yellowPlayerRight.svg");
+  greenLeft = loadImage("assets/images/greenPlayerLeft.svg");
   backgroundImgL1 = loadImage("assets/images/bgLevel1.png");
   platform = loadImage("assets/images/platform.svg");
   icyPlatform = loadImage("assets/images/icyPlatform.svg");
@@ -59,8 +58,6 @@ function preload() {
   snowman = loadImage("assets/images/snowman.svg");
   trampoline = loadImage("assets/images/trampoline.svg");
   teleport = loadImage("assets/images/teleport.svg");
-  playerYellow = loadImage("assets/images/yellowPlayerLeft.svg");
-  playerGreen = loadImage("assets/images/greenPlayerRight.svg");
   playerKeysYellow = loadImage("assets/images/playerKeysYellow.svg");
   playerKeysGreen = loadImage("assets/images/playerKeysGreen.svg");
   playerInstruction1img = loadImage("assets/images/yellowPlayerLeft.svg");

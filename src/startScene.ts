@@ -2,8 +2,6 @@
 let cloudImg: p5.Image;
 let snowflakeImg: p5.Image;
 let platformImg: p5.Image;
-let player1Img: p5.Image;
-let player2Img: p5.Image;
 
 class StartScene implements Scene {
   private game: Game;
@@ -180,13 +178,13 @@ class StartScene implements Scene {
 
   private drawPlayer1() {
     push();
-    image(player1Img, this.player1Position.x, this.player1Position.y);
+    image(greenRight, this.player1Position.x, this.player1Position.y);
     pop();
   }
 
   private drawPlayer2() {
     push();
-    image(player2Img, this.player2Position.x, this.player2Position.y);
+    image(yellowLeft, this.player2Position.x, this.player2Position.y);
     pop();
   }
 }

@@ -1,7 +1,7 @@
 /// <reference path="startScene.ts" />
 //let game: Game;
 let music: {
-  mystery: p5.SoundFile;
+  chase: p5.SoundFile;
 };
 
 class Game {
