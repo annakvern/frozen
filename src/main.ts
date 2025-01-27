@@ -58,8 +58,6 @@ function preload() {
   snowman = loadImage("assets/images/snowman.svg");
   trampoline = loadImage("assets/images/trampoline.svg");
   teleport = loadImage("assets/images/teleport.svg");
-  playerYellow = loadImage("assets/images/yellowPlayerLeft.svg");
-  playerGreen = loadImage("assets/images/greenPlayerRight.svg");
   playerKeysYellow = loadImage("assets/images/playerKeysYellow.svg");
   playerKeysGreen = loadImage("assets/images/playerKeysGreen.svg");
   playerInstruction1img = loadImage("assets/images/yellowPlayerLeft.svg");
