@@ -11,14 +11,15 @@ class Player extends GameObject {
   gravity: number;
   dropTimer: number;
   timeSinceTeleport: number;
-  // timer: Timer; //Står att den ska vara timer i diagrammet?
+  timer: Timer; //Står att den ska vara timer i diagrammet?
 
   constructor(
     color: string,
     position: p5.Vector,
     isChasing: boolean,
     speedX: number,
-    speedY: number
+    speedY: number,
+    timer: Timer
   ) {
     if (color === "yellow") {
       super(position, 50, 50, playerYellow, false);
@@ -137,7 +138,8 @@ class Player extends GameObject {
     this.position.x += this.speed.x;
     this.position.y += this.speed.y;
 
-    // if this.isChasing
-    // this.timer.update()
+    // if (this.isChasing){
+    //  this.timer.update() 
+    // }    
   }
 }
