@@ -7,7 +7,7 @@ let canvas: p5.Renderer;
 function setup() {
   canvas = createCanvas(canvasWidth, canvasHeight);
   centerCanvas();
-  
+
   frameRate(60);
   game = new Game();
   userStartAudio(); //Aktiverar ljudet efter en användargest
@@ -16,20 +16,18 @@ function setup() {
   // startScene = new StartScene(game);
   // game.changeActiveScreen(startScene);
 
-
   textFont(kavoonFont);
 }
 
 function centerCanvas() {
   const x = (windowWidth - canvasWidth) / 2;
-  const y = (windowHeight - canvasHeight) / 2; 
-  canvas.position(x, y)
+  const y = (windowHeight - canvasHeight) / 2;
+  canvas.position(x, y);
 }
 
 function windowResized() {
   centerCanvas();
 }
-
 
 function draw() {
   game.update();
@@ -40,11 +38,10 @@ function keyReleased() {
   changedScene = false;
 }
 
-
 function preload() {
   soundOnimg = loadImage("assets/images/soundOn.svg");
   music = {
-    mystery: loadSound("/assets/music/mystery.mp3"),
+    chase: loadSound("/assets/music/crazy-chase-126687.mp3"),
   };
   cloudImg = loadImage("assets/images/cloudNew.svg");
   snowflakeImg = loadImage("assets/images/snowflake.svg");
