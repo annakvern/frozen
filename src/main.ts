@@ -41,7 +41,7 @@ function keyReleased() {
 function preload() {
   soundOnimg = loadImage("assets/images/soundOn.svg");
   music = {
-    mystery: loadSound("/assets/music/mystery.mp3"),
+    chase: loadSound("/assets/music/crazy-chase-126687.mp3"),
   };
   cloudImg = loadImage("assets/images/cloudNew.svg");
   snowflakeImg = loadImage("assets/images/snowflake.svg");
