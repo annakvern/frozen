@@ -71,6 +71,7 @@ class Player extends GameObject {
       if (keyIsDown(65)) {
         // A-tangenten (vänster)
         this.speed.x = max(-10, this.speed.x - 1.5);
+        this.img = 
       } else if (keyIsDown(68)) {
         // D-tangenten (höger)
         this.speed.x = min(10, this.speed.x + 1.5);
