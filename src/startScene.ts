@@ -2,8 +2,6 @@
 let cloudImg: p5.Image;
 let snowflakeImg: p5.Image;
 let platformImg: p5.Image;
-let greenRight: p5.Image;
-let yellowLeft: p5.Image;
 
 class StartScene implements Scene {
   private game: Game;

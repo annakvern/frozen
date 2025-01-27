@@ -1,6 +1,8 @@
 /// <reference path="gameObject.ts" />
-let playerYellow: p5.Image;
-let playerGreen: p5.Image;
+let greenRight: p5.Image;
+let yellowLeft: p5.Image;
+let greenLeft: p5.Image;
+let yellowRight: p5.Image;
 
 class Player extends GameObject {
   color: string;
@@ -21,9 +23,9 @@ class Player extends GameObject {
     speedY: number
   ) {
     if (color === "yellow") {
-      super(position, 50, 50, playerYellow, false);
+      super(position, 50, 50, yellowLeft, false);
     } else {
-      super(position, 50, 50, playerGreen, false);
+      super(position, 50, 50, greenRight, false);
     }
 
     console.log("isChasing is:" + isChasing);
