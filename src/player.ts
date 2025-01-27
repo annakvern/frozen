@@ -1,6 +1,8 @@
 /// <reference path="gameObject.ts" />
-let playerYellow: p5.Image;
-let playerGreen: p5.Image;
+let greenRight: p5.Image;
+let yellowLeft: p5.Image;
+let greenLeft: p5.Image;
+let yellowRight: p5.Image;
 
 class Player extends GameObject {
   color: string;
@@ -21,9 +23,9 @@ class Player extends GameObject {
     speedY: number
   ) {
     if (color === "yellow") {
-      super(position, 50, 50, playerYellow, false);
+      super(position, 50, 50, yellowLeft, false);
     } else {
-      super(position, 50, 50, playerGreen, false);
+      super(position, 50, 50, greenRight, false);
     }
 
     console.log("isChasing is:" + isChasing);
@@ -71,9 +73,11 @@ class Player extends GameObject {
       if (keyIsDown(65)) {
         // A-tangenten (vänster)
         this.speed.x = max(-10, this.speed.x - 1.5);
+        this.img = yellowLeft;
       } else if (keyIsDown(68)) {
         // D-tangenten (höger)
         this.speed.x = min(10, this.speed.x + 1.5);
+        this.img = yellowRight;
       }
       if (keyIsDown(87)) {
         this.jump();
@@ -83,8 +87,10 @@ class Player extends GameObject {
     } else if (this.color === "green") {
       if (keyIsDown(LEFT_ARROW)) {
         this.speed.x = max(-10, this.speed.x - 1.5);
+        this.img = greenLeft;
       } else if (keyIsDown(RIGHT_ARROW)) {
         this.speed.x = min(10, this.speed.x + 1.5);
+        this.img = greenRight;
       }
       if (keyIsDown(UP_ARROW)) {
         this.jump();
