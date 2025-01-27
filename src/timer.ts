@@ -1,6 +1,6 @@
-const positionGreenTimerX: number = 974;
+const positionGreenTimerX: number = 50;
 const positionTimerY: number = 35;
-const positionYellowTimerX: number = 50;
+const positionYellowTimerX: number = 974;
 let timeLimit = 60;
 
 class Timer {
@@ -16,8 +16,12 @@ class Timer {
     this.timeRemaining = timeLimit; // Initialize with the time limit
   }
 
+  private tick() {}
+
   update(deltaTime: number): void {
     this.timeRemaining -= deltaTime; // Decrease time based on deltaTime
+
+    //Nu tickar klockan ner för värdet i IF-satsen.
     if (this.timeRemaining < 0) {
       this.timeRemaining = 0; // Ensure time doesn't go negative
     }
@@ -33,9 +37,10 @@ class Timer {
     textAlign(CENTER, CENTER);
     if (this.timeRemaining > 0) {
       text(int(this.timeRemaining).toString(), this.xPos, this.yPos);
-    } else {
-      fill("red");
-      text("GAME\nOVER", width / 2 - 50, height / 2);
+      // } else {
+      //   fill("red");
+      //   text("GAME\nOVER", width / 2 - 50, height / 2);
+      // }
     }
   }
 }
