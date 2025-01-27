@@ -121,6 +121,7 @@ class GameBoard implements Scene {
                 }
               }
             }
+
             if (
               o2 instanceof Teleport &&
               o2.position.x > 200 &&
@@ -132,6 +133,7 @@ class GameBoard implements Scene {
               o1.speed.x = 15;
               o1.dropTimer = 500;
               o1.setPosition("left");
+              o2.warp();
             }
             if (
               o2 instanceof Teleport &&
@@ -144,6 +146,7 @@ class GameBoard implements Scene {
               o1.speed.x = -15;
               o1.dropTimer = 500;
               o1.setPosition("right");
+              o2.warp();
             }
           }
         }
