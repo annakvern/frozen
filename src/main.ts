@@ -63,6 +63,7 @@ function preload() {
   playerInstruction1img = loadImage("assets/images/yellowPlayerLeft.svg");
   playerInstruction2img = loadImage("assets/images/greenPlayerRight.svg");
   soundOnimg = loadImage("assets/images/soundOn.svg");
+  soundOffimg = loadImage("assets/images/soundOff.svg");
   podiumYellowImg = loadImage("assets/images/podiumYellowWinner.svg");
   podiumGreenImg = loadImage("assets/images/podiumGreenWinner.svg");
 }

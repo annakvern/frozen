@@ -1,4 +1,5 @@
 let soundOnimg: p5.Image;
+let soundOffimg: p5.Image;
 let playerInstruction1img: p5.Image;
 let playerInstruction2img: p5.Image;
 let playerKeysYellow: p5.Image;
@@ -48,9 +49,9 @@ class PlayerInstruction implements Scene {
     this.drawPlayerKeysGreen();
 
     // Show soundicon
-    if (this.isSoundOn && soundOnimg) {
+    if (this.isSoundOn && soundOffimg) {
       image(
-        soundOnimg,
+        soundOffimg,
         this.playSoundPosition.x,
         this.playSoundPosition.y,
         40,
@@ -192,7 +193,6 @@ class PlayerInstruction implements Scene {
 function keyPressed() {
   if (keyCode === 80) {
     userStartAudio();
-
     if (music.chase.isPlaying()) {
       music.chase.pause();
     } else {
