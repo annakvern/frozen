@@ -101,7 +101,7 @@ class GameBoard implements Scene {
             this.bouncePlayers(o1, o2);
           }
           if (this.objectsOverlap(o1, o2)) {
-            if (o2 instanceof Platform && o2.img === iciclePlatform) {
+            if (o2 instanceof Platform && o2.img === icyIciclePlatform) {
               if (o1.speed.y < 0 && o1.dropTimer < -100) {
                 o1.position.y = o2.position.y + 80 * 0.7;
                 o1.dropTimer = 500;
@@ -135,12 +135,19 @@ class GameBoard implements Scene {
             }
 
             if (o2 instanceof Teleport && o1.dropTimer < -100) {
+              // Kör warp-animationen på den första teleporten
+              (o2 as Teleport).warp();
+
               for (const other of this.gameObjects) {
                 if (other instanceof Teleport && other !== o2) {
+                  // Kör warp-animationen på den andra teleporten
+                  (other as Teleport).warp();
+
+                  // Flytta spelaren till den andra teleportens position
                   o1.position.y = other.position.y + 15;
                   o1.position.x = other.position.x + 15;
                   o1.speed.y = 0;
-                  o1.dropTimer = 500;
+                  o1.dropTimer = 200;
                 }
               }
             }
