@@ -84,6 +84,7 @@ class LevelFactory {
           );
 
           if (value === 1) {
+            //position.add() istället för offset
             gameObjects.push(
               new Player("yellow", position, playerStart > 0.5, 0, 0)
             );
