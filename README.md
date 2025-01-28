@@ -1,46 +1,48 @@
-# Slutprojektet
+# TAG or Die!
 
-Välkommen till den förinställda kodbasen för slutprojektet.
-Se filen [Sketch](./src/sketch.ts) och [Game](./src/game.ts) filerna för hur ni bör börja skriva er kod!
+Inspiration: https://www.crazygames.com/game/2-player-tag
 
-Kom ihåg att använda git!
+## Players:
+2 players - the yellow and the green blob
 
-Projektet använder sig av [Typescript](https://www.typescriptlang.org/) och [p5.js](https://p5js.org/). Det är varmt rekommenderat att ni läser på om dessa två teknologier innan ni börjar skriva kod.
+## Game board:
+Background with platforms on different heights, a trampoline to make the player jump higher, a teleport to move the player to the other teleport, pointy icicles that you don’t want to get stuck in, and icy spots that make you slip off the platform.
 
-OBS: Undvik [DOM funktionerna i p5.js](https://p5js.org/reference/#group-DOM) eftersom de **inte** är canvasspecifika och kommer inte fungera som ni förväntar er.
+The two players start with some distance from each other and the it-player is randomised at start. 
 
-## Utveckling
+We might have time for more scenes on the game board.
 
-### Installation
+## Game progress:
 
-Först behöver ni köra kommandot `npm install` för att installera nödvändiga moduler (p5, typescript, etc).
+The game is multiplayer and allows for two players on the same game board, the yellow player and the green player. Each player starts with a timer of 60 seconds that counts down as long as you are “it” - the one to tag the other player. Hence, you want to be “it” as little time as possible, because that’s how you win.
 
-### Starta projektet
+As the game starts, it’s randomised which player starts. The player that is randomised to start as “it” gets a little “tag indicator” above it. When the it-player tags the other player, the other player becomes “it” and its timer starts to count down. The timer of the player who started as it stops as long as they’re being hunted.
 
-Kör kommandot `npm run dev` för att starta projektet och se det live i din webbläsare!
+The game is over when one of the players’ time is out.
 
-### Debugger
+### Details of the game:
+- There will be a 0.5 sec delay when the it-player has tagged the other player.
+- It’s not possible to jump through the platforms.
+- It’s not possible to run through the “walls” of the board, you bounce.
+- It’s not possible to run through the other player, you tag and bounce off of each other.
+- As a player is moving, it will take approx 0.5 sec for it to stop as the player release the key.
+- Getting stuck on icicles, the player will be released after 0.5 sec.
+- Ending up on the icy patch of the platform will make the player slide off it.
 
-Det är starkt rekommenderat att ni använder debug-verktyget i VSCode för att hitta och lösa problem. Metoden vi primärt har använt tidigare är att skriva `console.log` men vi kan bli mer effektiva!
 
-Debuggern låter er stanna programmet och stega rad för rad samtidigt som ni kan titta på vad variablerna innehåller. Det är speciellt användbart när ni arbetar med funktioner som anropas 60 gånger per sekund - console overload otherwise... 🤯
+## Player keys:
 
-#### Starta Debuggern
+The keys give the player the ability to jump, move left and move right.
 
-För att starta debuggern tycker du på `F5` eller via play-knappen i "ActionBaren", se dock till att du har startat projektet innan (`npm run dev`). Ett nytt fönster kommer att öppnas som behöver användas för att få koden att stanna vid utsatta debugg-punkter.
+Player 1 uses the arrow keys
+	Up-arrow = Jump
+	Left-arrow = Move left
+	Right-arrow = Move right
+ 
+Player 2 uses WAD
+  W = Jump
+	A = Move left
+	D = Move right
+		
 
-### Potentiella problem
 
-Versionen av p5.js är 1.5.0 medan senaste version av p5 typerna endast är uppdaterad till 1.4.3. Detta skulle kunna orsaka problem och det kan vara så att ni hittar något i p5's dokumentation som inte finns tillgängligt i detta projektet - dock osannolikt.
-
-Typings för de globala variablerna relaterat till p5.sound fungerar tyvärr inte - exempel finns för hur ni kan kringgå detta. Se [loadSound funktionen](global.d.ts) för hur det kan göras.
-
-Eftersom det här projektet är konfigurerat till att fungera utan `import/export` så det ibland vara så att typescript kompilatorn inte hittar en klass. För att lösa det kan du lägga till en referens kommentar som berättar för typescript vart klassen är deklarerad.
-
-Lägg till följande `/// <reference path="to-file-with-class" />` längst upp i filen som genererade felet och skriv korrekt sökväg.
-
-## TODO
-
-Lägg till ytterligare information som är specifikt för ert projekt!
-
-**LYCKA TILL!**
