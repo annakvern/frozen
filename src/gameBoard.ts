@@ -3,27 +3,29 @@ let backgroundImgL1: p5.Image;
 class GameBoard implements Scene {
   private game: Game;
   public gameObjects: GameObject[];
-  private yellowTimer: Timer;
-  private greenTimer: Timer;
+  // private yellowTimer: Timer;
+  // private greenTimer: Timer;
   private lastUpdateTime: number;
   private groundLevel: number;
+  private switchPlayerTimer: number;
 
   constructor(gameObjects: GameObject[], game: Game) {
+    this.switchPlayerTimer = 0;
     this.game = game;
     this.gameObjects = gameObjects;
     // initialising the timer objects
-    this.yellowTimer = new Timer(
-      "yellow",
-      positionYellowTimerX,
-      positionTimerY,
-      60
-    );
-    this.greenTimer = new Timer(
-      "green",
-      positionGreenTimerX,
-      positionTimerY,
-      60
-    );
+    // this.yellowTimer = new Timer(
+    //   "yellow",
+    //   positionYellowTimerX,
+    //   positionTimerY,
+    //   60
+    // );
+    // this.greenTimer = new Timer(
+    //   "green",
+    //   positionGreenTimerX,
+    //   positionTimerY,
+    //   60
+    // );
 
     // recording the starting time
     this.lastUpdateTime = millis();
@@ -32,21 +34,21 @@ class GameBoard implements Scene {
   }
   draw(): void {
     background(backgroundImgL1);
-    this.yellowTimer.draw();
-    this.greenTimer.draw();
+    // this.yellowTimer.draw();
+    // this.greenTimer.draw();
     for (const obj of this.gameObjects) {
       obj.draw();
     }
   }
   update(): void {
     // timer logic...calculates the time difference since the last update
-    const currentTime = millis();
-    const deltaTime = (currentTime - this.lastUpdateTime) / 1000; // converts to seconds
-    this.lastUpdateTime = currentTime;
+    // const currentTime = millis();
+    // const deltaTime = (currentTime - this.lastUpdateTime) / 1000; // converts to seconds
+    // this.lastUpdateTime = currentTime;
 
     // updating the timers
-    this.yellowTimer.update(deltaTime);
-    this.greenTimer.update(deltaTime);
+    // this.yellowTimer.update(deltaTime);
+    // this.greenTimer.update(deltaTime);
 
     for (const obj of this.gameObjects) {
       obj.update();
@@ -58,12 +60,19 @@ class GameBoard implements Scene {
     }
 
     this.checkCollisions();
+    this.switchPlayerTimer -= deltaTime;
+
+    // const playerYellow = this.gameObjects.find(
+    //   (obj) => obj instanceof Player && obj.color === "yellow"
+    // ) as Player;
+
+    // const playerGreen = this.gameObjects.find(
+    //   (obj) => obj instanceof Player && obj.color === "green"
+    // ) as Player;
+    // this.bouncePlayers(playerYellow, playerGreen);
   }
 
   private checkCollisions() {
-    const canvasWidth = 1440 * 0.7; // canvas bredd
-    // const canvasHeight = 1024; // behöver vi ha stopp för höjden?
-
     for (const o1 of this.gameObjects) {
       if (!(o1 instanceof Player)) continue;
       // hitting the wall logic
@@ -85,8 +94,11 @@ class GameBoard implements Scene {
         if (this.objectsOverlap(o1, o2)) {
           if (o2 instanceof Player) {
             // bounce
+            if (this.switchPlayerTimer <= 0) {
+              this.switchChaser(o1, o2);
+              this.switchPlayerTimer = 200;
+            }
             this.bouncePlayers(o1, o2);
-            // this.bouncePlayers(o2, o1);
           }
           if (this.objectsOverlap(o1, o2)) {
             if (o2 instanceof Platform && o2.img === iciclePlatform) {
@@ -196,7 +208,10 @@ class GameBoard implements Scene {
 
   private applyNoFriction() {}
 
-  private switchChaser() {}
+  private switchChaser(o1: Player, o2: Player) {
+    o1.toggleIsChasing();
+    o2.toggleIsChasing();
+  }
 
   private checkWinner() {}
 
