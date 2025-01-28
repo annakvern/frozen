@@ -25,19 +25,18 @@ class PlayerInstruction implements Scene {
     this.playerKeysYellowPosition = createVector(735, 430);
     this.playerKeysGreenPosition = createVector(175, 430);
     this.playSoundPosition = createVector(980, 645);
-
   }
 
-  public update(): void {     
-
-    if (keyIsDown(32) && !changedScene) { // 32 keycode for 'space'
+  public update(): void {
+    if (keyIsDown(32) && !changedScene) {
+      // 32 keycode for 'space'
       userStartAudio();
       changedScene = true;
       const factory = new LevelFactory(this.game);
       const gameBoard = factory.createGameBoard(this.game, 1);
       this.game.changeActiveScreen(gameBoard);
     }
-  } 
+  }
 
   public draw(): void {
     background(164, 210, 247);
@@ -47,11 +46,17 @@ class PlayerInstruction implements Scene {
     this.drawPlayer2();
     this.drawPlayerKeysYellow();
     this.drawPlayerKeysGreen();
-    
+
     // Show soundicon
     if (this.isSoundOn && soundOnimg) {
-      image(soundOnimg, this.playSoundPosition.x, this.playSoundPosition.y, 40, 40);
-    } 
+      image(
+        soundOnimg,
+        this.playSoundPosition.x,
+        this.playSoundPosition.y,
+        40,
+        40
+      );
+    }
   }
 
   private drawTitle() {
@@ -90,8 +95,6 @@ class PlayerInstruction implements Scene {
       this.textPosition.y - 100
     );
 
-    
-   
     fill("white");
     text("Press", this.textPosition.x - 135, 600 + bounceText);
     fill(255, 213, 118);
@@ -100,13 +103,13 @@ class PlayerInstruction implements Scene {
     text("to get started", this.textPosition.x + 120, 600 + bounceText);
     textSize(30);
     fill("white");
-    text("Player 1", this.textPosition.x - 225, 230); 
+    text("Player 1", this.textPosition.x - 225, 230);
     text("Player 2", this.textPosition.x + 260, 230);
 
     textSize(40);
-    
+
     textSize(15);
-    text("Press P to play and pause music", this.textPosition.x + 363, 662); 
+    text("Press P to play and pause music", this.textPosition.x + 363, 662);
 
     textFont(kavoonFont);
     pop();
@@ -176,29 +179,24 @@ class PlayerInstruction implements Scene {
     pop();
   }
 
-
-  public playSound() { 
-
-    if (this.isSoundOn) { 
-      music.mystery.loop();
-    } else { 
-      music.mystery.pause();
-    } 
-
+  public playSound() {
+    if (this.isSoundOn) {
+      music.chase.loop();
+    } else {
+      music.chase.pause();
+    }
   }
-
-} 
+}
 
 // Pause and play music "P"
 function keyPressed() {
   if (keyCode === 80) {
-    userStartAudio(); 
+    userStartAudio();
 
-    if (music.mystery.isPlaying()) {
-      music.mystery.pause();
+    if (music.chase.isPlaying()) {
+      music.chase.pause();
     } else {
-      music.mystery.loop();
+      music.chase.loop();
     }
-
   }
-} 
+}

@@ -1,0 +1,27 @@
+<svg width="1440" height="1024" viewBox="0 0 1440 1024" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g clip-path="url(#clip0_441_200)">
+<rect width="1440" height="1024" fill="#B7DEFF"/>
+<path d="M989.352 605L1594.7 1035.5H384L989.352 605Z" fill="#FFF4DD"/>
+<path d="M143 672L748.352 1102.5H-462.352L143 672Z" fill="#FFE8B7"/>
+<ellipse cx="163.5" cy="146.5" rx="91.5" ry="77.5" fill="#FFFF87"/>
+<line x1="81.8537" y1="217.446" x2="21.8608" y2="297.744" stroke="#FFFF87" stroke-width="7"/>
+<line x1="266.921" y1="193.074" x2="350.707" y2="248.091" stroke="#FFFF87" stroke-width="7"/>
+<line x1="145.672" y1="244.661" x2="131.437" y2="318.661" stroke="#FFFF87" stroke-width="7"/>
+<line x1="273.931" y1="138.996" x2="349.272" y2="137.501" stroke="#FFFF87" stroke-width="7"/>
+<line x1="214.169" y1="239.248" x2="272.108" y2="356.654" stroke="#FFFF87" stroke-width="7"/>
+<path d="M157 127C157 143.016 144.016 156 128 156C111.984 156 99 143.016 99 127C99 110.984 111.984 116.5 128 116.5C144.016 116.5 157 110.984 157 127Z" fill="black"/>
+<path d="M138 116C139.501 134.5 117.5 150 116 153.5" stroke="#A2A2A2" stroke-width="7"/>
+<path d="M236 127.418C236 143.434 223.016 156.418 207 156.418C190.984 156.418 178 143.434 178 127.418C178 111.401 190.984 116.918 207 116.918C223.016 116.918 236 111.401 236 127.418Z" fill="black"/>
+<path d="M217.924 116C219.487 134.747 196.563 150.453 195 154" stroke="#A2A2A2" stroke-width="7"/>
+<path d="M153 126L167.5 122L181 126V130L167.5 126L153 130V126Z" fill="black"/>
+<rect x="624" y="297" width="347" height="108" fill="#FBFBFB"/>
+<ellipse cx="650.5" cy="329.5" rx="91.5" ry="77.5" fill="#FBFBFB"/>
+<ellipse cx="797.5" cy="273.5" rx="91.5" ry="77.5" fill="#FBFBFB"/>
+<ellipse cx="938.5" cy="329.5" rx="91.5" ry="77.5" fill="#FBFBFB"/>
+</g>
+<defs>
+<clipPath id="clip0_441_200">
+<rect width="1440" height="1024" fill="white"/>
+</clipPath>
+</defs>
+</svg>

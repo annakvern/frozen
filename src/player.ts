@@ -1,6 +1,8 @@
 /// <reference path="gameObject.ts" />
-let playerYellow: p5.Image;
-let playerGreen: p5.Image;
+let greenRight: p5.Image;
+let yellowLeft: p5.Image;
+let greenLeft: p5.Image;
+let yellowRight: p5.Image;
 
 class Player extends GameObject {
   color: string;
@@ -11,7 +13,7 @@ class Player extends GameObject {
   gravity: number;
   dropTimer: number;
   timeSinceTeleport: number;
-  // timer: Timer; //Står att den ska vara timer i diagrammet?
+  timer: Timer; //Står att den ska vara timer i diagrammet?
 
   constructor(
     color: string,
@@ -21,12 +23,23 @@ class Player extends GameObject {
     speedY: number
   ) {
     if (color === "yellow") {
-      super(position, 50, 50, playerYellow, false);
+      super(position, 50, 50, yellowLeft, false);
+      this.timer = new Timer(
+        "yellow",
+        positionYellowTimerX,
+        positionTimerY,
+        60_000
+      );
     } else {
-      super(position, 50, 50, playerGreen, false);
+      super(position, 50, 50, greenRight, false);
+      this.timer = new Timer(
+        "green",
+        positionGreenTimerX,
+        positionTimerY,
+        60_000
+      );
     }
 
-    console.log("isChasing is:" + isChasing);
     this.color = color;
     this.speed = createVector(speedX, speedY);
     this.isOnIce = false;
@@ -35,10 +48,12 @@ class Player extends GameObject {
     this.gravity = 1;
     this.dropTimer = -1000;
     this.timeSinceTeleport = -1000;
-    // this.timer = timer;
   }
   public bounce() {}
-  public toggleIsChasing() {}
+
+  public toggleIsChasing() {
+    this.isChasing = !this.isChasing; // Simpler boolean toggle
+  }
 
   public setPosition(port: string): void {
     if (port === "left") {
@@ -68,24 +83,14 @@ class Player extends GameObject {
 
   public playerControls() {
     if (this.color === "yellow") {
-      if (this.isOnIce) {
-        // Mindre kontroll på isfläcken
-        if (keyIsDown(65)) {
-          // A-tangenten (vänster)
-          this.speed.x = max(-10, this.speed.x - 0.5); // Mindre förändring
-        } else if (keyIsDown(68)) {
-          // D-tangenten (höger)
-          this.speed.x = min(10, this.speed.x + 0.5); // Mindre förändring
-        }
-      } else {
-        // Normal kontroll
-        if (keyIsDown(65)) {
-          // A-tangenten (vänster)
-          this.speed.x = max(-10, this.speed.x - 1.5);
-        } else if (keyIsDown(68)) {
-          // D-tangenten (höger)
-          this.speed.x = min(10, this.speed.x + 1.5);
-        }
+      if (keyIsDown(65)) {
+        // A-tangenten (vänster)
+        this.speed.x = max(-10, this.speed.x - 1.5);
+        this.img = yellowLeft;
+      } else if (keyIsDown(68)) {
+        // D-tangenten (höger)
+        this.speed.x = min(10, this.speed.x + 1.5);
+        this.img = yellowRight;
       }
       if (keyIsDown(87)) {
         this.jump();
@@ -93,24 +98,12 @@ class Player extends GameObject {
         console.log("hoppar vi?");
       }
     } else if (this.color === "green") {
-      if (this.isOnIce) {
-        // Reduce control while on icepatch
-        if (keyIsDown(LEFT_ARROW)) {
-          
-          this.speed.x = max(-10, this.speed.x - 0.5);
-        } else if (keyIsDown(RIGHT_ARROW)) {
-         
-          this.speed.x = min(10, this.speed.x + 0.5);
-        }
-      } else {
-        // Normal control
-        if (keyIsDown(LEFT_ARROW)) {
-          
-          this.speed.x = max(-10, this.speed.x - 1.5);
-        } else if (keyIsDown(RIGHT_ARROW)) {
-          
-          this.speed.x = min(10, this.speed.x + 1.5);
-        }
+      if (keyIsDown(LEFT_ARROW)) {
+        this.speed.x = max(-10, this.speed.x - 1.5);
+        this.img = greenLeft;
+      } else if (keyIsDown(RIGHT_ARROW)) {
+        this.speed.x = min(10, this.speed.x + 1.5);
+        this.img = greenRight;
       }
       if (keyIsDown(UP_ARROW)) {
         this.jump();
@@ -124,9 +117,40 @@ class Player extends GameObject {
   public draw() {
     push();
 
+    this.drawTriangle();
     //use scale to turn player
     super.draw();
 
+    this.timer.draw();
+    pop();
+  }
+
+  public update() {
+    this.dropTimer -= deltaTime;
+    if (this.dropTimer > 0) {
+      return;
+    }
+    this.drawTriangle();
+    this.applyFriction();
+    this.applyGravity();
+    this.playerControls();
+    this.position.x += this.speed.x;
+    this.position.y += this.speed.y;
+    //Prata med David
+    if (this.isChasing) {
+      this.timer.update(deltaTime);
+    }
+  }
+
+  private applyFriction() {
+    if (this.speed.x > 0) {
+      this.speed.x = max(0, this.speed.x - 0.5);
+    } else if (this.speed.x < 0) {
+      this.speed.x = min(0, this.speed.x + 0.5);
+    }
+  }
+
+  public drawTriangle() {
     if (this.isChasing) {
       // rita triangel
       push();
@@ -139,67 +163,17 @@ class Player extends GameObject {
       vertex(0, 14);
       endShape(CLOSE);
       pop();
-    }
-
-    // this.timer.draw();
-    pop();
-  }
-
-  private applyFriction() {
-    if (!this.isOnIce) {
-      if (this.speed.x > 0) {
-        this.speed.x = max(0, this.speed.x - 0.5);
-      } else if (this.speed.x < 0) {
-        this.speed.x = min(0, this.speed.x + 0.5);
-      }
-   }
-  }
-
- 
-  private slideOnIcePatch() {
-    // Original platform
-    // const icePatchLeftX = 450;
-    // const icePatchRightX = 625;
-    // const icePatchY = 381;
-
-    //Top platform
-    const icePatchLeftX = 260;
-    const icePatchRightX = 720;
-    const icePatchY = 209;
-
-    this.isOnIce =
-      this.position.x > icePatchLeftX &&
-      this.position.x < icePatchRightX &&
-      this.position.y === icePatchY;
-     
-    if (this.isOnIce) {     
-      console.log("We are on icepatch");
-       
-      if (this.speed.x > 0) {
-        this.speed.x = min(20, this.speed.x + 0.2);
-      } else if (this.speed.x < 0) {
-        this.speed.x = max(-20, this.speed.x - 0.2);
-      } else {
-        this.speed.x = 2;
-      }
-    }
-    // console.log(`${this.position.x}, ${this.position.y}`);
-
-  }
-
-  public update() {
-    this.dropTimer -= deltaTime;
-    if (this.dropTimer > 0) {
+    } else {
       return;
     }
-    this.slideOnIcePatch()
-    this.applyFriction();
-    this.applyGravity();
-    this.playerControls();
-    this.position.x += this.speed.x;
-    this.position.y += this.speed.y;
+    // this.applyFriction();
+    // this.applyGravity();
+    // this.playerControls();
+    // this.position.x += this.speed.x;
+    // this.position.y += this.speed.y;
 
-    // if this.isChasing
-    // this.timer.update()
+    // if (this.isChasing){
+    //  this.timer.update()
+    // }
   }
 }
