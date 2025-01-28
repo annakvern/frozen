@@ -7,8 +7,10 @@ class GameBoard implements Scene {
   // private greenTimer: Timer;
   private lastUpdateTime: number;
   private groundLevel: number;
+  private switchPlayerTimer: number;
 
   constructor(gameObjects: GameObject[], game: Game) {
+    this.switchPlayerTimer = 0;
     this.game = game;
     this.gameObjects = gameObjects;
     // initialising the timer objects
@@ -58,6 +60,7 @@ class GameBoard implements Scene {
     }
 
     this.checkCollisions();
+    this.switchPlayerTimer -= deltaTime;
 
     // const playerYellow = this.gameObjects.find(
     //   (obj) => obj instanceof Player && obj.color === "yellow"
@@ -91,7 +94,10 @@ class GameBoard implements Scene {
         if (this.objectsOverlap(o1, o2)) {
           if (o2 instanceof Player) {
             // bounce
-            this.switchChaser(o1, o2);
+            if (this.switchPlayerTimer <= 0) {
+              this.switchChaser(o1, o2);
+              this.switchPlayerTimer = 200;
+            }
             this.bouncePlayers(o1, o2);
           }
           if (this.objectsOverlap(o1, o2)) {
@@ -200,14 +206,8 @@ class GameBoard implements Scene {
   private applyNoFriction() {}
 
   private switchChaser(o1: Player, o2: Player) {
-    console.log(
-      `Before switching: Player 1 isChasing = ${o1.isChasing}, Player 2 isChasing = ${o2.isChasing}`
-    );
     o1.toggleIsChasing();
     o2.toggleIsChasing();
-    console.log(
-      `After switching: Player 1 isChasing = ${o1.isChasing}, Player 2 isChasing = ${o2.isChasing}`
-    );
   }
 
   private checkWinner() {}

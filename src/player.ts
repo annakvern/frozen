@@ -19,7 +19,6 @@ class Player extends GameObject {
     isChasing: boolean,
     speedX: number,
     speedY: number,
-    timer: Timer
   ) {
     if (color === "yellow") {
       super(position, 50, 50, playerYellow, false);
@@ -27,11 +26,11 @@ class Player extends GameObject {
         "yellow",
         positionYellowTimerX,
         positionTimerY,
-        60
+        60_000
       );
     } else {
       super(position, 50, 50, playerGreen, false);
-      this.timer = new Timer("green", positionGreenTimerX, positionTimerY, 60);
+      this.timer = new Timer("green", positionGreenTimerX, positionTimerY, 60_000);
     }
 
     this.color = color;
@@ -47,12 +46,6 @@ class Player extends GameObject {
 
   public toggleIsChasing() {
     this.isChasing = !this.isChasing; // Simpler boolean toggle
-
-    // if (this.isChasing === true) {
-    //   this.isChasing = false;
-    // } else if (this.isChasing === false) {
-    //   this.isChasing = true;
-    // }
   }
 
   public setPosition(port: string): void {
@@ -131,9 +124,8 @@ class Player extends GameObject {
     this.playerControls();
     this.position.x += this.speed.x;
     this.position.y += this.speed.y;
-
     //Prata med David
-    if (this.isChasing === true) {
+    if (this.isChasing) {
       this.timer.update(deltaTime);
     }
   }
@@ -147,7 +139,7 @@ class Player extends GameObject {
   }
 
   public drawTriangle() {
-    if (this.isChasing === true) {
+    if (this.isChasing) {
       // rita triangel
       push();
       translate(this.position.x + 25, this.position.y - 25);
@@ -162,17 +154,14 @@ class Player extends GameObject {
     } else {
       return;
     }
-<<<<<<< HEAD
-=======
-    this.applyFriction();
-    this.applyGravity();
-    this.playerControls();
-    this.position.x += this.speed.x;
-    this.position.y += this.speed.y;
+    // this.applyFriction();
+    // this.applyGravity();
+    // this.playerControls();
+    // this.position.x += this.speed.x;
+    // this.position.y += this.speed.y;
 
     // if (this.isChasing){
-    //  this.timer.update() 
-    // }    
->>>>>>> f4e1f2555b55d3cb8b72cade5fffacad3805169b
+    //  this.timer.update()
+    // }
   }
 }

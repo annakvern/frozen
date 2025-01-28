@@ -1,7 +1,6 @@
 const positionGreenTimerX: number = 50;
 const positionTimerY: number = 35;
 const positionYellowTimerX: number = 974;
-let timeLimit = 60;
 
 class Timer {
   color: string;
@@ -35,12 +34,6 @@ class Timer {
     }
     textSize(50);
     textAlign(CENTER, CENTER);
-    if (this.timeRemaining > 0) {
-      text(int(this.timeRemaining).toString(), this.xPos, this.yPos);
-      // } else {
-      //   fill("red");
-      //   text("GAME\nOVER", width / 2 - 50, height / 2);
-      // }
-    }
+    text(int(this.timeRemaining / 1000).toString(), this.xPos, this.yPos);
   }
 }
