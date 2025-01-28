@@ -20,11 +20,10 @@ class Player extends GameObject {
     position: p5.Vector,
     isChasing: boolean,
     speedX: number,
-    speedY: number,
+    speedY: number
   ) {
     if (color === "yellow") {
-
-      super(position, 50, 50, playerYellow, false);
+      super(position, 50, 50, yellowLeft, false);
       this.timer = new Timer(
         "yellow",
         positionYellowTimerX,
@@ -32,9 +31,13 @@ class Player extends GameObject {
         60_000
       );
     } else {
-      super(position, 50, 50, playerGreen, false);
-      this.timer = new Timer("green", positionGreenTimerX, positionTimerY, 60_000);
-
+      super(position, 50, 50, greenRight, false);
+      this.timer = new Timer(
+        "green",
+        positionGreenTimerX,
+        positionTimerY,
+        60_000
+      );
     }
 
     this.color = color;

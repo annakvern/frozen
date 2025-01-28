@@ -134,12 +134,7 @@ class GameBoard implements Scene {
               }
             }
 
-            if (
-              o2 instanceof Teleport &&
-              o2.position.x > 200 &&
-              o1.dropTimer < -100
-            ) {
-
+            if (o2 instanceof Teleport && o1.dropTimer < -100) {
               for (const other of this.gameObjects) {
                 if (other instanceof Teleport && other !== o2) {
                   o1.position.y = other.position.y + 15;
@@ -148,7 +143,6 @@ class GameBoard implements Scene {
                   o1.dropTimer = 500;
                 }
               }
-
             }
           }
         }
