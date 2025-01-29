@@ -34,7 +34,7 @@ class Platform extends GameObject {
       height = 80 * 0.7;
     }
 
-    super(position, 146 * 0.75, height, img, true);
+    super(position, 146 * 0.72, height, img, true);
     this.type = type;
     this.height = height;
   }
