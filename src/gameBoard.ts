@@ -152,27 +152,20 @@ class GameBoard implements Scene {
   }
 
   private checkWinner() {
-    let greenPlayer = this.gameObjects.find(
-      (obj) => obj instanceof Player && obj.color === "green"
-    ) as Player;
-    let yellowPlayer = this.gameObjects.find(
-      (obj) => obj instanceof Player && obj.color === "yellow"
-    ) as Player;
+    for (const o1 of this.gameObjects) {
+      if (o1 instanceof Player) {
+        if (o1.timer.timeRemaining <= 0) {
+          let winnerColor;
+          if (o1.color === "green") {
+            winnerColor = "Yellow";
+          } else {
+            winnerColor = "Green";
+          }
 
-    //  Kolla om någon spelares timer är slut
-    if (
-      !changedScene &&
-      ((greenPlayer?.timer.timeRemaining ?? 1) <= 0 ||
-        (yellowPlayer?.timer.timeRemaining ?? 1) <= 0)
-    ) {
-      changedScene = true;
-
-      // Om gröna spelarens timer är 0, betyder det att gula spelaren har vunnit
-      let winnerColor =
-        (greenPlayer?.timer.timeRemaining ?? 1) <= 0 ? "Yellow" : "Green";
-
-      let nextPage = new ResultScene(this.game, winnerColor);
-      this.game.changeActiveScreen(nextPage);
+          let nextPage = new ResultScene(this.game, winnerColor);
+          this.game.changeActiveScreen(nextPage);
+        }
+      }
     }
   }
 
