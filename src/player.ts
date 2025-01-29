@@ -83,6 +83,19 @@ class Player extends GameObject {
 
   public playerControls() {
     if (this.color === "yellow") {
+      // Less control on ice
+      if (this.isOnIce) {      
+        if (keyIsDown(65)) {
+          // A-tangenten (vänster)
+          this.speed.x = max(-10, this.speed.x - 0.5);
+          this.img = yellowLeft;
+        } else if (keyIsDown(68)) {
+          // D-tangenten (höger)
+          this.speed.x = min(10, this.speed.x + 0.5);
+          this.img = yellowRight;
+        }
+      } else {
+        // Normal control
       if (keyIsDown(65)) {
         // A-tangenten (vänster)
         this.speed.x = max(-10, this.speed.x - 1.5);
@@ -92,12 +105,29 @@ class Player extends GameObject {
         this.speed.x = min(10, this.speed.x + 1.5);
         this.img = yellowRight;
       }
+    }
       if (keyIsDown(87)) {
         this.jump();
         this.isJumping = true;
         console.log("hoppar vi?");
       }
     } else if (this.color === "green") {
+      // Reduced control on icepatch
+      if (this.isOnIce) {
+        if (keyIsDown(LEFT_ARROW)) {
+          this.speed.x = max(-10, this.speed.x - 0.5);
+          this.img = greenLeft;
+        } else if (keyIsDown(RIGHT_ARROW)) {
+          this.speed.x = min(10, this.speed.x + 0.5);
+          this.img = greenRight;
+        }
+        if (keyIsDown(UP_ARROW)) {
+          this.jump();
+          this.isJumping = true;
+          console.log("hoppar vi?");
+        }
+      } else {
+      // Normal control
       if (keyIsDown(LEFT_ARROW)) {
         this.speed.x = max(-10, this.speed.x - 1.5);
         this.img = greenLeft;
@@ -112,6 +142,8 @@ class Player extends GameObject {
       }
     }
   }
+}
+  
 
   public draw() {
     push();
@@ -129,6 +161,7 @@ class Player extends GameObject {
       return;
     }
     this.drawTriangle();
+    this.slideOnIcePatch();
     this.applyFriction();
     this.applyGravity();
     this.playerControls();
@@ -141,11 +174,39 @@ class Player extends GameObject {
   }
 
   private applyFriction() {
+    if (!this.isOnIce) {
     if (this.speed.x > 0) {
       this.speed.x = max(0, this.speed.x - 0.5);
     } else if (this.speed.x < 0) {
       this.speed.x = min(0, this.speed.x + 0.5);
     }
+  }
+}
+
+  private slideOnIcePatch() {
+    
+    const icePatchLeftX = 260;
+    const icePatchRightX = 720;
+    const icePatchY = 209;
+
+    this.isOnIce =
+      this.position.x > icePatchLeftX &&
+      this.position.x < icePatchRightX &&
+      this.position.y === icePatchY;
+     
+    if (this.isOnIce) {     
+      console.log("We are on icepatch");
+       
+      if (this.speed.x > 0) {
+        this.speed.x = min(20, this.speed.x + 0.2);
+      } else if (this.speed.x < 0) {
+        this.speed.x = max(-20, this.speed.x - 0.2);
+      } else {
+        this.speed.x = 2;
+      }
+    }
+    // console.log(${this.position.x}, ${this.position.y});
+
   }
 
   public drawTriangle() {
