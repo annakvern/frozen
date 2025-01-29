@@ -134,28 +134,17 @@ class GameBoard implements Scene {
               }
             }
 
-            if (o2 instanceof Teleport && o1.dropTimer < -100) {
-              // Kör warp-animationen på den första teleporten
-              (o2 as Teleport).warp();
-
-              for (const other of this.gameObjects) {
-                if (other instanceof Teleport && other !== o2) {
-                  // Kör warp-animationen på den andra teleporten
-                  (other as Teleport).warp();
-
-                  // Flytta spelaren till den andra teleportens position
-                  o1.position.y = other.position.y + 15;
-                  o1.position.x = other.position.x + 15;
-                  o1.speed.y = 0;
-                  o1.dropTimer = 200;
+                if (o2 instanceof Teleport && o1.dropTimer < -100) {
+                  // Anropa teleportPlayer istället för att ha logiken direkt här
+                  this.teleportPlayer(o1 as Player, o2 as Teleport);
+                  return; // Stoppa vidare kollisionskontroller efter teleportering
                 }
               }
             }
           }
         }
       }
-    }
-  }
+    
 
   private objectsOverlap(o1: GameObject, o2: GameObject) {
     return (
@@ -195,7 +184,24 @@ class GameBoard implements Scene {
 
   private freezeToIcicle() {}
 
-  private teleportPlayer() {}
+  private teleportPlayer(player: Player, currentTeleport: Teleport) {
+    currentTeleport.warp(); // Animerar teleporten spelaren går in i
+    
+  
+    // Hitta den andra teleporten och teleportera spelaren
+    for (const other of this.gameObjects) {
+      if (other instanceof Teleport && other !== currentTeleport) {
+        other.warp(); // Animerar den andra teleporten
+        player.position.x = other.position.x + 15; // Uppdatera spelarens position
+        player.position.y = other.position.y + 15;
+  
+        player.speed.y = 0; // Stoppa eventuell rörelse
+        player.dropTimer = 200; // Sätt en ny timer
+  
+        break; // Avsluta loopen efter att rätt teleport hittats
+      }
+    }
+  }
 
   private applyNoFriction() {}
 

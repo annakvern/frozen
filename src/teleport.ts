@@ -15,18 +15,17 @@ class Teleport extends GameObject {
   }
 
   public update() {
-    this.rotationAngle += 0.01; // Constant spin
-
     if (this.isSpinning) {
       const elapsedTime = millis() - this.spinStartTime;
 
       this.rotationAngle += 3; // Adjust speed here
 
       if (elapsedTime > this.spinDuration) {
-        // Stops warp-spin
         this.isSpinning = false;
         this.rotationAngle = 0;
       }
+    } else {
+      this.rotationAngle += 0.007; // Constant spin
     }
   }
 
@@ -48,5 +47,6 @@ class Teleport extends GameObject {
   public warp() {
     this.isSpinning = true;
     this.spinStartTime = millis(); // Starta en ny animation
+
   }
 }
