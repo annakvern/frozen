@@ -10,13 +10,13 @@ class GameBoard implements Scene {
     this.game = game;
     this.gameObjects = gameObjects;
   }
-  draw(): void {
+  public draw(): void {
     background(backgroundImgL1);
     for (const obj of this.gameObjects) {
       obj.draw();
     }
   }
-  update(): void {
+  public update(): void {
     for (const obj of this.gameObjects) {
       obj.update();
     }
@@ -89,6 +89,7 @@ class GameBoard implements Scene {
       o1.position.y + o1.height > o2.position.y
     );
   }
+
   private stopPlayerByWall(o1: Player) {
     if (o1.position.x < 0) {
       o1.position.x = 0; // stopp till vänster
@@ -168,10 +169,6 @@ class GameBoard implements Scene {
     }
   }
 
-  private teleportPlayer() {}
-
-  private applyNoFriction() {}
-
   private switchChaser(o1: Player, o2: Player) {
     o1.toggleIsChasing();
     o2.toggleIsChasing();
@@ -194,6 +191,4 @@ class GameBoard implements Scene {
       }
     }
   }
-
-  private checkTimer() {}
 }

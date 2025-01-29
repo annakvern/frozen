@@ -5,7 +5,7 @@ let icyIciclePlatform: p5.Image;
 let type: string;
 
 class Platform extends GameObject {
-  type: string;
+  private type: string;
 
   constructor(type: string, position: p5.Vector) {
     let img: p5.Image;
@@ -21,7 +21,7 @@ class Platform extends GameObject {
       img = icyIciclePlatform;
       height = 80 * 0.7;
     }
-    super(position, 146 * 0.72, height, img, true);
+    super(position, 146 * 0.72, height, img);
     this.type = type;
     this.height = height;
   }
