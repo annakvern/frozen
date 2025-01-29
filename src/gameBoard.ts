@@ -91,7 +91,6 @@ class GameBoard implements Scene {
                 if (o2 instanceof Teleport && o1.dropTimer < -100) {
                   // Anropa teleportPlayer istället för att ha logiken direkt här
                   this.teleportPlayer(o1 as Player, o2 as Teleport);
-                  return; // Stoppa vidare kollisionskontroller efter teleportering
                 }
               }
             }
