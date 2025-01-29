@@ -1,4 +1,5 @@
 let backgroundImgL1: p5.Image;
+let backgroundImgL2: p5.Image;
 
 class GameBoard implements Scene {
   private game: Game;
@@ -9,7 +10,8 @@ class GameBoard implements Scene {
   private groundLevel: number;
   private switchPlayerTimer: number;
 
-  constructor(gameObjects: GameObject[], game: Game) {
+
+  constructor(gameObjects: GameObject[], game: Game, level: number) {
     this.switchPlayerTimer = 0;
     this.game = game;
     this.gameObjects = gameObjects;
@@ -32,10 +34,17 @@ class GameBoard implements Scene {
 
     this.groundLevel = 950;
   }
+
+  private drawBackground(level:number){
+    if (level === 1){
+      background(backgroundImgL1);
+    } else if (level ===2) {
+      background(backgroundImgL2);
+    }
+  }
   draw(): void {
-    background(backgroundImgL1);
-    // this.yellowTimer.draw();
-    // this.greenTimer.draw();
+   
+    this.drawBackground(level);
     for (const obj of this.gameObjects) {
       obj.draw();
     }
@@ -101,11 +110,11 @@ class GameBoard implements Scene {
             this.bouncePlayers(o1, o2);
           }
           if (this.objectsOverlap(o1, o2)) {
-            if (o2 instanceof Platform && o2.img === iciclePlatform) {
+            if (o2 instanceof Platform && o2.img === iciclePlatform || o2.img === slimePlatform) {
               if (o1.speed.y < 0 && o1.dropTimer < -100) {
                 o1.position.y = o2.position.y + 80 * 0.7;
                 o1.dropTimer = 500;
-                console.log("Vi är på ice");
+                
               }
             }
             if (o2 instanceof Platform) {
