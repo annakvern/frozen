@@ -55,6 +55,7 @@ function preload() {
   platform = loadImage("assets/images/platform.svg");
   icyPlatform = loadImage("assets/images/icyPlatform.svg");
   iciclePlatform = loadImage("assets/images/iciclePlatform.svg");
+  icyIciclePlatform = loadImage("assets/images/icyIciclePlatform.svg");
   snowman = loadImage("assets/images/snowman.svg");
   trampoline = loadImage("assets/images/trampoline.svg");
   teleport = loadImage("assets/images/teleport.svg");

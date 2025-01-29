@@ -1,6 +1,7 @@
 let platform: p5.Image;
 let icyPlatform: p5.Image;
 let iciclePlatform: p5.Image;
+let icyIciclePlatform: p5.Image;
 let type: string;
 
 class Platform extends GameObject {
@@ -17,7 +18,7 @@ class Platform extends GameObject {
       img = icyPlatform;
       height = 30 * 0.7;
     } else {
-      img = iciclePlatform;
+      img = icyIciclePlatform;
       height = 80 * 0.7;
     }
     super(position, 146 * 0.72, height, img, true);
