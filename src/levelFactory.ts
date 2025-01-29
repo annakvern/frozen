@@ -6,7 +6,6 @@ class LevelFactory {
   private game: Game;
   constructor(game: Game) {
     this.game = game;
-    // this.getGameObjects(level, gameObjects);
   }
 
   createGameBoard(game: Game, level: number): GameBoard {
@@ -29,8 +28,6 @@ class LevelFactory {
       ];
 
       const playerStart = random();
-      console.log("Yellow player chasing:", playerStart > 0.5);
-      console.log("Green player chasing:", playerStart <= 0.5);
 
       for (let y = 0; y < level1.length; y++) {
         for (let x = 0; x < level1[y].length; x++) {

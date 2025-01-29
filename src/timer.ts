@@ -15,15 +15,17 @@ class Timer {
     this.timeRemaining = timeLimit; // Initialize with the time limit
   }
 
-  private tick() {}
-
-  update(deltaTime: number): void {
+  private tick(deltaTime: number) {
     this.timeRemaining -= deltaTime; // Decrease time based on deltaTime
 
     //Nu tickar klockan ner för värdet i IF-satsen.
     if (this.timeRemaining < 0) {
       this.timeRemaining = 0; // Ensure time doesn't go negative
     }
+  }
+
+  update(): void {
+    this.tick(deltaTime);
   }
 
   draw() {
