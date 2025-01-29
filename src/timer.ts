@@ -31,6 +31,7 @@ class Timer {
 
   private isLessThanTenSecLeft(): boolean {
     return this.timeRemaining <= 11000;
+  }
 
   draw() {
     push();
