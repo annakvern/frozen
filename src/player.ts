@@ -170,7 +170,7 @@ class Player extends GameObject {
     this.position.y += this.speed.y;
     //Prata med David
     if (this.isChasing) {
-      this.timer.update(deltaTime);
+      this.timer.update();
     }
   }
 
