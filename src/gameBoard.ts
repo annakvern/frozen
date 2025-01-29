@@ -3,73 +3,27 @@ let backgroundImgL1: p5.Image;
 class GameBoard implements Scene {
   private game: Game;
   public gameObjects: GameObject[];
-  // private yellowTimer: Timer;
-  // private greenTimer: Timer;
-  private lastUpdateTime: number;
-  private groundLevel: number;
   private switchPlayerTimer: number;
 
   constructor(gameObjects: GameObject[], game: Game) {
     this.switchPlayerTimer = 0;
     this.game = game;
     this.gameObjects = gameObjects;
-    // initialising the timer objects
-    // this.yellowTimer = new Timer(
-    //   "yellow",
-    //   positionYellowTimerX,
-    //   positionTimerY,
-    //   60
-    // );
-    // this.greenTimer = new Timer(
-    //   "green",
-    //   positionGreenTimerX,
-    //   positionTimerY,
-    //   60
-    // );
-
-    // recording the starting time
-    this.lastUpdateTime = millis();
-
-    this.groundLevel = 950;
   }
   draw(): void {
     background(backgroundImgL1);
-    // this.yellowTimer.draw();
-    // this.greenTimer.draw();
     for (const obj of this.gameObjects) {
       obj.draw();
     }
   }
   update(): void {
-    // timer logic...calculates the time difference since the last update
-    // const currentTime = millis();
-    // const deltaTime = (currentTime - this.lastUpdateTime) / 1000; // converts to seconds
-    // this.lastUpdateTime = currentTime;
-
-    // updating the timers
-    // this.yellowTimer.update(deltaTime);
-    // this.greenTimer.update(deltaTime);
-
     for (const obj of this.gameObjects) {
       obj.update();
-    }
-    if (keyIsDown(32) && !changedScene) {
-      changedScene = true; // that we changed the screen
-      let nextPage = new ResultScene(this.game, "Yellow");
-      this.game.changeActiveScreen(nextPage);
     }
 
     this.checkCollisions();
     this.switchPlayerTimer -= deltaTime;
-
-    // const playerYellow = this.gameObjects.find(
-    //   (obj) => obj instanceof Player && obj.color === "yellow"
-    // ) as Player;
-
-    // const playerGreen = this.gameObjects.find(
-    //   (obj) => obj instanceof Player && obj.color === "green"
-    // ) as Player;
-    // this.bouncePlayers(playerYellow, playerGreen);
+    this.checkWinner();
   }
 
   private checkCollisions() {
@@ -204,7 +158,23 @@ class GameBoard implements Scene {
     o2.toggleIsChasing();
   }
 
-  private checkWinner() {}
+  private checkWinner() {
+    for (const o1 of this.gameObjects) {
+      if (o1 instanceof Player) {
+        if (o1.timer.timeRemaining <= 0) {
+          let winnerColor;
+          if (o1.color === "green") {
+            winnerColor = "Yellow";
+          } else {
+            winnerColor = "Green";
+          }
+
+          let nextPage = new ResultScene(this.game, winnerColor);
+          this.game.changeActiveScreen(nextPage);
+        }
+      }
+    }
+  }
 
   private checkTimer() {}
 }

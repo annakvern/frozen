@@ -13,7 +13,7 @@ class Player extends GameObject {
   gravity: number;
   dropTimer: number;
   timeSinceTeleport: number;
-  timer: Timer; //Står att den ska vara timer i diagrammet?
+  timer: Timer;
 
   constructor(
     color: string,
@@ -52,7 +52,7 @@ class Player extends GameObject {
   public bounce() {}
 
   public toggleIsChasing() {
-    this.isChasing = !this.isChasing; // Simpler boolean toggle
+    this.isChasing = !this.isChasing;
   }
 
   public setPosition(port: string): void {
@@ -149,7 +149,6 @@ class Player extends GameObject {
     push();
 
     this.drawTriangle();
-    //use scale to turn player
     super.draw();
 
     this.timer.draw();
@@ -168,7 +167,7 @@ class Player extends GameObject {
     this.playerControls();
     this.position.x += this.speed.x;
     this.position.y += this.speed.y;
-    //Prata med David
+
     if (this.isChasing) {
       this.timer.update();
     }
@@ -226,14 +225,5 @@ class Player extends GameObject {
     } else {
       return;
     }
-    // this.applyFriction();
-    // this.applyGravity();
-    // this.playerControls();
-    // this.position.x += this.speed.x;
-    // this.position.y += this.speed.y;
-
-    // if (this.isChasing){
-    //  this.timer.update()
-    // }
   }
 }

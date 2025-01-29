@@ -28,9 +28,9 @@ class Timer {
     this.tick(deltaTime);
   }
 
+
   private isLessThanTenSecLeft(): boolean {
     return this.timeRemaining <= 11000;
-  }
 
   draw() {
     push();
