@@ -5,15 +5,15 @@ let greenLeft: p5.Image;
 let yellowRight: p5.Image;
 
 class Player extends GameObject {
-  color: string;
-  speed: p5.Vector;
-  isOnIce: boolean;
-  isChasing: boolean;
-  isJumping: boolean;
-  gravity: number;
-  dropTimer: number;
-  timeSinceTeleport: number;
-  timer: Timer;
+  public color: string;
+  public speed: p5.Vector;
+  private isOnIce: boolean;
+  private isChasing: boolean;
+  public isJumping: boolean;
+  private gravity: number;
+  public dropTimer: number;
+  private timeSinceTeleport: number;
+  public timer: Timer;
 
   constructor(
     color: string,
@@ -49,18 +49,9 @@ class Player extends GameObject {
     this.dropTimer = -1000;
     this.timeSinceTeleport = -1000;
   }
-  public bounce() {}
 
   public toggleIsChasing() {
     this.isChasing = !this.isChasing;
-  }
-
-  public setPosition(port: string): void {
-    if (port === "left") {
-      this.position.x = 15;
-    } else {
-      this.position.x = 930;
-    }
   }
 
   private applyGravity(): void {
@@ -124,7 +115,6 @@ class Player extends GameObject {
         if (keyIsDown(UP_ARROW)) {
           this.jump();
           this.isJumping = true;
-          console.log("hoppar vi?");
         }
       } else {
         // Normal control

@@ -8,7 +8,7 @@ class LevelFactory {
     this.game = game;
   }
 
-  createGameBoard(game: Game, level: number): GameBoard {
+  public createGameBoard(game: Game, level: number): GameBoard {
     const gameObjects: GameObject[] = [];
     this.getGameObjects(level, gameObjects);
     return new GameBoard(gameObjects, this.game);

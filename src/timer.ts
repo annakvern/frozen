@@ -3,10 +3,10 @@ const positionTimerY: number = 35;
 const positionYellowTimerX: number = 974;
 
 class Timer {
-  color: string;
-  xPos: number;
-  yPos: number;
-  timeRemaining: number;
+  private color: string;
+  private xPos: number;
+  private yPos: number;
+  public timeRemaining: number;
 
   constructor(color: string, xPos: number, yPos: number, timeLimit: number) {
     this.color = color;
@@ -28,7 +28,6 @@ class Timer {
     this.tick(deltaTime);
   }
 
-
   private isLessThanTenSecLeft(): boolean {
     return this.timeRemaining <= 11000;
   }
@@ -37,16 +36,14 @@ class Timer {
     push();
     let textSizeValue = 50;
 
-    if (this.isLessThanTenSecLeft()){
-      fill(255, 0, 0);// Röd text
-      textSize(60); 
-       // Pulserande effekt med sin()
+    if (this.isLessThanTenSecLeft()) {
+      fill(255, 0, 0); // Röd text
+      textSize(60);
+      // Pulserande effekt med sin()
       let pulse = 10 * sin(millis() / 150);
       textSizeValue = 60 + pulse;
-      
     } else if (this.color === "yellow") {
       fill(255, 213, 118);
-      
     } else if (this.color === "green") {
       fill(58, 168, 167);
     }

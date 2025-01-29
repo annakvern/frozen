@@ -10,13 +10,13 @@ class GameBoard implements Scene {
     this.game = game;
     this.gameObjects = gameObjects;
   }
-  draw(): void {
+  public draw(): void {
     background(backgroundImgL1);
     for (const obj of this.gameObjects) {
       obj.draw();
     }
   }
-  update(): void {
+  public update(): void {
     for (const obj of this.gameObjects) {
       obj.update();
     }
@@ -30,62 +30,32 @@ class GameBoard implements Scene {
     for (const o1 of this.gameObjects) {
       if (!(o1 instanceof Player)) continue;
       // hitting the wall logic
-      if (o1.position.x < 0) {
-        o1.position.x = 0; // stopp till vänster
-        o1.speed.x = 0; // Spelarens fart går till när den möter väggen
-      } else if (o1.position.x + o1.width > width) {
-        o1.position.x = width - o1.width; // Stoppa till höger kant
-        o1.speed.x = 0; //Spelarens fart går till 0 när den möter väggen
-      } else if (o1.position.y < 0) {
-        o1.position.y = 0; //Förhindrar spealren att hoppa igenom taket
-        o1.speed.y = 0; // Återställer farten i y-led
-      }
+      this.stopPlayerByWall(o1);
 
       for (const o2 of this.gameObjects) {
         if (o1 === o2) continue;
         if (o2 instanceof Snowman) continue;
+        // the snowman is just in the background - no action
 
         if (this.objectsOverlap(o1, o2)) {
           if (o2 instanceof Player) {
+            // TAG - you're it!
+            this.tagYoureIt(o1, o2);
             // bounce
-            if (this.switchPlayerTimer <= 0) {
-              this.switchChaser(o1, o2);
-              this.switchPlayerTimer = 200;
-            }
             this.bouncePlayers(o1, o2);
           }
           if (this.objectsOverlap(o1, o2)) {
             if (o2 instanceof Platform && o2.img === icyIciclePlatform) {
-              if (o1.speed.y < 0 && o1.dropTimer < -100) {
-                o1.position.y = o2.position.y + 80 * 0.7;
-                o1.dropTimer = 500;
-                console.log("We are stuck on icicle");
-              }
+              // stick to, and drop after 0.5 sec
+              this.stickToIcicleOrSlime(o1, o2);
             }
             if (o2 instanceof Platform) {
-              // Push above platform
-              if (o1.speed.y > 0 && o1.dropTimer < -100) {
-                o1.position.y = o2.position.y - 70 * 0.7;
-                o1.speed.y = 0;
-                o1.isJumping = false;
-              }
-              //move under platform
-              if (o1.speed.y < 0) {
-                o1.position.y = o2.position.y + 70 * 0.7;
-                o1.speed.y = 0;
-                o1.isJumping = true;
-              }
+              // move out of platform
+              this.moveOutOfPlatform(o1, o2);
             }
             if (o2 instanceof Trampoline) {
-              if (o1.position.y + o1.height >= o2.position.y + 5) {
-                if (o1.speed.y > 0) {
-                  // Kontrollera att spelaren inte redan är i luften
-                  o1.position.y = o2.position.y - 70; // Placera ovanpå trampolinen
-                  o1.speed.y = -20; // Studseffekt
-                  o1.isJumping = true; // Markera att spelaren är i luften
-                  console.log("studsa");
-                }
-              }
+              // bounce higher!
+              this.trampolineJump(o1, o2);
             }
 
             if (o2 instanceof Teleport && o1.dropTimer < -100) {
@@ -120,6 +90,18 @@ class GameBoard implements Scene {
     );
   }
 
+  private stopPlayerByWall(o1: Player) {
+    if (o1.position.x < 0) {
+      o1.position.x = 0; // stopp till vänster
+      o1.speed.x = 0; // Spelarens fart går till när den möter väggen
+    } else if (o1.position.x + o1.width > width) {
+      o1.position.x = width - o1.width; // Stoppa till höger kant
+      o1.speed.x = 0; //Spelarens fart går till 0 när den möter väggen
+    } else if (o1.position.y < 0) {
+      o1.position.y = 0; //Förhindrar spealren att hoppa igenom taket
+      o1.speed.y = 0; // Återställer farten i y-led
+    }
+  }
   private bouncePlayers(o1: Player, o2: Player) {
     let dx = o2.position.x - o1.position.x;
     let dy = o2.position.y - o1.position.y;
@@ -145,13 +127,47 @@ class GameBoard implements Scene {
     }
   }
 
+  private tagYoureIt(o1: Player, o2: Player) {
+    if (this.switchPlayerTimer <= 0) {
+      this.switchChaser(o1, o2);
+      this.switchPlayerTimer = 200;
+    }
+  }
+
+  private moveOutOfPlatform(o1: Player, o2: Platform) {
+    // Push above platform
+    if (o1.speed.y > 0 && o1.dropTimer < -100) {
+      o1.position.y = o2.position.y - 70 * 0.7;
+      o1.speed.y = 0;
+      o1.isJumping = false;
+    }
+    //move under platform
+    if (o1.speed.y < 0) {
+      o1.position.y = o2.position.y + 70 * 0.7;
+      o1.speed.y = 0;
+      o1.isJumping = true;
+    }
+  }
+
   private squishToGround() {}
 
-  private freezeToIcicle() {}
+  private stickToIcicleOrSlime(o1: Player, o2: Platform) {
+    if (o1.speed.y < 0 && o1.dropTimer < -100) {
+      o1.position.y = o2.position.y + 80 * 0.7;
+      o1.dropTimer = 500;
+    }
+  }
 
-  private teleportPlayer() {}
-
-  private applyNoFriction() {}
+  private trampolineJump(o1: Player, o2: Trampoline) {
+    if (o1.position.y + o1.height >= o2.position.y + 5) {
+      if (o1.speed.y > 0) {
+        // Kontrollera att spelaren inte redan är i luften
+        o1.position.y = o2.position.y - 70; // Placera ovanpå trampolinen
+        o1.speed.y = -20; // Studseffekt
+        o1.isJumping = true; // Markera att spelaren är i luften
+      }
+    }
+  }
 
   private switchChaser(o1: Player, o2: Player) {
     o1.toggleIsChasing();
@@ -175,6 +191,4 @@ class GameBoard implements Scene {
       }
     }
   }
-
-  private checkTimer() {}
 }

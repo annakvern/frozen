@@ -12,10 +12,6 @@ function setup() {
   game = new Game();
   userStartAudio(); //Aktiverar ljudet efter en användargest
 
-  // let startScene = new StartScene(null as unknown as Game);
-  // startScene = new StartScene(game);
-  // game.changeActiveScreen(startScene);
-
   textFont(kavoonFont);
 }
 

@@ -1,24 +1,21 @@
 /// <reference path="game.ts" />
 
 class GameObject {
-  position: p5.Vector;
-  width: number;
-  height: number;
-  img: p5.Image;
-  isSolid: boolean;
+  public position: p5.Vector;
+  public width: number;
+  public height: number;
+  public img: p5.Image;
 
   constructor(
     position: p5.Vector,
     width: number,
     height: number,
-    img: p5.Image,
-    isSolid: boolean
+    img: p5.Image
   ) {
     this.position = position;
     this.width = width;
     this.height = height;
     this.img = img;
-    this.isSolid = isSolid;
   }
 
   public draw(): void {
