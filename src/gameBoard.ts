@@ -20,14 +20,10 @@ class GameBoard implements Scene {
     for (const obj of this.gameObjects) {
       obj.update();
     }
-    if (keyIsDown(32) && !changedScene) {
-      changedScene = true; // that we changed the screen
-      let nextPage = new ResultScene(this.game, "Yellow");
-      this.game.changeActiveScreen(nextPage);
-    }
 
     this.checkCollisions();
     this.switchPlayerTimer -= deltaTime;
+    this.checkWinner();
   }
 
   private checkCollisions() {
@@ -155,7 +151,30 @@ class GameBoard implements Scene {
     o2.toggleIsChasing();
   }
 
-  private checkWinner() {}
+  private checkWinner() {
+    let greenPlayer = this.gameObjects.find(
+      (obj) => obj instanceof Player && obj.color === "green"
+    ) as Player;
+    let yellowPlayer = this.gameObjects.find(
+      (obj) => obj instanceof Player && obj.color === "yellow"
+    ) as Player;
+
+    //  Kolla om någon spelares timer är slut
+    if (
+      !changedScene &&
+      ((greenPlayer?.timer.timeRemaining ?? 1) <= 0 ||
+        (yellowPlayer?.timer.timeRemaining ?? 1) <= 0)
+    ) {
+      changedScene = true;
+
+      // Om gröna spelarens timer är 0, betyder det att gula spelaren har vunnit
+      let winnerColor =
+        (greenPlayer?.timer.timeRemaining ?? 1) <= 0 ? "Yellow" : "Green";
+
+      let nextPage = new ResultScene(this.game, winnerColor);
+      this.game.changeActiveScreen(nextPage);
+    }
+  }
 
   private checkTimer() {}
 }
