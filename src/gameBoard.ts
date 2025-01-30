@@ -9,12 +9,19 @@ class GameBoard implements Scene {
   private lastUpdateTime: number;
   private groundLevel: number;
   private switchPlayerTimer: number;
+  private backgroundImage: p5.Image;
 
 
   constructor(gameObjects: GameObject[], game: Game, level: number) {
     this.switchPlayerTimer = 0;
     this.game = game;
     this.gameObjects = gameObjects;
+   
+    if (level === 1){
+      this.backgroundImage = backgroundImgL1;
+    } else {
+      this.backgroundImage = backgroundImgL2;
+    } 
     // initialising the timer objects
     // this.yellowTimer = new Timer(
     //   "yellow",
@@ -35,16 +42,8 @@ class GameBoard implements Scene {
     this.groundLevel = 950;
   }
 
-  private drawBackground(level:number){
-    if (level === 1){
-      background(backgroundImgL1);
-    } else if (level ===2) {
-      background(backgroundImgL2);
-    }
-  }
   draw(): void {
-   
-    this.drawBackground(level);
+    background(this.backgroundImage);
     for (const obj of this.gameObjects) {
       obj.draw();
     }
