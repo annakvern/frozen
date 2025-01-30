@@ -147,7 +147,7 @@ class Player extends GameObject {
     this.drawTriangle();
     this.timer.draw();
 
-    if (!this.isFacingRight) {
+    if (this.isFacingRight) {
       scale(-1, 1);
       translate(-this.width - this.position.x * 2, 0);
     }
