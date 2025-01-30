@@ -70,7 +70,13 @@ class GameBoard implements Scene {
                   // Flytta spelaren till den andra teleportens position
                   o1.position.y = other.position.y + 15;
                   o1.position.x = other.position.x + 15;
-                  o1.speed.y = 0;
+                  o1.speed.y = -10;
+                  //Ta reda på vilken portal som spelaren kommer ut ur
+                  if (o2.position.x < other.position.x) {
+                    o1.speed.x = -10;
+                  } else {
+                    o1.speed.x = 10;
+                  }
                   o1.dropTimer = 200;
                 }
               }
