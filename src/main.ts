@@ -66,10 +66,10 @@ function preload() {
   podiumYellowImg = loadImage("assets/images/podiumYellowWinner.svg");
   podiumGreenImg = loadImage("assets/images/podiumGreenWinner.svg");
   backgroundImgL2 = loadImage("assets/images/bgLevel2.svg");
-  // moon = loadImage("assets/images/moon.svg");
   sandPlatform = loadImage("assets/images/sandPlatform.svg");
   slimePlatform = loadImage("assets/images/slimePlatform.svg");
   quicksandPlatform = loadImage("assets/images/quicksandPlatform.svg");
   quickSlimePlatform = loadImage("assets/images/quickSlimePlatform.svg");
-  // camel = loadImage("assets/images/camel.png");
+  greenWinner = loadImage("assets/images/greenWin");
+  yellowWinner = loadImage("assets/images/yellowWin");
 }

@@ -1,6 +1,8 @@
 //// DECLARE IMAGES TO BE USED IN THE SCENE.
 let podiumYellowImg: p5.Image;
 let podiumGreenImg: p5.Image;
+let greenWinner: p5.Image;
+let yellowWinner: p5.Image;
 
 //// DECLARE POSITIONS AND SIZE FOR THE ELEMENTS ON THE SCREEN.
 class ResultScene implements Scene {
@@ -17,7 +19,7 @@ class ResultScene implements Scene {
   private textBounceRange: number;
 
   //// SET POSITIONS FOR ALL ELEMENTS BASED ON SCREEN SIZE.
-  constructor(game: Game, winner: string) {
+  constructor(game: Game, winner: string, img: p5.Image) {
     this.game = game;
     this.winner = winner;
     this.titlePosition = createVector(canvasWidth / 2 - 220, canvasHeight / 2);
@@ -51,7 +53,7 @@ class ResultScene implements Scene {
 
   //// DRAW ALL ELEMENTS ON THE SCREEN.
   draw() {
-    background(164, 211, 247);
+    background(greenWinner);
     this.drawTitle();
     this.drawText();
     this.drawCloud();
