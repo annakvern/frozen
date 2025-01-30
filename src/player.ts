@@ -20,7 +20,6 @@ class Player extends GameObject {
   public isJumping: boolean;
   private gravity: number;
   public dropTimer: number;
-  private timeSinceTeleport: number;
   public timer: Timer;
   private isFacingRight: boolean;
 
@@ -32,7 +31,6 @@ class Player extends GameObject {
     speedY: number
   ) {
     if (color === "yellow") {
-
       super(position, 50, 50, [yellowRight]);
       this.isFacingRight = false;
 
@@ -43,7 +41,6 @@ class Player extends GameObject {
         60_000
       );
     } else {
-
       super(position, 50, 50, [greenRight]);
       this.isFacingRight = true;
 
@@ -62,7 +59,6 @@ class Player extends GameObject {
     this.isJumping = false;
     this.gravity = 1;
     this.dropTimer = -1000;
-    this.timeSinceTeleport = -1000;
   }
 
   public toggleIsChasing() {

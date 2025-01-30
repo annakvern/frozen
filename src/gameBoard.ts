@@ -199,8 +199,6 @@ class GameBoard implements Scene {
     }
   }
 
-  private squishToGround() {}
-
   private stickToIcicleOrSlime(o1: Player, o2: Platform) {
     if (o1.speed.y < 0 && o1.dropTimer < -100) {
       o1.position.y = o2.position.y + 80 * 0.7;
