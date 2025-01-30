@@ -1,4 +1,5 @@
-# TAG or Die!
+# Tag or Die - a 2-player tag game in TypeScript and p5.js
+![Screenshot 2025-01-30 at 20 16 01](https://github.com/user-attachments/assets/578eca9c-5f84-4a17-abb9-2c5972312cd9)
 
 Inspiration: https://www.crazygames.com/game/2-player-tag
 
@@ -43,6 +44,8 @@ Player 2 uses WAD
   W = Jump
 	A = Move left
 	D = Move right
-		
+ ![Screenshot 2025-01-30 at 20 13 20](https://github.com/user-attachments/assets/8433c022-bc9e-46aa-aaf6-450a5a8b11a5)
 
+		
+![Screenshot 2025-01-30 at 20 14 00](https://github.com/user-attachments/assets/51c00b8f-c67a-42be-ab47-8837dc21836c)
 

@@ -33,18 +33,18 @@ class PlayerInstruction implements Scene {
       userStartAudio();
       changedScene = true;
       const factory = new LevelFactory(this.game);
-      const gameBoard = factory.createGameBoard(this.game, 1);
+      const gameBoard = factory.createGameBoard(1);
       this.game.changeActiveScreen(gameBoard);
     } else if (keyIsDown(13) && !changedScene) {
       // 13 keycode for 'enter'
-      
+
       userStartAudio();
       changedScene = true;
       const factory = new LevelFactory(this.game);
-      const gameBoard = factory.createGameBoard(this.game, 2);
+      const gameBoard = factory.createGameBoard(2);
       this.game.changeActiveScreen(gameBoard);
     }
-}
+  }
 
   public draw(): void {
     background(164, 210, 247);
