@@ -3,9 +3,4 @@ class Snowman extends GameObject {
   constructor(position: p5.Vector) {
     super(position, 69, 118, [snowman]);
   }
-  public draw() {
-    image(this.images[0], 600, 145, 69, 118);
-  }
-
-  public update() {}
 }

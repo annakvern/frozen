@@ -23,7 +23,7 @@ class Player extends GameObject {
     speedY: number
   ) {
     if (color === "yellow") {
-      super(position, 50, 50, [yellowLeft]);
+      super(position, 50, 50, [yellowLeft, yellowRight, greenRight], 1000);
       this.timer = new Timer(
         "yellow",
         positionYellowTimerX,
@@ -80,10 +80,12 @@ class Player extends GameObject {
           // A-tangenten (vänster)
           this.speed.x = max(-10, this.speed.x - 0.5);
           this.images = [yellowLeft];
+          // this.scale = -1
         } else if (keyIsDown(68)) {
           // D-tangenten (höger)
           this.speed.x = min(10, this.speed.x + 0.5);
           this.images = [yellowRight];
+          // this.scale = 1
         }
       } else {
         // Normal control
@@ -138,13 +140,16 @@ class Player extends GameObject {
     push();
 
     this.drawTriangle();
-    super.draw();
     this.timer.draw();
+
+    // scale(this.scale);
+    super.draw();
 
     pop();
   }
 
   public update() {
+    super.update();
     this.dropTimer -= deltaTime;
     if (this.dropTimer > 0) {
       return;
