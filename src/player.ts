@@ -23,7 +23,7 @@ class Player extends GameObject {
     speedY: number
   ) {
     if (color === "yellow") {
-      super(position, 50, 50, yellowLeft, false);
+      super(position, 50, 50, [yellowLeft]);
       this.timer = new Timer(
         "yellow",
         positionYellowTimerX,
@@ -31,7 +31,7 @@ class Player extends GameObject {
         60_000
       );
     } else {
-      super(position, 50, 50, greenRight, false);
+      super(position, 50, 50, [greenRight]);
       this.timer = new Timer(
         "green",
         positionGreenTimerX,
@@ -79,22 +79,22 @@ class Player extends GameObject {
         if (keyIsDown(65)) {
           // A-tangenten (vänster)
           this.speed.x = max(-10, this.speed.x - 0.5);
-          this.img = yellowLeft;
+          this.images = [yellowLeft];
         } else if (keyIsDown(68)) {
           // D-tangenten (höger)
           this.speed.x = min(10, this.speed.x + 0.5);
-          this.img = yellowRight;
+          this.images = [yellowRight];
         }
       } else {
         // Normal control
         if (keyIsDown(65)) {
           // A-tangenten (vänster)
           this.speed.x = max(-10, this.speed.x - 1.5);
-          this.img = yellowLeft;
+          this.images = [yellowLeft];
         } else if (keyIsDown(68)) {
           // D-tangenten (höger)
           this.speed.x = min(10, this.speed.x + 1.5);
-          this.img = yellowRight;
+          this.images = [yellowRight];
         }
       }
       if (keyIsDown(87)) {
@@ -107,10 +107,10 @@ class Player extends GameObject {
       if (this.isOnIce) {
         if (keyIsDown(LEFT_ARROW)) {
           this.speed.x = max(-10, this.speed.x - 0.5);
-          this.img = greenLeft;
+          this.images = [greenLeft];
         } else if (keyIsDown(RIGHT_ARROW)) {
           this.speed.x = min(10, this.speed.x + 0.5);
-          this.img = greenRight;
+          this.images = [greenRight];
         }
         if (keyIsDown(UP_ARROW)) {
           this.jump();
@@ -120,10 +120,10 @@ class Player extends GameObject {
         // Normal control
         if (keyIsDown(LEFT_ARROW)) {
           this.speed.x = max(-10, this.speed.x - 1.5);
-          this.img = greenLeft;
+          this.images = [greenLeft];
         } else if (keyIsDown(RIGHT_ARROW)) {
           this.speed.x = min(10, this.speed.x + 1.5);
-          this.img = greenRight;
+          this.images = [greenRight];
         }
         if (keyIsDown(UP_ARROW)) {
           this.jump();

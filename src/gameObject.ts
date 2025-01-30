@@ -4,24 +4,24 @@ class GameObject {
   public position: p5.Vector;
   public width: number;
   public height: number;
-  public img: p5.Image;
+  public images: p5.Image[];
 
   constructor(
     position: p5.Vector,
     width: number,
     height: number,
-    img: p5.Image
+    images: p5.Image[]
   ) {
     this.position = position;
     this.width = width;
     this.height = height;
-    this.img = img;
+    this.images = images;
   }
 
   public draw(): void {
-    if (this.img) {
+    if (this.images.length === 1) {
       image(
-        this.img,
+        this.images[0],
         this.position.x,
         this.position.y,
         this.width,

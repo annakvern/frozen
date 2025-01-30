@@ -21,7 +21,7 @@ class Platform extends GameObject {
       img = icyIciclePlatform;
       height = 80 * 0.7;
     }
-    super(position, 146 * 0.72, height, img);
+    super(position, 146 * 0.72, height, [img]);
     this.type = type;
     this.height = height;
   }
