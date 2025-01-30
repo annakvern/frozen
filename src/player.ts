@@ -23,7 +23,7 @@ class Player extends GameObject {
     speedY: number
   ) {
     if (color === "yellow") {
-      super(position, 50, 50, yellowLeft, false);
+      super(position, 50, 50, yellowLeft);
       this.timer = new Timer(
         "yellow",
         positionYellowTimerX,
@@ -31,7 +31,7 @@ class Player extends GameObject {
         60_000
       );
     } else {
-      super(position, 50, 50, greenRight, false);
+      super(position, 50, 50, greenRight);
       this.timer = new Timer(
         "green",
         positionGreenTimerX,
