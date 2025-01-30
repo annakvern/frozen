@@ -45,7 +45,11 @@ function preload() {
   kavoonFont = loadFont("assets/Font(s)/Kavoon-Regular.ttf");
   greenRight = loadImage("assets/images/greenPlayerRight.svg");
   yellowLeft = loadImage("assets/images/yellowPlayerLeft.svg");
+  yellowHalfSquish = loadImage("assets/images/yellowPlayerHalfSquish.svg");
+  yellowSquish = loadImage("assets/images/yellowPlayerSquish.svg");
   yellowRight = loadImage("assets/images/yellowPlayerRight.svg");
+  greenHalfSquish = loadImage("assets/images/greenPlayerHalfSquish.svg");
+  greenSquish = loadImage("assets/images/greenPlayerSquish.svg");
   greenLeft = loadImage("assets/images/greenPlayerLeft.svg");
   backgroundImgL1 = loadImage("assets/images/bgLevel1.png");
   platform = loadImage("assets/images/platform.svg");

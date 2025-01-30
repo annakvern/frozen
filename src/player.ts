@@ -3,6 +3,14 @@ let greenRight: p5.Image;
 let yellowLeft: p5.Image;
 let greenLeft: p5.Image;
 let yellowRight: p5.Image;
+let yellowHalfSquish: p5.Image;
+let yellowSquish: p5.Image;
+let greenHalfSquish: p5.Image;
+let greenSquish: p5.Image;
+let greenBounce: p5.Image;
+let greenHalfBounce: p5.Image;
+let yellowBounce: p5.Image;
+let yellowHalfBounce: p5.Image;
 
 class Player extends GameObject {
   public color: string;
@@ -14,6 +22,7 @@ class Player extends GameObject {
   public dropTimer: number;
   private timeSinceTeleport: number;
   public timer: Timer;
+  private isFacingRight: boolean;
 
   constructor(
     color: string,
@@ -23,7 +32,10 @@ class Player extends GameObject {
     speedY: number
   ) {
     if (color === "yellow") {
-      super(position, 50, 50, yellowLeft);
+
+      super(position, 50, 50, [yellowRight]);
+      this.isFacingRight = false;
+
       this.timer = new Timer(
         "yellow",
         positionYellowTimerX,
@@ -31,7 +43,10 @@ class Player extends GameObject {
         60_000
       );
     } else {
-      super(position, 50, 50, greenRight);
+
+      super(position, 50, 50, [greenRight]);
+      this.isFacingRight = true;
+
       this.timer = new Timer(
         "green",
         positionGreenTimerX,
@@ -79,22 +94,22 @@ class Player extends GameObject {
         if (keyIsDown(65)) {
           // A-tangenten (vänster)
           this.speed.x = max(-10, this.speed.x - 0.5);
-          this.img = yellowLeft;
+          this.isFacingRight = false;
         } else if (keyIsDown(68)) {
           // D-tangenten (höger)
           this.speed.x = min(10, this.speed.x + 0.5);
-          this.img = yellowRight;
+          this.isFacingRight = true;
         }
       } else {
         // Normal control
         if (keyIsDown(65)) {
           // A-tangenten (vänster)
           this.speed.x = max(-10, this.speed.x - 1.5);
-          this.img = yellowLeft;
+          this.isFacingRight = false;
         } else if (keyIsDown(68)) {
           // D-tangenten (höger)
           this.speed.x = min(10, this.speed.x + 1.5);
-          this.img = yellowRight;
+          this.isFacingRight = true;
         }
       }
       if (keyIsDown(87)) {
@@ -107,10 +122,10 @@ class Player extends GameObject {
       if (this.isOnIce) {
         if (keyIsDown(LEFT_ARROW)) {
           this.speed.x = max(-10, this.speed.x - 0.5);
-          this.img = greenLeft;
+          this.isFacingRight = false;
         } else if (keyIsDown(RIGHT_ARROW)) {
           this.speed.x = min(10, this.speed.x + 0.5);
-          this.img = greenRight;
+          this.isFacingRight = true;
         }
         if (keyIsDown(UP_ARROW)) {
           this.jump();
@@ -120,10 +135,10 @@ class Player extends GameObject {
         // Normal control
         if (keyIsDown(LEFT_ARROW)) {
           this.speed.x = max(-10, this.speed.x - 1.5);
-          this.img = greenLeft;
+          this.isFacingRight = false;
         } else if (keyIsDown(RIGHT_ARROW)) {
           this.speed.x = min(10, this.speed.x + 1.5);
-          this.img = greenRight;
+          this.isFacingRight = true;
         }
         if (keyIsDown(UP_ARROW)) {
           this.jump();
@@ -138,13 +153,20 @@ class Player extends GameObject {
     push();
 
     this.drawTriangle();
-    super.draw();
     this.timer.draw();
+
+    if (this.isFacingRight) {
+      scale(-1, 1);
+      translate(-this.width - this.position.x * 2, 0);
+    }
+
+    super.draw();
 
     pop();
   }
 
   public update() {
+    super.update();
     this.dropTimer -= deltaTime;
     if (this.dropTimer > 0) {
       return;
