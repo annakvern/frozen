@@ -61,6 +61,13 @@ class GameBoard implements Scene {
               // stick to, and drop after 0.5 sec
               this.stickToIcicleOrSlime(o1, o2);
             }
+
+            if (o2 instanceof Platform && o2.images[0] === slimePlatform) {
+
+              // stick to, and drop after 0.5 sec
+              this.stickToIcicleOrSlime(o1, o2);
+            }
+            
             if (o2 instanceof Platform) {
               //Squish to platform
               this.squishToPlatform(o1);
@@ -191,8 +198,6 @@ class GameBoard implements Scene {
       o1.isJumping = true;
     }
   }
-
-  private squishToGround() {}
 
   private stickToIcicleOrSlime(o1: Player, o2: Platform) {
     if (o1.speed.y < 0 && o1.dropTimer < -100) {

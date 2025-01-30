@@ -7,7 +7,7 @@ class Teleport extends GameObject {
   private spinStartTime: number;
 
   constructor(position: p5.Vector) {
-    super(position, 70, 70, teleport, false);
+    super(position, 70, 70, [teleport]);
     this.isSpinning = false;
     this.rotationAngle = 0;
     this.spinDuration = 350;

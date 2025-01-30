@@ -65,7 +65,7 @@ function preload() {
   soundOnimg = loadImage("assets/images/soundOn.svg");
   podiumYellowImg = loadImage("assets/images/podiumYellowWinner.svg");
   podiumGreenImg = loadImage("assets/images/podiumGreenWinner.svg");
-  backgroundImgL2 = loadImage("assets/images/bgLevel2.svg")
+  backgroundImgL2 = loadImage("assets/images/bgLevel2.svg");
   // moon = loadImage("assets/images/moon.svg");
   sandPlatform = loadImage("assets/images/sandPlatform.svg");
   slimePlatform = loadImage("assets/images/slimePlatform.svg");
