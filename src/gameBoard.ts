@@ -4,10 +4,6 @@ let backgroundImgL2: p5.Image;
 class GameBoard implements Scene {
   private game: Game;
   public gameObjects: GameObject[];
-  // private yellowTimer: Timer;
-  // private greenTimer: Timer;
-  private lastUpdateTime: number;
-  private groundLevel: number;
   private switchPlayerTimer: number;
   private backgroundImage: p5.Image;
 
@@ -22,24 +18,6 @@ class GameBoard implements Scene {
     } else {
       this.backgroundImage = backgroundImgL2;
     } 
-    // initialising the timer objects
-    // this.yellowTimer = new Timer(
-    //   "yellow",
-    //   positionYellowTimerX,
-    //   positionTimerY,
-    //   60
-    // );
-    // this.greenTimer = new Timer(
-    //   "green",
-    //   positionGreenTimerX,
-    //   positionTimerY,
-    //   60
-    // );
-
-    // recording the starting time
-    this.lastUpdateTime = millis();
-
-    this.groundLevel = 950;
   }
 
   draw(): void {
@@ -48,107 +26,68 @@ class GameBoard implements Scene {
       obj.draw();
     }
   }
-  update(): void {
-    // timer logic...calculates the time difference since the last update
-    // const currentTime = millis();
-    // const deltaTime = (currentTime - this.lastUpdateTime) / 1000; // converts to seconds
-    // this.lastUpdateTime = currentTime;
-
-    // updating the timers
-    // this.yellowTimer.update(deltaTime);
-    // this.greenTimer.update(deltaTime);
-
+  public update(): void {
     for (const obj of this.gameObjects) {
       obj.update();
-    }
-    if (keyIsDown(32) && !changedScene) {
-      changedScene = true; // that we changed the screen
-      let nextPage = new ResultScene(this.game, "Yellow");
-      this.game.changeActiveScreen(nextPage);
     }
 
     this.checkCollisions();
     this.switchPlayerTimer -= deltaTime;
-
-    // const playerYellow = this.gameObjects.find(
-    //   (obj) => obj instanceof Player && obj.color === "yellow"
-    // ) as Player;
-
-    // const playerGreen = this.gameObjects.find(
-    //   (obj) => obj instanceof Player && obj.color === "green"
-    // ) as Player;
-    // this.bouncePlayers(playerYellow, playerGreen);
+    this.checkWinner();
   }
 
   private checkCollisions() {
     for (const o1 of this.gameObjects) {
       if (!(o1 instanceof Player)) continue;
       // hitting the wall logic
-      if (o1.position.x < 0) {
-        o1.position.x = 0; // stopp till vänster
-        o1.speed.x = 0; // Spelarens fart går till när den möter väggen
-      } else if (o1.position.x + o1.width > width) {
-        o1.position.x = width - o1.width; // Stoppa till höger kant
-        o1.speed.x = 0; //Spelarens fart går till 0 när den möter väggen
-      } else if (o1.position.y < 0) {
-        o1.position.y = 0; //Förhindrar spealren att hoppa igenom taket
-        o1.speed.y = 0; // Återställer farten i y-led
-      }
+      this.stopPlayerByWall(o1);
 
       for (const o2 of this.gameObjects) {
         if (o1 === o2) continue;
         if (o2 instanceof Snowman) continue;
+        // the snowman is just in the background - no action
 
         if (this.objectsOverlap(o1, o2)) {
           if (o2 instanceof Player) {
+            // TAG - you're it!
+            this.tagYoureIt(o1, o2);
             // bounce
-            if (this.switchPlayerTimer <= 0) {
-              this.switchChaser(o1, o2);
-              this.switchPlayerTimer = 200;
-            }
             this.bouncePlayers(o1, o2);
           }
           if (this.objectsOverlap(o1, o2)) {
-            if (o2 instanceof Platform && o2.img === iciclePlatform || o2.img === slimePlatform) {
-              if (o1.speed.y < 0 && o1.dropTimer < -100) {
-                o1.position.y = o2.position.y + 80 * 0.7;
-                o1.dropTimer = 500;
-                
-              }
+            if (o2 instanceof Platform && o2.img === icyIciclePlatform || o2.img === slimePlatform) {
+              // stick to, and drop after 0.5 sec
+              this.stickToIcicleOrSlime(o1, o2);
             }
             if (o2 instanceof Platform) {
-              // Push above platform
-              if (o1.speed.y > 0 && o1.dropTimer < -100) {
-                o1.position.y = o2.position.y - 70 * 0.7;
-                o1.speed.y = 0;
-                o1.isJumping = false;
-              }
-              //move under platform
-              if (o1.speed.y < 0) {
-                o1.position.y = o2.position.y + 70 * 0.7;
-                o1.speed.y = 0;
-                o1.isJumping = true;
-              }
+              // move out of platform
+              this.moveOutOfPlatform(o1, o2);
             }
             if (o2 instanceof Trampoline) {
-              if (o1.position.y + o1.height >= o2.position.y + 5) {
-                if (o1.speed.y > 0) {
-                  // Kontrollera att spelaren inte redan är i luften
-                  o1.position.y = o2.position.y - 70; // Placera ovanpå trampolinen
-                  o1.speed.y = -20; // Studseffekt
-                  o1.isJumping = true; // Markera att spelaren är i luften
-                  console.log("studsa");
-                }
-              }
+              // bounce higher!
+              this.trampolineJump(o1, o2);
             }
 
             if (o2 instanceof Teleport && o1.dropTimer < -100) {
+              // Kör warp-animationen på den första teleporten
+              (o2 as Teleport).warp();
+
               for (const other of this.gameObjects) {
                 if (other instanceof Teleport && other !== o2) {
+                  // Kör warp-animationen på den andra teleporten
+                  (other as Teleport).warp();
+
+                  // Flytta spelaren till den andra teleportens position
                   o1.position.y = other.position.y + 15;
                   o1.position.x = other.position.x + 15;
-                  o1.speed.y = 0;
-                  o1.dropTimer = 500;
+                  o1.speed.y = -10;
+                  //Ta reda på vilken portal som spelaren kommer ut ur
+                  if (o2.position.x < other.position.x) {
+                    o1.speed.x = -10;
+                  } else {
+                    o1.speed.x = 10;
+                  }
+                  o1.dropTimer = 200;
                 }
               }
             }
@@ -167,6 +106,18 @@ class GameBoard implements Scene {
     );
   }
 
+  private stopPlayerByWall(o1: Player) {
+    if (o1.position.x < 0) {
+      o1.position.x = 0; // stopp till vänster
+      o1.speed.x = 0; // Spelarens fart går till när den möter väggen
+    } else if (o1.position.x + o1.width > width) {
+      o1.position.x = width - o1.width; // Stoppa till höger kant
+      o1.speed.x = 0; //Spelarens fart går till 0 när den möter väggen
+    } else if (o1.position.y < 0) {
+      o1.position.y = 0; //Förhindrar spealren att hoppa igenom taket
+      o1.speed.y = 0; // Återställer farten i y-led
+    }
+  }
   private bouncePlayers(o1: Player, o2: Player) {
     let dx = o2.position.x - o1.position.x;
     let dy = o2.position.y - o1.position.y;
@@ -192,20 +143,68 @@ class GameBoard implements Scene {
     }
   }
 
+  private tagYoureIt(o1: Player, o2: Player) {
+    if (this.switchPlayerTimer <= 0) {
+      this.switchChaser(o1, o2);
+      this.switchPlayerTimer = 200;
+    }
+  }
+
+  private moveOutOfPlatform(o1: Player, o2: Platform) {
+    // Push above platform
+    if (o1.speed.y > 0 && o1.dropTimer < -100) {
+      o1.position.y = o2.position.y - 70 * 0.7;
+      o1.speed.y = 0;
+      o1.isJumping = false;
+    }
+    //move under platform
+    if (o1.speed.y < 0) {
+      o1.position.y = o2.position.y + 70 * 0.7;
+      o1.speed.y = 0;
+      o1.isJumping = true;
+    }
+  }
+
   private squishToGround() {}
 
-  private freezeToIcicle() {}
+  private stickToIcicleOrSlime(o1: Player, o2: Platform) {
+    if (o1.speed.y < 0 && o1.dropTimer < -100) {
+      o1.position.y = o2.position.y + 80 * 0.7;
+      o1.dropTimer = 500;
+    }
+  }
 
-  private teleportPlayer() {}
-
-  private applyNoFriction() {}
+  private trampolineJump(o1: Player, o2: Trampoline) {
+    if (o1.position.y + o1.height >= o2.position.y + 5) {
+      if (o1.speed.y > 0) {
+        // Kontrollera att spelaren inte redan är i luften
+        o1.position.y = o2.position.y - 70; // Placera ovanpå trampolinen
+        o1.speed.y = -20; // Studseffekt
+        o1.isJumping = true; // Markera att spelaren är i luften
+      }
+    }
+  }
 
   private switchChaser(o1: Player, o2: Player) {
     o1.toggleIsChasing();
     o2.toggleIsChasing();
   }
 
-  private checkWinner() {}
+  private checkWinner() {
+    for (const o1 of this.gameObjects) {
+      if (o1 instanceof Player) {
+        if (o1.timer.timeRemaining <= 0) {
+          let winnerColor;
+          if (o1.color === "green") {
+            winnerColor = "Yellow";
+          } else {
+            winnerColor = "Green";
+          }
 
-  private checkTimer() {}
+          let nextPage = new ResultScene(this.game, winnerColor);
+          this.game.changeActiveScreen(nextPage);
+        }
+      }
+    }
+  }
 }

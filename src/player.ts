@@ -5,15 +5,15 @@ let greenLeft: p5.Image;
 let yellowRight: p5.Image;
 
 class Player extends GameObject {
-  color: string;
-  speed: p5.Vector;
-  isOnIce: boolean;
-  isChasing: boolean;
-  isJumping: boolean;
-  gravity: number;
-  dropTimer: number;
-  timeSinceTeleport: number;
-  timer: Timer; //Står att den ska vara timer i diagrammet?
+  public color: string;
+  public speed: p5.Vector;
+  private isOnIce: boolean;
+  private isChasing: boolean;
+  public isJumping: boolean;
+  private gravity: number;
+  public dropTimer: number;
+  private timeSinceTeleport: number;
+  public timer: Timer;
 
   constructor(
     color: string,
@@ -23,7 +23,7 @@ class Player extends GameObject {
     speedY: number
   ) {
     if (color === "yellow") {
-      super(position, 50, 50, yellowLeft, false);
+      super(position, 50, 50, yellowLeft);
       this.timer = new Timer(
         "yellow",
         positionYellowTimerX,
@@ -31,7 +31,7 @@ class Player extends GameObject {
         60_000
       );
     } else {
-      super(position, 50, 50, greenRight, false);
+      super(position, 50, 50, greenRight);
       this.timer = new Timer(
         "green",
         positionGreenTimerX,
@@ -49,18 +49,9 @@ class Player extends GameObject {
     this.dropTimer = -1000;
     this.timeSinceTeleport = -1000;
   }
-  public bounce() {}
 
   public toggleIsChasing() {
-    this.isChasing = !this.isChasing; // Simpler boolean toggle
-  }
-
-  public setPosition(port: string): void {
-    if (port === "left") {
-      this.position.x = 15;
-    } else {
-      this.position.x = 930;
-    }
+    this.isChasing = !this.isChasing;
   }
 
   private applyGravity(): void {
@@ -83,14 +74,28 @@ class Player extends GameObject {
 
   public playerControls() {
     if (this.color === "yellow") {
-      if (keyIsDown(65)) {
-        // A-tangenten (vänster)
-        this.speed.x = max(-10, this.speed.x - 1.5);
-        this.img = yellowLeft;
-      } else if (keyIsDown(68)) {
-        // D-tangenten (höger)
-        this.speed.x = min(10, this.speed.x + 1.5);
-        this.img = yellowRight;
+      // Less control on ice
+      if (this.isOnIce) {
+        if (keyIsDown(65)) {
+          // A-tangenten (vänster)
+          this.speed.x = max(-10, this.speed.x - 0.5);
+          this.img = yellowLeft;
+        } else if (keyIsDown(68)) {
+          // D-tangenten (höger)
+          this.speed.x = min(10, this.speed.x + 0.5);
+          this.img = yellowRight;
+        }
+      } else {
+        // Normal control
+        if (keyIsDown(65)) {
+          // A-tangenten (vänster)
+          this.speed.x = max(-10, this.speed.x - 1.5);
+          this.img = yellowLeft;
+        } else if (keyIsDown(68)) {
+          // D-tangenten (höger)
+          this.speed.x = min(10, this.speed.x + 1.5);
+          this.img = yellowRight;
+        }
       }
       if (keyIsDown(87)) {
         this.jump();
@@ -98,17 +103,33 @@ class Player extends GameObject {
         console.log("hoppar vi?");
       }
     } else if (this.color === "green") {
-      if (keyIsDown(LEFT_ARROW)) {
-        this.speed.x = max(-10, this.speed.x - 1.5);
-        this.img = greenLeft;
-      } else if (keyIsDown(RIGHT_ARROW)) {
-        this.speed.x = min(10, this.speed.x + 1.5);
-        this.img = greenRight;
-      }
-      if (keyIsDown(UP_ARROW)) {
-        this.jump();
-        this.isJumping = true;
-        console.log("hoppar vi?");
+      // Reduced control on icepatch
+      if (this.isOnIce) {
+        if (keyIsDown(LEFT_ARROW)) {
+          this.speed.x = max(-10, this.speed.x - 0.5);
+          this.img = greenLeft;
+        } else if (keyIsDown(RIGHT_ARROW)) {
+          this.speed.x = min(10, this.speed.x + 0.5);
+          this.img = greenRight;
+        }
+        if (keyIsDown(UP_ARROW)) {
+          this.jump();
+          this.isJumping = true;
+        }
+      } else {
+        // Normal control
+        if (keyIsDown(LEFT_ARROW)) {
+          this.speed.x = max(-10, this.speed.x - 1.5);
+          this.img = greenLeft;
+        } else if (keyIsDown(RIGHT_ARROW)) {
+          this.speed.x = min(10, this.speed.x + 1.5);
+          this.img = greenRight;
+        }
+        if (keyIsDown(UP_ARROW)) {
+          this.jump();
+          this.isJumping = true;
+          console.log("hoppar vi?");
+        }
       }
     }
   }
@@ -117,10 +138,9 @@ class Player extends GameObject {
     push();
 
     this.drawTriangle();
-    //use scale to turn player
     super.draw();
-
     this.timer.draw();
+
     pop();
   }
 
@@ -130,23 +150,50 @@ class Player extends GameObject {
       return;
     }
     this.drawTriangle();
+    this.slideOnIcePatch();
     this.applyFriction();
     this.applyGravity();
     this.playerControls();
     this.position.x += this.speed.x;
     this.position.y += this.speed.y;
-    //Prata med David
+
     if (this.isChasing) {
-      this.timer.update(deltaTime);
+      this.timer.update();
     }
   }
 
   private applyFriction() {
-    if (this.speed.x > 0) {
-      this.speed.x = max(0, this.speed.x - 0.5);
-    } else if (this.speed.x < 0) {
-      this.speed.x = min(0, this.speed.x + 0.5);
+    if (!this.isOnIce) {
+      if (this.speed.x > 0) {
+        this.speed.x = max(0, this.speed.x - 0.5);
+      } else if (this.speed.x < 0) {
+        this.speed.x = min(0, this.speed.x + 0.5);
+      }
     }
+  }
+
+  private slideOnIcePatch() {
+    const icePatchLeftX = 260;
+    const icePatchRightX = 720;
+    const icePatchY = 209;
+
+    this.isOnIce =
+      this.position.x > icePatchLeftX &&
+      this.position.x < icePatchRightX &&
+      this.position.y === icePatchY;
+
+    if (this.isOnIce) {
+      console.log("We are on icepatch");
+
+      if (this.speed.x > 0) {
+        this.speed.x = min(20, this.speed.x + 0.2);
+      } else if (this.speed.x < 0) {
+        this.speed.x = max(-20, this.speed.x - 0.2);
+      } else {
+        this.speed.x = 2;
+      }
+    }
+    // console.log(${this.position.x}, ${this.position.y});
   }
 
   public drawTriangle() {
@@ -165,14 +212,5 @@ class Player extends GameObject {
     } else {
       return;
     }
-    // this.applyFriction();
-    // this.applyGravity();
-    // this.playerControls();
-    // this.position.x += this.speed.x;
-    // this.position.y += this.speed.y;
-
-    // if (this.isChasing){
-    //  this.timer.update()
-    // }
   }
 }

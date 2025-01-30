@@ -1,6 +1,6 @@
 let platform: p5.Image;
 let icyPlatform: p5.Image;
-let iciclePlatform: p5.Image;
+let icyIciclePlatform: p5.Image;
 let sandPlatform: p5.Image;
 let slimePlatform: p5.Image;
 let quicksandPlatform: p5.Image;
@@ -21,7 +21,7 @@ class Platform extends GameObject {
       img = icyPlatform;
       height = 30 * 0.7;
     } else if(type === "icicle") {
-      img = iciclePlatform;
+      img = icyIciclePlatform;
       height = 80 * 0.7;
     } else if (type === "sand"){
       img = sandPlatform;
@@ -34,7 +34,7 @@ class Platform extends GameObject {
       height = 80 * 0.7;
     }
 
-    super(position, 146 * 0.72, height, img, true);
+    super(position, 146 * 0.72, height, img);
     this.type = type;
     this.height = height;
   }
