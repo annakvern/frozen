@@ -20,8 +20,8 @@ class ResultScene implements Scene {
   constructor(game: Game, winner: string) {
     this.game = game;
     this.winner = winner;
-    this.titlePosition = createVector(canvasWidth / 2, 300);
-    this.textPosition = createVector(canvasWidth / 2, 380);
+    this.titlePosition = createVector(canvasWidth / 2 - 220, canvasHeight / 2);
+    this.textPosition = createVector(canvasWidth / 2 - 30, canvasHeight / 2 + 50);
     this.cloudPosition = createVector(120, 100);
     this.snowflakePositions = [
       { position: createVector(770, 185), size: 140 },
@@ -93,11 +93,11 @@ class ResultScene implements Scene {
     fill("white");
     textSize(25);
     fill("white");
-    text("Press", this.textPosition.x - 115, +this.textBounceY);
+    text("Press", this.textPosition.x - 95, +this.textBounceY);
     fill(255, 213, 118);
-    text("SPACE", this.textPosition.x - 35, this.textBounceY);
+    text("SPACE", this.textPosition.x - 20, this.textBounceY);
     fill("white");
-    text("to play again", this.textPosition.x + 90, this.textBounceY);
+    text("to play again", this.textPosition.x + 65, this.textBounceY);
     pop();
   }
 
