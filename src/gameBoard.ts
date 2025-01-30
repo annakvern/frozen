@@ -1,17 +1,27 @@
 let backgroundImgL1: p5.Image;
+let backgroundImgL2: p5.Image;
 
 class GameBoard implements Scene {
   private game: Game;
   public gameObjects: GameObject[];
   private switchPlayerTimer: number;
+  private backgroundImage: p5.Image;
 
-  constructor(gameObjects: GameObject[], game: Game) {
+
+  constructor(gameObjects: GameObject[], game: Game, level: number) {
     this.switchPlayerTimer = 0;
     this.game = game;
     this.gameObjects = gameObjects;
+   
+    if (level === 1){
+      this.backgroundImage = backgroundImgL1;
+    } else {
+      this.backgroundImage = backgroundImgL2;
+    } 
   }
-  public draw(): void {
-    background(backgroundImgL1);
+
+  draw(): void {
+    background(this.backgroundImage);
     for (const obj of this.gameObjects) {
       obj.draw();
     }
@@ -45,7 +55,7 @@ class GameBoard implements Scene {
             this.bouncePlayers(o1, o2);
           }
           if (this.objectsOverlap(o1, o2)) {
-            if (o2 instanceof Platform && o2.img === icyIciclePlatform) {
+            if (o2 instanceof Platform && o2.img === icyIciclePlatform || o2.img === slimePlatform) {
               // stick to, and drop after 0.5 sec
               this.stickToIcicleOrSlime(o1, o2);
             }

@@ -50,7 +50,6 @@ function preload() {
   backgroundImgL1 = loadImage("assets/images/bgLevel1.png");
   platform = loadImage("assets/images/platform.svg");
   icyPlatform = loadImage("assets/images/icyPlatform.svg");
-  iciclePlatform = loadImage("assets/images/iciclePlatform.svg");
   icyIciclePlatform = loadImage("assets/images/icyIciclePlatform.svg");
   snowman = loadImage("assets/images/snowman.svg");
   trampoline = loadImage("assets/images/trampoline.svg");
@@ -62,4 +61,11 @@ function preload() {
   soundOnimg = loadImage("assets/images/soundOn.svg");
   podiumYellowImg = loadImage("assets/images/podiumYellowWinner.svg");
   podiumGreenImg = loadImage("assets/images/podiumGreenWinner.svg");
+  backgroundImgL2 = loadImage("assets/images/bgLevel2.svg")
+  // moon = loadImage("assets/images/moon.svg");
+  sandPlatform = loadImage("assets/images/sandPlatform.svg");
+  slimePlatform = loadImage("assets/images/slimePlatform.svg");
+  quicksandPlatform = loadImage("assets/images/quicksandPlatform.svg");
+  quickSlimePlatform = loadImage("assets/images/quickSlimePlatform.svg");
+  // camel = loadImage("assets/images/camel.png");
 }
