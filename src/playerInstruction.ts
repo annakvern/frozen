@@ -20,10 +20,10 @@ class PlayerInstruction implements Scene {
 
     this.titlePosition = createVector(width / 2 - 25, 70);
     this.textPosition = createVector(width / 2 - 15, 250);
-    this.player1Position = createVector(710, 285);
-    this.player2Position = createVector(220, 285);
-    this.playerKeysYellowPosition = createVector(735, 430);
-    this.playerKeysGreenPosition = createVector(175, 430);
+    this.player1Position = createVector(760, 285);
+    this.player2Position = createVector(170, 285);
+    this.playerKeysYellowPosition = createVector(785, 430);
+    this.playerKeysGreenPosition = createVector(125, 430);
     this.playSoundPosition = createVector(980, 645);
   }
 
@@ -35,8 +35,16 @@ class PlayerInstruction implements Scene {
       const factory = new LevelFactory(this.game);
       const gameBoard = factory.createGameBoard(this.game, 1);
       this.game.changeActiveScreen(gameBoard);
+    } else if (keyIsDown(13) && !changedScene) {
+      // 13 keycode for 'enter'
+      
+      userStartAudio();
+      changedScene = true;
+      const factory = new LevelFactory(this.game);
+      const gameBoard = factory.createGameBoard(this.game, 2);
+      this.game.changeActiveScreen(gameBoard);
     }
-  }
+}
 
   public draw(): void {
     background(164, 210, 247);
@@ -95,17 +103,25 @@ class PlayerInstruction implements Scene {
       this.textPosition.y - 100
     );
 
+    textSize(20);
     fill("white");
-    text("Press", this.textPosition.x - 135, 600 + bounceText);
-    fill(255, 213, 118);
-    text("SPACE", this.textPosition.x - 35, 600 + bounceText);
+    text("Press", this.textPosition.x - 1, 270 + bounceText);
+    fill(205, 209, 239);
+    text("SPACE", this.textPosition.x - 1, 300 + bounceText);
     fill("white");
-    text("to get started", this.textPosition.x + 120, 600 + bounceText);
+    text("for winter-map", this.textPosition.x - 1, 330 + bounceText);
+
+    fill("white");
+    text("Press", this.textPosition.x - 1, 410 + bounceText);
+    fill(255, 198, 106);
+    text("ENTER", this.textPosition.x - 1, 440 + bounceText);
+    fill("white");
+    text("for summer-map", this.textPosition.x - 1, 470 + bounceText);
+
     textSize(30);
     fill("white");
-    text("Player 1", this.textPosition.x - 225, 230);
-    text("Player 2", this.textPosition.x + 260, 230);
-
+    text("Player 1", this.player1Position.x + 40, this.player1Position.y - 50);
+    text("Player 2", this.player2Position.x + 40, this.player2Position.y - 50);
     textSize(40);
 
     textSize(15);

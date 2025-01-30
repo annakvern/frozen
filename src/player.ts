@@ -32,8 +32,10 @@ class Player extends GameObject {
     speedY: number
   ) {
     if (color === "yellow") {
+
       super(position, 50, 50, [yellowRight]);
       this.isFacingRight = false;
+
       this.timer = new Timer(
         "yellow",
         positionYellowTimerX,
@@ -41,8 +43,10 @@ class Player extends GameObject {
         60_000
       );
     } else {
+
       super(position, 50, 50, [greenRight]);
       this.isFacingRight = true;
+
       this.timer = new Timer(
         "green",
         positionGreenTimerX,
