@@ -50,38 +50,10 @@ class GameBoard implements Scene {
               this.stickToIcicleOrSlime(o1, o2);
             }
             if (o2 instanceof Platform) {
+              //Squish to platform
+              this.squishToPlatform(o1);
+
               // move out of platform
-              if (o1.speed.y > 1) {
-                if (
-                  o1.images[0] === yellowLeft ||
-                  o1.images[0] === yellowRight
-                ) {
-                  o1.setAnimation(
-                    [
-                      yellowLeft,
-                      yellowHalfSquish,
-                      yellowSquish,
-                      yellowHalfSquish,
-                      yellowLeft,
-                    ],
-                    400
-                  );
-                } else if (
-                  o1.images[0] === greenLeft ||
-                  o1.images[0] === greenRight
-                ) {
-                  o1.setAnimation(
-                    [
-                      greenLeft,
-                      greenHalfSquish,
-                      greenSquish,
-                      greenHalfSquish,
-                      greenLeft,
-                    ],
-                    400
-                  );
-                }
-              }
               this.moveOutOfPlatform(o1, o2);
             }
             if (o2 instanceof Trampoline) {
@@ -164,7 +136,27 @@ class GameBoard implements Scene {
     }
   }
 
-  private squishToPlayer() {}
+  private squishToPlatform(o1: Player) {
+    if (o1.speed.y > 1) {
+      if (o1.images[0] === yellowLeft || o1.images[0] === yellowRight) {
+        o1.setAnimation(
+          [
+            yellowLeft,
+            yellowHalfSquish,
+            yellowSquish,
+            yellowHalfSquish,
+            yellowLeft,
+          ],
+          400
+        );
+      } else if (o1.images[0] === greenLeft || o1.images[0] === greenRight) {
+        o1.setAnimation(
+          [greenLeft, greenHalfSquish, greenSquish, greenHalfSquish, greenLeft],
+          400
+        );
+      }
+    }
+  }
 
   private tagYoureIt(o1: Player, o2: Player) {
     if (this.switchPlayerTimer <= 0) {

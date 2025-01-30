@@ -7,6 +7,10 @@ let yellowHalfSquish: p5.Image;
 let yellowSquish: p5.Image;
 let greenHalfSquish: p5.Image;
 let greenSquish: p5.Image;
+let greenBounce: p5.Image;
+let greenHalfBounce: p5.Image;
+let yellowBounce: p5.Image;
+let yellowHalfBounce: p5.Image;
 
 class Player extends GameObject {
   public color: string;
