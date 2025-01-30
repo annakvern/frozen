@@ -12,18 +12,17 @@ class GameObject {
     position: p5.Vector,
     width: number,
     height: number,
-    images: p5.Image[],
-    animationDuration = 0
+    images: p5.Image[]
   ) {
     this.position = position;
     this.width = width;
     this.height = height;
     this.images = images;
-    this.animationDuration = animationDuration;
+    this.animationDuration = 0;
     this.animationTimer = 0;
   }
 
-  protected setAnimation(images: p5.Image[], animationDuration: number) {
+  public setAnimation(images: p5.Image[], animationDuration: number) {
     this.images = images;
     this.animationDuration = animationDuration;
   }
@@ -52,6 +51,10 @@ class GameObject {
       // 4 * 0.2 = 0.8
       // 4 * 0.9 = 3.6
 
+      // 200 / 200 = 1
+      // 5 * 1
+      // 5
+
       const percentageOfDuration = this.animationTimer / this.animationDuration;
       const index = floor(this.images.length * percentageOfDuration);
 
@@ -76,8 +79,9 @@ class GameObject {
     if (this.images.length > 1) {
       this.animationTimer += deltaTime;
 
-      if (this.animationTimer > this.animationDuration) {
-        this.animationTimer -= this.animationDuration; // 1015 - 1000 = 15
+      if (this.animationTimer >= this.animationDuration) {
+        this.animationTimer = 0;
+        this.images = [this.images[0]];
       }
     }
   }

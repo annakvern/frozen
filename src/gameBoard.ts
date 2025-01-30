@@ -45,12 +45,43 @@ class GameBoard implements Scene {
             this.bouncePlayers(o1, o2);
           }
           if (this.objectsOverlap(o1, o2)) {
-            if (o2 instanceof Platform && o2.img === icyIciclePlatform) {
+            if (o2 instanceof Platform && o2.images[0] === icyIciclePlatform) {
               // stick to, and drop after 0.5 sec
               this.stickToIcicleOrSlime(o1, o2);
             }
             if (o2 instanceof Platform) {
               // move out of platform
+              if (o1.speed.y > 1) {
+                if (
+                  o1.images[0] === yellowLeft ||
+                  o1.images[0] === yellowRight
+                ) {
+                  o1.setAnimation(
+                    [
+                      yellowLeft,
+                      yellowHalfSquish,
+                      yellowSquish,
+                      yellowHalfSquish,
+                      yellowLeft,
+                    ],
+                    400
+                  );
+                } else if (
+                  o1.images[0] === greenLeft ||
+                  o1.images[0] === greenRight
+                ) {
+                  o1.setAnimation(
+                    [
+                      greenLeft,
+                      greenHalfSquish,
+                      greenSquish,
+                      greenHalfSquish,
+                      greenLeft,
+                    ],
+                    400
+                  );
+                }
+              }
               this.moveOutOfPlatform(o1, o2);
             }
             if (o2 instanceof Trampoline) {
@@ -132,6 +163,8 @@ class GameBoard implements Scene {
       o2.speed.y += ay;
     }
   }
+
+  private squishToPlayer() {}
 
   private tagYoureIt(o1: Player, o2: Player) {
     if (this.switchPlayerTimer <= 0) {
