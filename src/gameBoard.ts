@@ -67,6 +67,7 @@ class GameBoard implements Scene {
               // stick to, and drop after 0.5 sec
               this.stickToIcicleOrSlime(o1, o2);
             }
+            
             if (o2 instanceof Platform) {
               //Squish to platform
               this.squishToPlatform(o1);
