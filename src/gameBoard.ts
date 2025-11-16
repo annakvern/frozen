@@ -7,17 +7,16 @@ class GameBoard implements Scene {
   private switchPlayerTimer: number;
   private backgroundImage: p5.Image;
 
-
   constructor(gameObjects: GameObject[], game: Game, level: number) {
     this.switchPlayerTimer = 0;
     this.game = game;
     this.gameObjects = gameObjects;
-   
-    if (level === 1){
+
+    if (level === 1) {
       this.backgroundImage = backgroundImgL1;
     } else {
       this.backgroundImage = backgroundImgL2;
-    } 
+    }
   }
 
   draw(): void {
@@ -41,6 +40,7 @@ class GameBoard implements Scene {
       if (!(o1 instanceof Player)) continue;
       // hitting the wall logic
       this.stopPlayerByWall(o1);
+      o1.isOnQuicksand = false;
 
       for (const o2 of this.gameObjects) {
         if (o1 === o2) continue;
@@ -55,19 +55,20 @@ class GameBoard implements Scene {
             this.bouncePlayers(o1, o2);
           }
           if (this.objectsOverlap(o1, o2)) {
-
             if (o2 instanceof Platform && o2.images[0] === icyIciclePlatform) {
-
               // stick to, and drop after 0.5 sec
               this.stickToIcicleOrSlime(o1, o2);
             }
 
             if (o2 instanceof Platform && o2.images[0] === slimePlatform) {
-
               // stick to, and drop after 0.5 sec
               this.stickToIcicleOrSlime(o1, o2);
             }
-            
+
+            if (o2 instanceof Platform && o2.images[0] === quicksandPlatform) {
+              this.quickSand(o1);
+            }
+
             if (o2 instanceof Platform) {
               //Squish to platform
               this.squishToPlatform(o1);
@@ -203,6 +204,15 @@ class GameBoard implements Scene {
     if (o1.speed.y < 0 && o1.dropTimer < -100) {
       o1.position.y = o2.position.y + 80 * 0.7;
       o1.dropTimer = 500;
+    }
+  }
+
+  private quickSand(o1: Player) {
+    o1.isOnQuicksand = true;
+    if (o1.speed.x < 1) {
+      o1.speed.x = 0.2;
+    } else if (o1.speed.x > 1) {
+      o1.speed.x = 0.2;
     }
   }
 

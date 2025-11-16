@@ -22,6 +22,7 @@ class Player extends GameObject {
   public dropTimer: number;
   public timer: Timer;
   private isFacingRight: boolean;
+  public isOnQuicksand: boolean;
 
   constructor(
     color: string,
@@ -59,6 +60,7 @@ class Player extends GameObject {
     this.isJumping = false;
     this.gravity = 1;
     this.dropTimer = -1000;
+    this.isOnQuicksand = false;
   }
 
   public toggleIsChasing() {
@@ -108,7 +110,7 @@ class Player extends GameObject {
           this.isFacingRight = true;
         }
       }
-      if (keyIsDown(87)) {
+      if (keyIsDown(87) && !this.isOnQuicksand) {
         this.jump();
         this.isJumping = true;
         console.log("hoppar vi?");
@@ -123,10 +125,6 @@ class Player extends GameObject {
           this.speed.x = min(10, this.speed.x + 0.5);
           this.isFacingRight = true;
         }
-        if (keyIsDown(UP_ARROW)) {
-          this.jump();
-          this.isJumping = true;
-        }
       } else {
         // Normal control
         if (keyIsDown(LEFT_ARROW)) {
@@ -136,11 +134,11 @@ class Player extends GameObject {
           this.speed.x = min(10, this.speed.x + 1.5);
           this.isFacingRight = true;
         }
-        if (keyIsDown(UP_ARROW)) {
-          this.jump();
-          this.isJumping = true;
-          console.log("hoppar vi?");
-        }
+      }
+      if (keyIsDown(UP_ARROW) && !this.isOnQuicksand) {
+        this.jump();
+        this.isJumping = true;
+        console.log("hoppar vi?");
       }
     }
   }

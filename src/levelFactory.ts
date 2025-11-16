@@ -72,12 +72,12 @@ class LevelFactory {
         if (value === 11) {
           //position.add() istället för offset
           gameObjects.push(
-            new Player("yellow", position, playerStart > 0.5, 0, 0)
+            new Player("green", position, playerStart > 0.5, 0, 0)
           );
           console.log(`Added object at ${position.x}, ${position.y}`);
         } else if (value === 12) {
           gameObjects.push(
-            new Player("green", position, playerStart <= 0.5, 0, 0)
+            new Player("yellow", position, playerStart <= 0.5, 0, 0)
           );
           console.log(`Added object at ${position.x}, ${position.y}`);
         } else if (value === 21) {
